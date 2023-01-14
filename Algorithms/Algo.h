@@ -1,5 +1,5 @@
-#ifndef CLASSIFIER_VECTORS_ALGO_H
-#define CLASSIFIER_VECTORS_ALGO_H
+#ifndef CLASSIFIERVECTORS_ALGO_H
+#define CLASSIFIERVECTORS_ALGO_H
 
 // a constant for the minkowski distance algorithm
 #define P 2
