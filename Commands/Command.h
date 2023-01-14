@@ -9,6 +9,7 @@ using namespace std;
 class Command {
 protected:
     string description;
+    int client_sock;
 public:
     /**
     * a virtual function which executes different logics of every child.
@@ -20,6 +21,12 @@ public:
      * @return string - the command description.
      */
     const string getDescription();
+
+    /**
+     * the function set client for the command.
+     * @param sock (int)
+     */
+    void setClient(int sock);
 
     /**
      * a virtual function of destructor.

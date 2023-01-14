@@ -3,7 +3,7 @@
 AlgorithmSetting::AlgorithmSetting() {
     this->description = "2. algorithm settings\n";
     this->approximation = 5;
-    this->algorithm = "EUC";
+    this->algorithm = "AUC";
 }
 
 void AlgorithmSetting::execute() {

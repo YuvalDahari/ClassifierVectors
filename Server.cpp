@@ -107,7 +107,6 @@ int main(int argc, char *argv[]) {
             long sent_bytes = send(client_sock, answer, strlen(answer), 0);
             if (sent_bytes < 0) {
                 perror("Fail sending to client");
-
             }
         }
     }

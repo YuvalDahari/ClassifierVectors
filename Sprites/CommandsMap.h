@@ -6,7 +6,7 @@
 #include "../Commands/Command.h"
 #include "../Commands/UploadCommand.h"
 #include "../Commands/AlgorithmSetting.h"
-#include "../Commands/ClassifyCommend.h"
+#include "../Commands/ClassifyCommand.h"
 #include "../Commands/DisplayResults.h"
 #include "../Commands/DownloadResults.h"
 #include "../Commands/Exit.h"

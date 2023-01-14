@@ -1,14 +1,14 @@
-#ifndef CLASSIFIERVECTORS_CLASSIFYCOMMEND_H
-#define CLASSIFIERVECTORS_CLASSIFYCOMMEND_H
+#ifndef CLASSIFIERVECTORS_CLASSIFYCOMMAND_H
+#define CLASSIFIERVECTORS_CLASSIFYCOMMAND_H
 
 #include "Command.h"
 
-class ClassifyCommend : public Command{
+class ClassifyCommand : public Command{
 public:
     /**
     * constructor for creating a new specific command.
      */
-    ClassifyCommend();
+    ClassifyCommand();
     /**
      * the function .
      */
@@ -17,7 +17,7 @@ public:
     /**
      * default destructor.
      */
-    ~ClassifyCommend() override;
+    ~ClassifyCommand() override;
 };
 
 #endif
