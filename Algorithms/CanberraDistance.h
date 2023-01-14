@@ -1,0 +1,25 @@
+#ifndef CLASSIFIER_VECTORS_CANBERRADISTANCE_H
+#define CLASSIFIER_VECTORS_CANBERRADISTANCE_H
+
+#include "Algo.h"
+
+/**
+ * a class which inherits from Algo class, and implements the distance logics.
+ */
+class CanberraDistance : public Algo {
+public:
+    /**
+     * the function calculates the distance between the vectors according to the canberra algorithm.
+     * @param v1 (const vector<double>)
+     * @param v2 (const vector<double>)
+     * @return double - the distance between the two vectors according to the canberra algorithm.
+     */
+    double distance(const vector<double> &v1, const vector<double> &v2) const override;
+
+    /**
+     * default destructor.
+     */
+    ~CanberraDistance() override;
+};
+
+#endif
