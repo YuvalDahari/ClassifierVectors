@@ -1,14 +1,14 @@
-#ifndef CLASSIFIERVECTORS_UPLOADCOMMAND_H
-#define CLASSIFIERVECTORS_UPLOADCOMMAND_H
+#ifndef CLASSIFIERVECTORS_ALGORITHMSETTING_H
+#define CLASSIFIERVECTORS_ALGORITHMSETTING_H
 
 #include "Command.h"
 
-class UploadCommand : public Command{
+class AlgorithmSetting : public Command{
 public:
     /**
      * constructor for creating a new specific command.
      */
-    UploadCommand();
+    AlgorithmSetting();
     /**
      * the function .
      */
@@ -17,7 +17,7 @@ public:
     /**
      * default destructor.
      */
-    ~UploadCommand() override;
+    ~AlgorithmSetting() override;
 };
 
 #endif
