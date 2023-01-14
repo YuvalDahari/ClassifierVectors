@@ -173,6 +173,13 @@ public:
      * @return char* - the string as char*.
      */
     char *convertStringToArray(const string &input) const;
+
+    /**
+     * the function check if the algorithm and the k are valid.
+     * @param str (string)
+     * @return index - an int that indicates if the input is valid and if so - in what index the k ends.
+     */
+    int CheckAlgoK(string &str) const;
 };
 
 #endif
