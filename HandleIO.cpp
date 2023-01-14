@@ -28,7 +28,7 @@ double HandleIO::validateFileVector(const string &s) const {
     return stod(str);
 }
 
-bool HandleIO::validateUserVector(vector<double> &vector, const string& s_number) const {
+bool HandleIO::validateUserVector(vector<double> &vector, const string &s_number) const {
     int pointFlag = 0;
     string str;
     for (char i: s_number) {
@@ -56,12 +56,12 @@ bool HandleIO::validateUserVector(vector<double> &vector, const string& s_number
     return true;
 }
 
-pair<string, vector<double>> HandleIO::pairExtract(string &line, int length) const {
+pair <string, vector<double>> HandleIO::pairExtract(string &line, int length) const {
     string number;
     if (line.empty()) {
         printBye(2);
     }
-    pair<std::string, vector<double>> returnPair;
+    pair <std::string, vector<double>> returnPair;
     for (char i: line) {
         if (i == COMMA) {
             returnPair.second.push_back(validateFileVector(number));
@@ -308,6 +308,37 @@ void HandleIO::checkPort(const string &port) const {
     }
 }
 
-char* HandleIO::convertStringToArray(const string& input) const{
+char *HandleIO::convertStringToArray(const string &input) const {
     return strcpy(new char[input.size() + 1], input.c_str());
+}
+
+int HandleIO::CheckAlgoK(string &str) const {
+    int rv = -3;
+    int i = 0;
+    if (str.empty) {
+        return rv;
+    }
+    string tmp;
+    for (; i < str.length(); i++) {
+        if (c == SPACE) {
+            break;
+        }
+        tmp += c;
+    }
+    int k = extractApproximation(tmp);
+    if (k != 0) {
+        rv++;
+    }
+
+    i++;
+    str = substr(i, str.size);
+    i -= 2;
+    if (str.empty) {
+        return rv;
+    }
+    string alg = extractAlgorithm(str);
+    if (alg == "invalid") {
+        return rv;
+    }
+    return i;
 }

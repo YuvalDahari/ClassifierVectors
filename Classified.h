@@ -27,7 +27,7 @@ public:
      * the function sets a new approximation.
      * @param defineApproximation (int)
      */
-    void setK(int defineApproximation);
+    void setApproximation(int defineApproximation);
 
     /**
     * the function sets a new data base.

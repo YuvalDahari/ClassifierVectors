@@ -6,7 +6,7 @@ Classified::Classified(int k, const DBCreator &dbCreator, string algo) {
     this->algorithm = algo;
 }
 
-void Classified::setK(int defineApproximation) {
+void Classified::setApproximation(int defineApproximation) {
     Classified::approximation = defineApproximation;
 }
 
