@@ -9,12 +9,20 @@ CommandsMap::CommandsMap() {
     this->commands[8] = new Exit;
 }
 
-const map<int, Command*> &CommandsMap::getCommands() const {
+const map<const int, Command*> &CommandsMap::getCommands() const {
     return this->commands;
 }
 
+void CommandsMap::printMap() {
+    string menu = "";
+    for (const pair<const int, Command*> &command : this->commands) {
+        menu += command.second.getDescription();
+    }
+    cout << menu << endl;
+}
+
 CommandsMap::~CommandsMap() {
-    for (const pair<int, Command*>& command : this->commands) {
+    for (const pair<const int, Command*> &command : this->commands) {
         delete(command.second);
     }
 }

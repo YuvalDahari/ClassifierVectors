@@ -2,6 +2,7 @@
 #define CLASSIFIERVECTORS_COMMANDSMAP_H
 
 #include <map>
+#include <iostream>
 #include "../Commands/Command.h"
 #include "../Commands/UploadCommand.h"
 #include "../Commands/AlgorithmSetting.h"
@@ -17,7 +18,7 @@ using namespace std;
  */
 class CommandsMap {
 private:
-    map<int, Command*> commands;
+    map<const int, Command*> commands;
 
 public:
     /**
@@ -29,7 +30,12 @@ public:
      * the function returns the map's algorithms.
      * @return map<string, Algo*> - the map's algorithms.
      */
-    const map<int, Command*> &getCommands() const;
+    const map<const int, Command*> &getCommands() const;
+
+    /**
+     * the function prints all the valid commands.
+     */
+    void printMap();
 
     /**
      * destructor
