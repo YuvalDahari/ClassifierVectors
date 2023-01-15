@@ -3,13 +3,19 @@
 
 #include <string>
 #include "../HandleIO.h"
-
+#include <iostream>
+#include <sys/socket.h>
+#include <cstdio>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <cstring>
 using namespace std;
 
 class Command {
 protected:
     string description;
     int client_sock;
+    string answer = "";
 public:
     /**
     * a virtual function which executes different logics of every child.
@@ -27,6 +33,8 @@ public:
      * @param sock (int)
      */
     void setClient(int sock);
+
+    void sendProtocol();
 
     /**
      * a virtual function of destructor.

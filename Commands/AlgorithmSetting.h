@@ -10,6 +10,7 @@ class AlgorithmSetting : public Command {
 private:
     int approximation;
     string algorithm;
+    string answer;
 
 public:
     /**
@@ -33,6 +34,12 @@ public:
     * @param algo (string)
     */
     void setAlgorithm(string algo);
+
+    void setGoodAnswer();
+
+    void setBadAnswer(int indicator);
+
+    void setFields(int index, string settings);
 
     /**
      * default destructor.

@@ -7,31 +7,30 @@ AlgorithmSetting::AlgorithmSetting() {
 }
 
 void AlgorithmSetting::execute() {
+    setGoodAnswer();
+    sendProtocol();
     string settings;
-    string k;
-    string alg;
     getline(cin, settings);
     if (settings.empty()) {
         return;
     }
     int index = HandleIO::CheckAlgoK(settings);
-    switch (index) {
-        case -3:
-            //send two msgs to client
-            break;
-        case -2:
-            //send invalid k
-            break;
-        case -1:
-            //send invalid alg
-            break;
-        default:
-            k = settings.substr(0, index);
-            index+=2;
-            alg = settings.substr(index, settings.size());
-            setApproximation(stoi(k));
-            setAlgorithm(alg);
+    if (index < 0) {
+        setBadAnswer(index);
+        sendProtocol();
+    } else {
+        setFields(index, settings);
     }
+}
+
+void AlgorithmSetting::setFields(int index, string settings) {
+    string k;
+    string alg;
+    k = this.settings.substr(0, index);
+    index += 2;
+    alg = settings.substr(index, settings.size());
+    setApproximation(stoi(k));
+    setAlgorithm(alg);
 }
 
 void AlgorithmSetting::setApproximation(int defineApproximation) {
@@ -41,5 +40,25 @@ void AlgorithmSetting::setApproximation(int defineApproximation) {
 void AlgorithmSetting::setAlgorithm(string algo) {
     AlgorithmSetting::algorithm = algo;
 }
+
+void AlgorithmSetting::setGoodAnswer() {
+    AlgorithmSetting::answer = "The current KNN parameters are: K = " << this->approximation <<
+                                  ", distance metric = " << this->algorithm + "\n";
+}
+
+void AlgorithmSetting::setBadAnswer(int indicator) {
+    switch (indicator) {
+        case -3:
+            this->answer = "invalid value for K\ninvalid value for metric\n";
+            return;
+        case -2:
+            this->answer = "invalid value for K\n";
+            return;
+        case -1:
+            this->answer = "invalid value for metric\n";
+            return;
+    }
+}
+
 
 AlgorithmSetting::~AlgorithmSetting() = default;
