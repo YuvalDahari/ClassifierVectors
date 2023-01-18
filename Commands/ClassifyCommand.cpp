@@ -2,8 +2,6 @@
 
 ClassifyCommand::ClassifyCommand() {
     this->description = "3. classify data\n";
-    this->classifier = Classified(5, DBCreator(),"AUC");
-    this->classified = DBCreator();
 }
 
 void ClassifyCommand::execute() {

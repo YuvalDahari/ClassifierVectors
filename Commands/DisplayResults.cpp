@@ -8,4 +8,8 @@ void DisplayResults::execute() {
 
 }
 
+void DisplayResults::setClassified(const DBCreator &classifier) {
+    DisplayResults::classified = classifier;
+}
+
 DisplayResults::~DisplayResults() = default;

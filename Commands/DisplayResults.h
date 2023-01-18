@@ -7,6 +7,9 @@
 class DisplayResults : public Command{
     DBCreator classified;
 public:
+    void setClassified(const DBCreator &classified);
+
+public:
     /**
     * constructor for creating a new specific command.
      */
