@@ -39,7 +39,7 @@ public:
 
     void setBadAnswer(int indicator);
 
-    void setFields(int index, string settings);
+    void setFields(int index, const string& settings);
 
     /**
      * default destructor.

@@ -15,7 +15,7 @@ class Command {
 protected:
     string description;
     int client_sock;
-    string answer = "";
+    const char *answer;
 public:
     /**
     * a virtual function which executes different logics of every child.
@@ -26,7 +26,7 @@ public:
      * the function returns the command's description.
      * @return string - the command description.
      */
-    const string getDescription();
+    string getDescription();
 
     /**
      * the function set client for the command.
@@ -35,6 +35,8 @@ public:
     void setClient(int sock);
 
     void sendProtocol();
+
+    void setInvalid();
 
     /**
      * a virtual function of destructor.

@@ -1,5 +1,7 @@
 #include "AlgorithmSetting.h"
 
+#include <utility>
+
 AlgorithmSetting::AlgorithmSetting() {
     this->description = "2. algorithm settings\n";
     this->approximation = 5;
@@ -23,10 +25,10 @@ void AlgorithmSetting::execute() {
     }
 }
 
-void AlgorithmSetting::setFields(int index, string settings) {
+void AlgorithmSetting::setFields(int index, const string& settings) {
     string k;
     string alg;
-    k = this.settings.substr(0, index);
+    k = settings.substr(0, index);
     index += 2;
     alg = settings.substr(index, settings.size());
     setApproximation(stoi(k));
@@ -38,12 +40,12 @@ void AlgorithmSetting::setApproximation(int defineApproximation) {
 }
 
 void AlgorithmSetting::setAlgorithm(string algo) {
-    AlgorithmSetting::algorithm = algo;
+    AlgorithmSetting::algorithm = std::move(algo);
 }
 
 void AlgorithmSetting::setGoodAnswer() {
-    AlgorithmSetting::answer = "The current KNN parameters are: K = " << this->approximation <<
-                                  ", distance metric = " << this->algorithm + "\n";
+    AlgorithmSetting::answer = "The current KNN parameters are: K = " + to_string(this->approximation) +
+                                  ", distance metric = " + this->algorithm + "\n";
 }
 
 void AlgorithmSetting::setBadAnswer(int indicator) {

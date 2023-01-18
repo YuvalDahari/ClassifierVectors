@@ -1,6 +1,6 @@
 #include "Command.h"
 
-const string Command::getDescription() {
+string Command::getDescription() {
     return this->description;
 }
 
@@ -13,6 +13,10 @@ void Command::sendProtocol() {
     if (sent_bytes < 0) {
         perror("Fail sending to client");
     }
+}
+
+void Command::setInvalid() {
+    this->answer = "invalid input\n";
 }
 
 Command::~Command() = default;

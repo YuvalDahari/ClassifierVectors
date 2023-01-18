@@ -58,7 +58,7 @@ public:
      * 3. it's not an empty file.
      * @param file (string)
      */
-    void checkFile(string file) const;
+    static int checkFile(string file) const;
 
     /**
      * the function checks the length of the vectors in the file by the first line.
@@ -179,7 +179,7 @@ public:
      * @param str (string)
      * @return index - an int that indicates if the input is valid and if so - in what index the k ends.
      */
-    int CheckAlgoK(string &str) const;
+    static int CheckAlgoK(string &str) const;
 };
 
 #endif

@@ -157,13 +157,13 @@ int HandleIO::extractApproximation(string &input) const {
     return stoi(k);
 }
 
-void HandleIO::checkFile(string vecFile) const {
+int HandleIO::checkFile(string vecFile) const {
     string isCsv;
     unsigned long pointPlace = 0;
     int index = 0;
     ifstream file(vecFile);
     if (!file.is_open()) {
-        printBye(2);
+        return -1;
     }
     // check if it's a csv file
     for (char i: vecFile) {
@@ -178,12 +178,13 @@ void HandleIO::checkFile(string vecFile) const {
         pointPlace++;
     }
     if (isCsv != CSV) {
-        printBye(2);
+        return -1;
     }
     // check if the file is empty
     if (file.peek() == EOF) {
-        printBye(2);
+        return -1;
     }
+    return 0;
 }
 
 void HandleIO::printBye(int i) const {
@@ -315,15 +316,15 @@ char *HandleIO::convertStringToArray(const string &input) const {
 int HandleIO::CheckAlgoK(string &str) const {
     int rv = -3;
     int i = 0;
-    if (str.empty) {
+    if (str.empty()) {
         return rv;
     }
     string tmp;
     for (; i < str.length(); i++) {
-        if (c == SPACE) {
+        if (str[i] == SPACE) {
             break;
         }
-        tmp += c;
+        tmp += str[i];
     }
     int k = extractApproximation(tmp);
     if (k != 0) {
@@ -331,9 +332,9 @@ int HandleIO::CheckAlgoK(string &str) const {
     }
 
     i++;
-    str = substr(i, str.size);
+    str = str.substr(i, str.size());
     i -= 2;
-    if (str.empty) {
+    if (str.empty()) {
         return rv;
     }
     string alg = extractAlgorithm(str);
