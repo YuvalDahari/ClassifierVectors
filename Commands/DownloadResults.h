@@ -21,6 +21,8 @@ public:
      * default destructor.
      */
     ~DownloadResults() override;
+
+    void setClassified(const Classified &classified);
 };
 
 

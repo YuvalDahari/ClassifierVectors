@@ -2,11 +2,14 @@
 
 DownloadResults::DownloadResults() {
     this->description = "5. download results\n";
-    this->classified = Classified(5, DBCreator(), "AUC");
 }
 
 void DownloadResults::execute() {
 
+}
+
+void DownloadResults::setClassified(const Classified &classifier) {
+    DownloadResults::classified = classifier;
 }
 
 DownloadResults::~DownloadResults() = default;
