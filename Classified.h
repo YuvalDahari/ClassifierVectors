@@ -15,6 +15,7 @@ private:
     DBCreator db;
     string algorithm;
 public:
+    Classified();
     /**
      * constructor for creating a new classifier via approximation, data base and an algorithm.
      * @param k (int)
