@@ -172,7 +172,7 @@ public:
      * @param input (string)
      * @return char* - the string as char*.
      */
-    char *convertStringToArray(const string &input) const;
+    static char *convertStringToArray(const string &input) const;
 
     /**
      * the function check if the algorithm and the k are valid.

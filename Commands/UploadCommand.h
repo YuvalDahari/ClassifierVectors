@@ -8,7 +8,13 @@
 class UploadCommand : public Command{
 private:
     DBCreator classified;
-    DBCreator unclassified;
+public:
+    const DBCreator &getClassified() const;
+
+    const vector<vector<double>> &getUnclassified() const;
+
+private:
+    vector<vector<double>> unclassified;
 public:
     /**
      * constructor for creating a new specific command.
@@ -29,6 +35,10 @@ public:
     ~UploadCommand() override;
 
     void setSecondAnswer();
+
+    void setClassified(const DBCreator &classified);
+
+    void setUnclassified(const vector<vector<double>> &unclassified);
 };
 
 #endif

@@ -32,15 +32,31 @@ void UploadCommand::execute() {
 }
 
 void UploadCommand::setStartAnswer() {
-    this->answer = "Please upload your local train CSV file.\n";
+    this->send_data = "Please upload your local train CSV file.\n";
 }
 
 void UploadCommand::setFinishAnswer(){
-    this->answer = "Upload Complete.\n";
+    this->send_data = "Upload Complete.\n";
 }
 
 void UploadCommand::setSecondAnswer() {
-    this->answer = "Please upload your local test CSV file.\n";
+    this->send_data = "Please upload your local test CSV file.\n";
+}
+
+void UploadCommand::setClassified(const DBCreator &classifier) {
+    UploadCommand::classified = classifier;
+}
+
+void UploadCommand::setUnclassified(const vector<vector<double>> &unclassifier) {
+    UploadCommand::unclassified = unclassifier;
+}
+
+const DBCreator &UploadCommand::getClassified() const {
+    return classified;
+}
+
+const vector<vector<double>> &UploadCommand::getUnclassified() const {
+    return unclassified;
 }
 
 UploadCommand::~UploadCommand() = default;

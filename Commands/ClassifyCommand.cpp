@@ -12,16 +12,16 @@ const Classified &ClassifyCommand::getClassifier() const {
     return classifier;
 }
 
-void ClassifyCommand::setClassifier(const Classified &classifier) {
-    ClassifyCommand::classifier = classifier;
+void ClassifyCommand::setClassifier(const Classified &classify) {
+    ClassifyCommand::classifier = classify;
 }
 
 const DBCreator &ClassifyCommand::getClassified() const {
     return classified;
 }
 
-void ClassifyCommand::setClassified(const DBCreator &classified) {
-    ClassifyCommand::classified = classified;
+void ClassifyCommand::setClassified(const DBCreator &classify) {
+    ClassifyCommand::classified = classify;
 }
 
 const vector<vector<double>> &ClassifyCommand::getUnclassified() const {

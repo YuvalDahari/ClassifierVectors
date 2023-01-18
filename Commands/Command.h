@@ -10,13 +10,16 @@
 #include <unistd.h>
 #include <cstring>
 #include "../Classified.h"
+#include "../HandleIO.h"
+#define BUFFER_SIZE 4096
 using namespace std;
 
 class Command {
 protected:
     string description;
     int client_sock;
-    const char *answer;
+    string send_data;
+    string receive_data;
 public:
     /**
     * a virtual function which executes different logics of every child.
@@ -43,6 +46,8 @@ public:
      * a virtual function of destructor.
      */
     virtual ~Command();
+
+    void receiveProtocol();
 };
 
 
