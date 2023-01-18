@@ -5,6 +5,8 @@
 #include "Command.h"
 
 class DownloadResults : public Command{
+private:
+    Classified classified;
 public:
     /**
     * constructor for creating a new specific command.

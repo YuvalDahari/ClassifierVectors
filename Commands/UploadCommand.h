@@ -9,7 +9,6 @@ class UploadCommand : public Command{
 private:
     DBCreator classified;
     DBCreator unclassified;
-    Classified classifier;
 public:
     /**
      * constructor for creating a new specific command.

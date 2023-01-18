@@ -26,13 +26,8 @@ void AlgorithmSetting::execute() {
 }
 
 void AlgorithmSetting::setFields(int index, const string& settings) {
-    string k;
-    string alg;
-    k = settings.substr(0, index);
-    index += 2;
-    alg = settings.substr(index, settings.size());
-    setApproximation(stoi(k));
-    setAlgorithm(alg);
+    setApproximation(stoi(settings.substr(0, index)));
+    setAlgorithm(settings.substr(index + 2, settings.size()));
 }
 
 void AlgorithmSetting::setApproximation(int defineApproximation) {
@@ -41,6 +36,14 @@ void AlgorithmSetting::setApproximation(int defineApproximation) {
 
 void AlgorithmSetting::setAlgorithm(string algo) {
     AlgorithmSetting::algorithm = std::move(algo);
+}
+
+int AlgorithmSetting::getApproximation() const {
+    return approximation;
+}
+
+const string &AlgorithmSetting::getAlgorithm() const {
+    return algorithm;
 }
 
 void AlgorithmSetting::setGoodAnswer() {

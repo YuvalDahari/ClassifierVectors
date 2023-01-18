@@ -16,7 +16,7 @@ void UploadCommand::execute() {
         return;
     }
     this->classified = DBCreator(file);
-    this
+    this;
     setFinishAnswer();
     sendProtocol();
     setSecondAnswer();

@@ -9,6 +9,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <cstring>
+#include "../Classified.h"
 using namespace std;
 
 class Command {
