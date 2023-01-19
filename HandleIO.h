@@ -202,9 +202,9 @@ public:
 
     vector<double> vectorFromString(const string &vecString);
 
-    void sendProtocol(int socket, string& send_data);
+    static void sendProtocol(int socket, string& send_data);
 
-    void receiveProtocol(int socket, string &receive_data);
+    static void receiveProtocol(int socket, string &receive_data);
 };
 
 #endif
