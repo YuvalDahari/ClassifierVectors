@@ -404,3 +404,44 @@ pair<string, vector<double>> HandleIO::pairFromString(const string& vecString) {
     rv.second = vec;
     return rv;
 }
+
+void HandleIO::sendProtocol(int socket, string& send_data) {
+    send_data += "\n\r\n\r";
+    string segment;
+    const char *data;
+    while (send_data.size() > BUFFER_SIZE) {
+        segment = send_data.substr(0, BUFFER_SIZE);
+        data = convertStringToArray(segment);
+        long sent_bytes = send(socket, data, strlen(data), 0);
+        if (sent_bytes < 0) {
+            perror("Fail sending to server");
+        }
+        send_data = send_data.substr(BUFFER_SIZE, send_data.length() - 1);
+    }
+    data = convertStringToArray(send_data);
+    long sent_bytes = send(socket, data, strlen(data), 0);
+    if (sent_bytes < 0) {
+        perror("Fail sending to client");
+    }
+}
+
+void HandleIO::receiveProtocol(int socket, string& receive_data) {
+    receive_data = "";
+    char buffer[BUFFER_SIZE] = {};
+    int expected_data_len = sizeof(buffer);
+    long read_bytes = recv(socket, buffer, expected_data_len, 0);
+    while (read_bytes == BUFFER_SIZE && buffer[BUFFER_SIZE - 1] != '\r') {
+        receive_data += buffer;
+        unsigned long length = strlen(buffer);
+        for (unsigned long i = 0; i < length; ++i) {
+            buffer[i] = '\0';
+        }
+        read_bytes = recv(socket, buffer, expected_data_len, 0);
+        if (read_bytes < 0) {
+            perror("Fail reading data");
+            close(socket);
+            break;
+        }
+    }
+    receive_data += buffer;
+}

@@ -8,6 +8,12 @@
 #include <cmath>
 #include <cstring>
 #include <fstream>
+#include <iostream>
+#include <sys/socket.h>
+#include <cstdio>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <cstring>
 #include "Algorithms/EuclideanDistance.h"
 #include "Sprites/AlgoMap.h"
 #include "Sprites/SpecialVector.h"
@@ -39,6 +45,7 @@
 // sockets logics
 #define SERVER_IP argv[1]
 #define CLIENT_PORT argv[2]
+#define BUFFER_SIZE 4096
 
 using namespace std;
 
@@ -194,6 +201,10 @@ public:
     pair<string, vector<double>> pairFromString(const string& vector);
 
     vector<double> vectorFromString(const string &vecString);
+
+    void sendProtocol(int socket, string& send_data);
+
+    void receiveProtocol(int socket, string &receive_data);
 };
 
 #endif
