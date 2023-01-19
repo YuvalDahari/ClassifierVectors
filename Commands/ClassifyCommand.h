@@ -34,6 +34,8 @@ public:
      * default destructor.
      */
     ~ClassifyCommand() override;
+
+    void finish();
 };
 
 #endif

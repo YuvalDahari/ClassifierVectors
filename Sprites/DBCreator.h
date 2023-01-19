@@ -27,6 +27,8 @@ public:
      */
     explicit DBCreator(const string& fileName);
 
+    void setObjType(const SpecialVector &objType);
+
     /**
      * the function returns a SpecialVector's instance.
      * @return SpecialVector - a SpecialVector's instance.

@@ -10,6 +10,7 @@
 #include <fstream>
 #include "Algorithms/EuclideanDistance.h"
 #include "Sprites/AlgoMap.h"
+#include "Sprites/SpecialVector.h"
 
 // special characters
 #define MINUS '-'
@@ -19,13 +20,14 @@
 #define COMMA ','
 #define SPACE ' '
 #define CSV "csv"
-#define SERVER_IP argv[1]
-#define CLIENT_PORT argv[2]
 
 // flags logic
 #define ON 1
 #define OFF 0
 #define ALGO_ARRAY {"AUC", "MAN", "CHB", "CAN", "MIN"}
+#define INVALID_ALGORITHM (-1)
+#define INVALID_APPROXIMATION (-2)
+#define INVALID_PARAMETERS (-3)
 
 // define for all the arguments from the user
 #define FILE_NAME argv[1]
@@ -33,6 +35,10 @@
 #define IP_RANGE 255
 #define MIN_ALG_K_SIZE 5
 #define ALG_SIZE 3
+
+// sockets logics
+#define SERVER_IP argv[1]
+#define CLIENT_PORT argv[2]
 
 using namespace std;
 
@@ -58,7 +64,7 @@ public:
      * 3. it's not an empty file.
      * @param file (string)
      */
-    static int checkFile(string file) const;
+    static int checkFile(string file);
 
     /**
      * the function checks the length of the vectors in the file by the first line.
@@ -85,7 +91,7 @@ public:
      * @param algorithm (const string)
      * @return bool - if the algorithm is valid.
      */
-    bool checkAlgo(const string &algorithm) const;
+    static bool checkAlgo(const string &algorithm);
 
     /**
      * the function checks if a string is a valid double.
@@ -147,14 +153,14 @@ public:
      * @param input (string)
      * @return string - the algorithm key (if it's valid).
      */
-    string extractAlgorithm(string &input) const;
+    static string extractAlgorithm(string &input);
 
     /**
      * the function extract the approximation from a string.
      * @param input (string)
      * @return int - the approximation after checks.
      */
-    int extractApproximation(string &input) const;
+    static int extractApproximation(string &input);
 
     /**
      * the function manages all the data extract from the general input.
@@ -172,14 +178,18 @@ public:
      * @param input (string)
      * @return char* - the string as char*.
      */
-    static char *convertStringToArray(const string &input) const;
+    static char *convertStringToArray(const string &input);
 
     /**
      * the function check if the algorithm and the k are valid.
      * @param str (string)
      * @return index - an int that indicates if the input is valid and if so - in what index the k ends.
      */
-    static int CheckAlgoK(string &str) const;
+    static int CheckAlgoK(string &str);
+
+    static SpecialVector createTrainDB(string basicString);
+
+    static vector<vector<double>> createTestVectors(string basicString);
 };
 
 #endif

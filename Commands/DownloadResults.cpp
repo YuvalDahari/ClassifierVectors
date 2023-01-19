@@ -5,10 +5,17 @@ DownloadResults::DownloadResults() {
 }
 
 void DownloadResults::execute() {
-
+    vector<pair<string, vector<double>>> vectors = this->classified.getObjType().getProperties();
+    this->send_data = "";
+    unsigned long i = 1;
+    for (const pair<string,vector<double>>& v:vectors) {
+        this->send_data += to_string(i) + "\t" + v.first + "\n";
+        i++;
+    }
+    sendProtocol();
 }
 
-void DownloadResults::setClassified(const Classified &classifier) {
+void DownloadResults::setClassified(const DBCreator &classifier) {
     DownloadResults::classified = classifier;
 }
 

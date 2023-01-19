@@ -18,3 +18,7 @@ DBCreator::DBCreator(const string& fileName) {
 SpecialVector DBCreator::getObjType() {
     return this->objType;
 }
+
+void DBCreator::setObjType(const SpecialVector &objType) {
+    DBCreator::objType = objType;
+}

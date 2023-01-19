@@ -6,7 +6,7 @@
 
 class DownloadResults : public Command{
 private:
-    Classified classified;
+    DBCreator classified;
 public:
     /**
     * constructor for creating a new specific command.
@@ -22,7 +22,7 @@ public:
      */
     ~DownloadResults() override;
 
-    void setClassified(const Classified &classified);
+    void setClassified(const DBCreator &classified);
 };
 
 

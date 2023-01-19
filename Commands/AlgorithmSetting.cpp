@@ -1,7 +1,5 @@
 #include "AlgorithmSetting.h"
 
-#include <utility>
-
 AlgorithmSetting::AlgorithmSetting() {
     this->description = "2. algorithm settings\n";
     this->approximation = 5;
@@ -9,19 +7,18 @@ AlgorithmSetting::AlgorithmSetting() {
 }
 
 void AlgorithmSetting::execute() {
-    setGoodAnswer();
-    sendProtocol();
-    string settings;
-    getline(cin, settings);
-    if (settings.empty()) {
+    correntValues();
+    receiveProtocol();
+    // TODO: check if the empty work
+    if (this->receive_data.empty()) {
+        // the user doesn't want to change a thing.
         return;
     }
-    int index = HandleIO::CheckAlgoK(settings);
+    int index = HandleIO::CheckAlgoK(this->receive_data);
     if (index < 0) {
-        setBadAnswer(index);
-        sendProtocol();
+        invalidInput(index);
     } else {
-        setFields(index, settings);
+        setFields(index, this->receive_data);
     }
 }
 
@@ -39,31 +36,36 @@ void AlgorithmSetting::setAlgorithm(string algo) {
 }
 
 int AlgorithmSetting::getApproximation() const {
-    return approximation;
+    return this->approximation;
 }
 
 const string &AlgorithmSetting::getAlgorithm() const {
-    return algorithm;
+    return this->algorithm;
 }
 
-void AlgorithmSetting::setGoodAnswer() {
-    AlgorithmSetting::answer = "The current KNN parameters are: K = " + to_string(this->approximation) +
+void AlgorithmSetting::correntValues() {
+    AlgorithmSetting::send_data = "The current KNN parameters are: K = " + to_string(this->approximation) +
                                   ", distance metric = " + this->algorithm + "\n";
+    sendProtocol();
 }
 
-void AlgorithmSetting::setBadAnswer(int indicator) {
+void AlgorithmSetting::invalidInput(int indicator) {
     switch (indicator) {
-        case -3:
-            this->answer = "invalid value for K\ninvalid value for metric\n";
+        case INVALID_PARAMETERS:
+            this->send_data = "invalid value for K\ninvalid value for metric\n";
+            sendProtocol();
             return;
-        case -2:
-            this->answer = "invalid value for K\n";
+        case INVALID_APPROXIMATION:
+            this->send_data = "invalid value for K\n";
+            sendProtocol();
             return;
-        case -1:
-            this->answer = "invalid value for metric\n";
+        case INVALID_ALGORITHM:
+            this->send_data = "invalid value for metric\n";
+            sendProtocol();
+            return;
+        default:
             return;
     }
 }
-
 
 AlgorithmSetting::~AlgorithmSetting() = default;

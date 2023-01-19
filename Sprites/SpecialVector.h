@@ -12,20 +12,21 @@ using namespace std;
  */
 class SpecialVector {
 private:
-    int length;
+    unsigned long length;
     vector<pair<string, vector<double>>> properties;
 
 public:
     /**
      * the function gets the number of attributes.
-     * @return int - length.
+     * @return unsigned long - length.
      */
-    int getLength() const;
+    unsigned long getLength() const;
 
     /**
      * the function sets a new length of attributes.
-     * @param newLength (int)     */
-    void setLength(int newLength);
+     * @param newLength (unsigned long)
+     * */
+    void setLength(unsigned long newLength);
 
     /**
      * the function gets all the properties.

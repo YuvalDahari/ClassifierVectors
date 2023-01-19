@@ -10,8 +10,6 @@ class AlgorithmSetting : public Command {
 private:
     int approximation;
     string algorithm;
-    string answer;
-
 public:
     /**
      * constructor for creating a new specific command.
@@ -35,9 +33,9 @@ public:
     */
     void setAlgorithm(string algo);
 
-    void setGoodAnswer();
+    void correntValues();
 
-    void setBadAnswer(int indicator);
+    void invalidInput(int indicator);
 
     void setFields(int index, const string& settings);
 

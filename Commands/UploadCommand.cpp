@@ -5,50 +5,32 @@ UploadCommand::UploadCommand() {
 }
 
 void UploadCommand::execute() {
-    string file;
-    int valid;
-    setStartAnswer();
-    sendProtocol();
-    //receive path
-    if (HandleIO::checkFile(file) < 0) {
-        setInvalid();
-        sendProtocol();
-        return;
-    }
-    this->classified = DBCreator(file);
-    this;
-    setFinishAnswer();
-    sendProtocol();
-    setSecondAnswer();
-    //receive path
-    if (HandleIO::checkFile(file) < 0) {
-        //setter to db = null;
-        setInvalid();
-        sendProtocol();
-        return;
-    }
-    this->unclassified =
-
+    startAnswer();
+    receiveProtocol();
+    // TODO: this function
+    SpecialVector specialVector = HandleIO::createTrainDB(this->receive_data);
+    this->classified.setObjType(specialVector);
+    finishAnswer();
+    secondAnswer();
+    receiveProtocol();
+    // TODO: this function
+    this->unclassified = HandleIO::createTestVectors(this->receive_data);
+    finishAnswer();
 }
 
-void UploadCommand::setStartAnswer() {
+void UploadCommand::startAnswer() {
     this->send_data = "Please upload your local train CSV file.\n";
+    sendProtocol();
 }
 
-void UploadCommand::setFinishAnswer(){
-    this->send_data = "Upload Complete.\n";
-}
-
-void UploadCommand::setSecondAnswer() {
+void UploadCommand::secondAnswer() {
     this->send_data = "Please upload your local test CSV file.\n";
+    sendProtocol();
 }
 
-void UploadCommand::setClassified(const DBCreator &classifier) {
-    UploadCommand::classified = classifier;
-}
-
-void UploadCommand::setUnclassified(const vector<vector<double>> &unclassifier) {
-    UploadCommand::unclassified = unclassifier;
+void UploadCommand::finishAnswer(){
+    this->send_data = "Upload Complete.\n";
+    sendProtocol();
 }
 
 const DBCreator &UploadCommand::getClassified() const {

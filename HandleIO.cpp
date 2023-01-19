@@ -119,7 +119,7 @@ void HandleIO::extractVector(vector<double> &pVector, int length, string &input)
     input = input.substr(i, inputSize);
 }
 
-string HandleIO::extractAlgorithm(string &input) const {
+string HandleIO::extractAlgorithm(string &input) {
     unsigned long inputSize = input.size();
     // we need to have 3 letters and a space + k which at least 1
     if (inputSize < MIN_ALG_K_SIZE) {
@@ -140,7 +140,7 @@ string HandleIO::extractAlgorithm(string &input) const {
     return algorithm;
 }
 
-int HandleIO::extractApproximation(string &input) const {
+int HandleIO::extractApproximation(string &input) {
     if (input.empty() || input[0] == '\n') {
         return 0;
     }
@@ -157,7 +157,7 @@ int HandleIO::extractApproximation(string &input) const {
     return stoi(k);
 }
 
-int HandleIO::checkFile(string vecFile) const {
+int HandleIO::checkFile(string vecFile) {
     string isCsv;
     unsigned long pointPlace = 0;
     int index = 0;
@@ -225,7 +225,7 @@ int HandleIO::lengthExtract(const string &firstLine) const {
     return length;
 }
 
-bool HandleIO::checkAlgo(const string &algorithm) const {
+bool HandleIO::checkAlgo(const string &algorithm) {
     for (string s: ALGO_ARRAY) {
         if (algorithm == s) {
             return true;
@@ -309,12 +309,12 @@ void HandleIO::checkPort(const string &port) const {
     }
 }
 
-char *HandleIO::convertStringToArray(const string &input) const {
+char *HandleIO::convertStringToArray(const string &input) {
     return strcpy(new char[input.size() + 1], input.c_str());
 }
 
-int HandleIO::CheckAlgoK(string &str) const {
-    int rv = -3;
+int HandleIO::CheckAlgoK(string &str){
+    int rv = INVALID_PARAMETERS;
     int i = 0;
     if (str.empty()) {
         return rv;
@@ -342,4 +342,8 @@ int HandleIO::CheckAlgoK(string &str) const {
         return rv;
     }
     return i;
+}
+
+vector<vector<double>> HandleIO::createTestVectors(string basicString) {
+    return vector<vector<double>>();
 }

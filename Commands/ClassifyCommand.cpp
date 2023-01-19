@@ -5,11 +5,19 @@ ClassifyCommand::ClassifyCommand() {
 }
 
 void ClassifyCommand::execute() {
-
+    SpecialVector specialVector;
+    pair<string,vector<double>> pair;
+    specialVector.setLength(this->unclassified.at(0).size());
+    for (const vector<double>& v: this->unclassified) {
+        pair = {this->classifier.findDistances(v), v};
+        specialVector.getProperties().push_back(pair);
+    }
+    this->classified.setObjType(specialVector);
+    finish();
 }
 
 const Classified &ClassifyCommand::getClassifier() const {
-    return classifier;
+    return this->classifier;
 }
 
 void ClassifyCommand::setClassifier(const Classified &classify) {
@@ -17,7 +25,7 @@ void ClassifyCommand::setClassifier(const Classified &classify) {
 }
 
 const DBCreator &ClassifyCommand::getClassified() const {
-    return classified;
+    return this->classified;
 }
 
 void ClassifyCommand::setClassified(const DBCreator &classify) {
@@ -25,11 +33,16 @@ void ClassifyCommand::setClassified(const DBCreator &classify) {
 }
 
 const vector<vector<double>> &ClassifyCommand::getUnclassified() const {
-    return unclassified;
+    return this->unclassified;
 }
 
-void ClassifyCommand::setUnclassified(const vector<vector<double>> &unclassified) {
-    ClassifyCommand::unclassified = unclassified;
+void ClassifyCommand::setUnclassified(const vector<vector<double>> &unclassify) {
+    ClassifyCommand::unclassified = unclassify;
+}
+
+void ClassifyCommand::finish() {
+    this->send_data = "classifying data complete";
+    sendProtocol();
 }
 
 ClassifyCommand::~ClassifyCommand() = default;
