@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
     while (true) {
         string send_data;
         getline(cin, send_data);
-        int choice = HandleIO::extraxtChoice(send_data);
+        int choice = HandleIO::extractChoice(send_data);
         switch (choice) {
             case 1:
             case 2:
