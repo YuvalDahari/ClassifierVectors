@@ -34,6 +34,9 @@ public:
     */
     void setAlgorithm(string algo);
 
+    /**
+     *
+     */
     void currentValues();
 
     void invalidInput(int indicator);

@@ -46,15 +46,15 @@ void AlgorithmSetting::currentValues() {
 void AlgorithmSetting::invalidInput(int indicator) {
     switch (indicator) {
         case INVALID_PARAMETERS:
-            this->send_data = "invalid value for K\ninvalid value for metric\n";
+            this->send_data = "invalid value for K\ninvalid value for metric\n" + this->getMenu();
             HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         case INVALID_APPROXIMATION:
-            this->send_data = "invalid value for K\n";
+            this->send_data = "invalid value for K\n" + this->getMenu();
             HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         case INVALID_ALGORITHM:
-            this->send_data = "invalid value for metric\n";
+            this->send_data = "invalid value for metric\n" + this->getMenu();
             HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         default:

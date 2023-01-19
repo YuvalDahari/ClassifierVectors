@@ -12,7 +12,7 @@ void DownloadResults::execute() {
         this->send_data += to_string(i) + "\t" + v.first + "\n";
         i++;
     }
-    HandleIO::sendProtocol(this->client_sock, this->send_data);
+    HandleIO::sendProtocol(this->client_sock, this->send_data + this->getMenu());
 }
 
 void DownloadResults::setClassified(const DBCreator &classifier) {

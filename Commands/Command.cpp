@@ -12,4 +12,12 @@ void Command::setCommandsMap(const map<const int, Command *> &commands) {
     Command::commandsMap = commands;
 }
 
+string Command::getMenu() {
+    string menu;
+    for (const pair<const int, Command*> &command : this->commandsMap) {
+        menu += command.second->getDescription();
+    }
+    return menu;
+}
+
 Command::~Command() = default;

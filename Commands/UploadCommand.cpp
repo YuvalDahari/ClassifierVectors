@@ -28,16 +28,8 @@ void UploadCommand::secondAnswer() {
 }
 
 void UploadCommand::finishAnswer(){
-    this->send_data = "Upload Complete.\n";
+    this->send_data = "Upload Complete.\n" + this->getMenu();
     HandleIO::sendProtocol(this->client_sock, this->send_data);
-}
-
-const DBCreator &UploadCommand::getClassified() const {
-    return this->DB;
-}
-
-const vector<vector<double>> &UploadCommand::getUnclassified() const {
-    return this->unclassifiedVectors;
 }
 
 void UploadCommand::updateCommands() {

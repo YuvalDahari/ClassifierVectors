@@ -56,12 +56,12 @@ bool HandleIO::validateUserVector(vector<double> &vector, const string &s_number
     return true;
 }
 
-pair <string, vector<double>> HandleIO::pairExtract(string &line, int length) const {
+pair<string, vector<double>> HandleIO::pairExtract(string &line, int length) const {
     string number;
     if (line.empty()) {
         printBye(2);
     }
-    pair <string, vector<double>> returnPair;
+    pair<string, vector<double>> returnPair;
     for (char i: line) {
         if (i == COMMA) {
             returnPair.second.push_back(validateFileVector(number));
@@ -313,7 +313,7 @@ char *HandleIO::convertStringToArray(const string &input) {
     return strcpy(new char[input.size() + 1], input.c_str());
 }
 
-int HandleIO::CheckAlgoK(string &str){
+int HandleIO::CheckAlgoK(string &str) {
     int rv = INVALID_PARAMETERS;
     int i = 0;
     if (str.empty()) {
@@ -344,7 +344,7 @@ int HandleIO::CheckAlgoK(string &str){
     return i;
 }
 
-vector<vector<double>> HandleIO::createTestVectors(const string& basicString) {
+vector<vector<double>> HandleIO::createTestVectors(const string &basicString) {
     vector<vector<double>> rv;
     string temp;
     int prev = 0;
@@ -358,10 +358,10 @@ vector<vector<double>> HandleIO::createTestVectors(const string& basicString) {
     return rv;
 }
 
-vector<double> HandleIO::vectorFromString(const string& vecString) {
+vector<double> HandleIO::vectorFromString(const string &vecString) {
     vector<double> vec;
     string temp;
-    for (char c : vecString) {
+    for (char c: vecString) {
         if (c == SPACE) {
             vec.push_back(stod(temp));
             temp.clear();
@@ -374,7 +374,7 @@ vector<double> HandleIO::vectorFromString(const string& vecString) {
 
 }
 
-SpecialVector HandleIO::createTrainDB(const string& basicString) {
+SpecialVector HandleIO::createTrainDB(const string &basicString) {
     SpecialVector rv;
     string temp;
     int prev = 0;
@@ -388,11 +388,11 @@ SpecialVector HandleIO::createTrainDB(const string& basicString) {
     return rv;
 }
 
-pair<string, vector<double>> HandleIO::pairFromString(const string& vecString) {
+pair<string, vector<double>> HandleIO::pairFromString(const string &vecString) {
     vector<double> vec;
     pair<string, vector<double>> rv;
     string temp;
-    for (char c : vecString) {
+    for (char c: vecString) {
         if (c == SPACE) {
             vec.push_back(stod(temp));
             temp.clear();
@@ -425,7 +425,7 @@ void HandleIO::sendProtocol(int socket, string send_data) {
     }
 }
 
-void HandleIO::receiveProtocol(int socket, string& receive_data) {
+bool HandleIO::receiveProtocol(int socket, string &receive_data) {
     receive_data = "";
     char buffer[BUFFER_SIZE] = {};
     int expected_data_len = sizeof(buffer);
@@ -440,15 +440,16 @@ void HandleIO::receiveProtocol(int socket, string& receive_data) {
         if (read_bytes < 0) {
             perror("Fail reading data");
             close(socket);
-            break;
+            return false;
         }
     }
     receive_data += buffer;
+    return true;
 }
 
-int HandleIO::checkDemand(bool* array, string toCheck, int socket) {
+int HandleIO::checkDemand(bool *array, string toCheck, int socket, const string& menu) {
     if (toCheck.empty() or toCheck.size() > 1) {
-        sendProtocol(socket, "invalid input\n");
+        sendProtocol(socket, "invalid input\n" + menu);
         return OFF;
     }
     char condition = toCheck[0];
@@ -459,37 +460,50 @@ int HandleIO::checkDemand(bool* array, string toCheck, int socket) {
         case 2:
             return ON;
         case 3:
-            if (!array[COMMAND_2]) {
-                sendProtocol(socket, "please upload data\n");
+            if (!array[COMMAND_1]) {
+                sendProtocol(socket, "please upload data\n" + menu);
                 return OFF;
             }
             array[COMMAND_3] = true;
             return ON;
         case 4:
             if (!array[COMMAND_1]) {
-                sendProtocol(socket, "please upload data\n");
+                sendProtocol(socket, "please upload data\n" + menu);
                 return OFF;
             }
             if (!array[COMMAND_3]) {
-                sendProtocol(socket, "please classify the data\n");
+                sendProtocol(socket, "please classify the data\n" + menu);
                 return OFF;
             }
             array[COMMAND_4] = true;
             return ON;
         case 5:
             if (!array[COMMAND_1]) {
-                sendProtocol(socket, "please upload data\n");
+                sendProtocol(socket, "please upload data\n" + menu);
                 return OFF;
             }
             if (!array[COMMAND_3]) {
-            sendProtocol(socket, "please classify the data\n");
-            return OFF;
+                sendProtocol(socket, "please classify the data\n" + menu);
+                return OFF;
             }
             array[COMMAND_5] = true;
             return ON;
         case 8:
             return -1;
         default:
-            sendProtocol(socket, "invalid input\n");
+            sendProtocol(socket, "invalid input\n" + menu);
+            return 0;
     }
 }
+
+int HandleIO::extractChoice(const string& choice) {
+    int rv;
+    try {
+        rv = stoi(choice);
+        return rv;
+    } catch (exception& e) {
+        return -1;
+    }
+}
+
+

@@ -209,17 +209,51 @@ public:
      */
     static SpecialVector createTrainDB(const string& basicString);
 
+    /**
+     * the function creates a vector of unclassified vectors.
+     * @param basicString (string)
+     * @return rv - a vector of unclassified vectors.
+     */
     static vector<vector<double>> createTestVectors(const string& basicString);
 
+    /**
+     * the function creates a  pair of string and vector.
+     * @param vector (string)
+     * @return rv - a pair of string and a vector (a classified vector)
+     */
     static pair<string, vector<double>> pairFromString(const string& vector);
 
+    /**
+     * the function creates a vector from a string.
+     * @param vecString (string)
+     * @return rv - a vector of double.
+     */
     static vector<double> vectorFromString(const string &vecString);
 
+    /**
+     * the function sends data to a socket.
+     * @param socket (int)
+     * @param send_data (string)
+     */
     static void sendProtocol(int socket, string send_data);
 
-    static void receiveProtocol(int socket, string &receive_data);
+    /**
+     * the function receives data from a socket and put the data in a given string.
+     * @param socket (int)
+     * @param receive_data (string)
+     */
+    static bool receiveProtocol(int socket, string &receive_data);
 
-    static int checkDemand(bool *array, string toCheck, int socket);
+    /**
+     * the function check if a request is valid. if so - updates the array in the relevant place.
+     * @param array (bool*)
+     * @param toCheck (string)
+     * @param socket (int)
+     * @return rv - an indicator if the demand id valid.
+     */
+    static int checkDemand(bool *array, string toCheck, int socket, const string& menu);
+
+    int extractChoice(const string& choice);
 };
 
 #endif

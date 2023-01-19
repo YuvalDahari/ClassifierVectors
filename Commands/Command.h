@@ -51,6 +51,8 @@ public:
     virtual ~Command();
 
     void receiveProtocol();
+
+    string getMenu();
 };
 
 
