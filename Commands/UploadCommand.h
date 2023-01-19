@@ -4,16 +4,13 @@
 #include "Command.h"
 #include "../Sprites/DBCreator.h"
 #include "../Classified.h"
+#include "ClassifyCommand.h"
 
 class UploadCommand : public Command{
 private:
-    DBCreator classified;
-    vector<vector<double>> unclassified;
+    DBCreator DB;
+    vector<vector<double>> unclassifiedVectors;
 public:
-    const DBCreator &getClassified() const;
-
-    const vector<vector<double>> &getUnclassified() const;
-
     /**
      * constructor for creating a new specific command.
      */
@@ -28,6 +25,8 @@ public:
     void secondAnswer();
 
     void finishAnswer();
+
+    void updateCommands();
 
     /**
      * default destructor.

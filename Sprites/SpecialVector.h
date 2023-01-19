@@ -8,7 +8,7 @@
 using namespace std;
 
 /**
- * a class which represents a classified list of objects of the same length of attributes.
+ * a class which represents a DB list of objects of the same length of attributes.
  */
 class SpecialVector {
 private:

@@ -7,10 +7,9 @@ AlgorithmSetting::AlgorithmSetting() {
 }
 
 void AlgorithmSetting::execute() {
-    correntValues();
+    currentValues();
     HandleIO::receiveProtocol(this->client_sock, this->receive_data);
-    // TODO: check if the empty work
-    if (this->receive_data.empty()) {
+    if (this->receive_data == "\n") {
         // the user doesn't want to change a thing.
         return;
     }
@@ -25,6 +24,9 @@ void AlgorithmSetting::execute() {
 void AlgorithmSetting::setFields(int index, const string& settings) {
     setApproximation(stoi(settings.substr(0, index)));
     setAlgorithm(settings.substr(index + 2, settings.size()));
+    ClassifyCommand* pClassifyCommand = (ClassifyCommand*)this->commandsMap.at(3);
+    pClassifyCommand->getClassifier().setApproximation(this->approximation);
+    pClassifyCommand->getClassifier().setAlgorithm(this->algorithm);
 }
 
 void AlgorithmSetting::setApproximation(int defineApproximation) {
@@ -35,15 +37,7 @@ void AlgorithmSetting::setAlgorithm(string algo) {
     AlgorithmSetting::algorithm = std::move(algo);
 }
 
-int AlgorithmSetting::getApproximation() const {
-    return this->approximation;
-}
-
-const string &AlgorithmSetting::getAlgorithm() const {
-    return this->algorithm;
-}
-
-void AlgorithmSetting::correntValues() {
+void AlgorithmSetting::currentValues() {
     AlgorithmSetting::send_data = "The current KNN parameters are: K = " + to_string(this->approximation) +
                                   ", distance metric = " + this->algorithm + "\n";
     HandleIO::sendProtocol(this->client_sock, this->send_data);

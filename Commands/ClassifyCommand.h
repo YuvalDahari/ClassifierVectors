@@ -3,22 +3,18 @@
 
 #include "Command.h"
 #include "../Classified.h"
+#include "DisplayResults.h"
+#include "DownloadResults.h"
 
 class ClassifyCommand : public Command{
 private:
     Classified classifier;
-    DBCreator classified;
-    vector<vector<double>> unclassified;
+    DBCreator DB;
+    vector<vector<double>> unclassifiedVectors;
 public:
-    const Classified &getClassifier() const;
+    Classified getClassifier() const;
 
-    void setClassifier(const Classified &classifier);
-
-    const DBCreator &getClassified() const;
-
-    void setClassified(const DBCreator &classified);
-
-    const vector<vector<double>> &getUnclassified() const;
+    void updateCommands();
 
     void setUnclassified(const vector<vector<double>> &unclassified);
     /**

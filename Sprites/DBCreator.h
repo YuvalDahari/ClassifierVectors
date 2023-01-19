@@ -10,7 +10,7 @@
 #include "../HandleIO.h"
 
 /**
- * a class which represents the classified objects.
+ * a class which represents the DB objects.
  */
 class DBCreator {
 private:

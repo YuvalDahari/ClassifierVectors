@@ -6,15 +6,15 @@ Classified::Classified(int k, const DBCreator &dbCreator, string algo) {
     this->algorithm = algo;
 }
 
-void Classified::setApproximation(int defineApproximation) {
+void Classified::setApproximation(int defineApproximation) const {
     Classified::approximation = defineApproximation;
 }
 
-void Classified::setAlgorithm(string algo) {
+void Classified::setAlgorithm(string algo) const {
     Classified::algorithm = algo;
 }
 
-void Classified::setDbCreator(const DBCreator &dbCreator) {
+void Classified::setDbCreator(const DBCreator &dbCreator) const {
     Classified::db = dbCreator;
 }
 
@@ -62,5 +62,10 @@ string Classified::identify(const vector<pair<string, double>> &distances) {
               [](const pair<string, double> &pair1, const pair<string, double> &pair2)
                       -> bool { return pair1.second > pair2.second; });
     return values[0].first;
+}
+
+Classified::Classified() {
+    this->approximation = 5;
+    this->algorithm = "AUC";
 }
 

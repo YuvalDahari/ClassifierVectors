@@ -14,7 +14,7 @@
 using namespace std;
 
 /**
- * a class which represents the map's commands.
+ * a class which represents the map's indicators.
  */
 class CommandsMap {
 private:
@@ -22,7 +22,7 @@ private:
 
 public:
     /**
-     * the function creates a map of all the allows commands.
+     * the function creates a map of all the allows indicators.
      */
     CommandsMap();
 
@@ -32,15 +32,16 @@ public:
      */
     const map<const int, Command*> &getCommands() const;
 
-    /**
-     * the function prints all the valid commands.
-     */
-    void printMap();
+    string getDescriptions();
 
     /**
      * destructor
      */
     virtual ~CommandsMap();
+
+    void initialize();
+
+    void initializeCommands(int client_sock);
 };
 
 #endif

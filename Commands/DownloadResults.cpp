@@ -5,7 +5,7 @@ DownloadResults::DownloadResults() {
 }
 
 void DownloadResults::execute() {
-    vector<pair<string, vector<double>>> vectors = this->classified.getObjType().getProperties();
+    vector<pair<string, vector<double>>> vectors = this->DB.getObjType().getProperties();
     this->send_data = "";
     unsigned long i = 1;
     for (const pair<string,vector<double>>& v:vectors) {
@@ -16,7 +16,7 @@ void DownloadResults::execute() {
 }
 
 void DownloadResults::setClassified(const DBCreator &classifier) {
-    DownloadResults::classified = classifier;
+    DownloadResults::DB = classifier;
 }
 
 DownloadResults::~DownloadResults() = default;

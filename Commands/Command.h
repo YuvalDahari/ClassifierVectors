@@ -20,11 +20,14 @@ protected:
     int client_sock;
     string send_data;
     string receive_data;
+    map<const int, Command*> commandsMap;
 public:
     /**
     * a virtual function which executes different logics of every child.
     */
     virtual void execute() = 0;
+
+    void setCommandsMap(const map<const int, Command *> &commandsMap);
 
     /**
      * the function returns the command's description.

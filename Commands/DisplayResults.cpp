@@ -5,7 +5,7 @@ DisplayResults::DisplayResults() {
 }
 
 void DisplayResults::execute() {
-    vector<pair<string, vector<double>>> vectors = this->classified.getObjType().getProperties();
+    vector<pair<string, vector<double>>> vectors = this->DB.getObjType().getProperties();
     this->send_data = "";
     unsigned long i = 1;
     for (const pair<string,vector<double>>& v:vectors) {
@@ -17,7 +17,7 @@ void DisplayResults::execute() {
 }
 
 void DisplayResults::setClassified(const DBCreator &classifier) {
-    DisplayResults::classified = classifier;
+    DisplayResults::DB = classifier;
 }
 
 DisplayResults::~DisplayResults() = default;

@@ -7,42 +7,34 @@ ClassifyCommand::ClassifyCommand() {
 void ClassifyCommand::execute() {
     SpecialVector specialVector;
     pair<string,vector<double>> pair;
-    specialVector.setLength(this->unclassified.at(0).size());
-    for (const vector<double>& v: this->unclassified) {
+    specialVector.setLength(this->unclassifiedVectors.at(0).size());
+    for (const vector<double>& v: this->unclassifiedVectors) {
         pair = {this->classifier.findDistances(v), v};
         specialVector.getProperties().push_back(pair);
     }
-    this->classified.setObjType(specialVector);
+    this->DB.setObjType(specialVector);
     finish();
+    updateCommands();
 }
 
-const Classified &ClassifyCommand::getClassifier() const {
+Classified ClassifyCommand::getClassifier() const {
     return this->classifier;
 }
 
-void ClassifyCommand::setClassifier(const Classified &classify) {
-    ClassifyCommand::classifier = classify;
-}
-
-const DBCreator &ClassifyCommand::getClassified() const {
-    return this->classified;
-}
-
-void ClassifyCommand::setClassified(const DBCreator &classify) {
-    ClassifyCommand::classified = classify;
-}
-
-const vector<vector<double>> &ClassifyCommand::getUnclassified() const {
-    return this->unclassified;
-}
-
 void ClassifyCommand::setUnclassified(const vector<vector<double>> &unclassify) {
-    ClassifyCommand::unclassified = unclassify;
+    ClassifyCommand::unclassifiedVectors = unclassify;
 }
 
 void ClassifyCommand::finish() {
     this->send_data = "classifying data complete";
     HandleIO::sendProtocol(this->client_sock, this->send_data);
+}
+
+void ClassifyCommand::updateCommands() {
+    DisplayResults* pDisplayResults = (DisplayResults*)this->commandsMap.at(4);
+    DownloadResults* pDownloadResults = (DownloadResults*)this->commandsMap.at(5);
+    pDisplayResults->setClassified(this->DB);
+    pDownloadResults->setClassified(this->DB);
 }
 
 ClassifyCommand::~ClassifyCommand() = default;

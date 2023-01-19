@@ -20,5 +20,4 @@ public:
     ~Exit() override;
 };
 
-
 #endif

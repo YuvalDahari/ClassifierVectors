@@ -2,6 +2,7 @@
 #define CLASSIFIERVECTORS_ALGORITHMSETTING_H
 
 #include "Command.h"
+#include "ClassifyCommand.h"
 
 /**
  * a class which manages the option to set different arguments for classification.
@@ -33,7 +34,7 @@ public:
     */
     void setAlgorithm(string algo);
 
-    void correntValues();
+    void currentValues();
 
     void invalidInput(int indicator);
 
@@ -43,10 +44,6 @@ public:
      * default destructor.
      */
     ~AlgorithmSetting() override;
-
-    int getApproximation() const;
-
-    const string &getAlgorithm() const;
 };
 
 #endif

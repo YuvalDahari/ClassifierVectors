@@ -6,7 +6,7 @@
 
 class DownloadResults : public Command{
 private:
-    DBCreator classified;
+    DBCreator DB;
 public:
     /**
     * constructor for creating a new specific command.

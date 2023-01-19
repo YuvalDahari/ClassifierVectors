@@ -28,19 +28,19 @@ public:
      * the function sets a new approximation.
      * @param defineApproximation (int)
      */
-    void setApproximation(int defineApproximation);
+    void setApproximation(int defineApproximation) const;
 
     /**
     * the function sets a new data base.
     * @param dbCreator (const DBCreator)
     */
-    void setDbCreator(const DBCreator &dbCreator);
+    void setDbCreator(const DBCreator &dbCreator) const;
 
     /**
      * the function sets a new algorithm.
      * @param algo (string)
      */
-    void setAlgorithm(string algo);
+    void setAlgorithm(string algo) const;
 
     /**
      * the function calculates the distances between the input vector and our data base's vectors.
