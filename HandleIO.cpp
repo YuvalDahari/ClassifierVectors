@@ -61,7 +61,7 @@ pair <string, vector<double>> HandleIO::pairExtract(string &line, int length) co
     if (line.empty()) {
         printBye(2);
     }
-    pair <std::string, vector<double>> returnPair;
+    pair <string, vector<double>> returnPair;
     for (char i: line) {
         if (i == COMMA) {
             returnPair.second.push_back(validateFileVector(number));
@@ -345,9 +345,62 @@ int HandleIO::CheckAlgoK(string &str){
 }
 
 vector<vector<double>> HandleIO::createTestVectors(const string& basicString) {
-    return vector<vector<double>>();
+    vector<vector<double>> rv;
+    string temp;
+    int prev = 0;
+    for (int i = 0; i < basicString.size(); i++) {
+        if (basicString[i] == '\n') {
+            temp = basicString.substr(prev, i - 1);
+            rv.push_back(vectorFromString(temp));
+            prev = i + 1;
+        }
+    }
+    return rv;
+}
+
+vector<double> HandleIO::vectorFromString(const string& vecString) {
+    vector<double> vec;
+    string temp;
+    for (char c : vecString) {
+        if (c == SPACE) {
+            vec.push_back(stod(temp));
+            temp.clear();
+            continue;
+        }
+        temp += c;
+    }
+    vec.push_back(stod(temp));
+    return vec;
+
 }
 
 SpecialVector HandleIO::createTrainDB(const string& basicString) {
-    return SpecialVector();
+    SpecialVector rv;
+    string temp;
+    int prev = 0;
+    for (int i = 0; i < basicString.size(); i++) {
+        if (basicString[i] == '\n') {
+            temp = basicString.substr(prev, i - 1);
+            rv.getProperties().push_back(pairFromString(temp));
+            prev = i + 1;
+        }
+    }
+    return rv;
+}
+
+pair<string, vector<double>> HandleIO::pairFromString(const string& vecString) {
+    vector<double> vec;
+    pair<string, vector<double>> rv;
+    string temp;
+    for (char c : vecString) {
+        if (c == SPACE) {
+            vec.push_back(stod(temp));
+            temp.clear();
+            continue;
+        }
+        temp += c;
+    }
+    rv.first = temp;
+    rv.second = vec;
+    return rv;
 }

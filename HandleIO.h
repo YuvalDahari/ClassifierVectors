@@ -187,9 +187,13 @@ public:
      */
     static int CheckAlgoK(string &str);
 
-    static SpecialVector createTrainDB(const string& basicString);
+    SpecialVector createTrainDB(const string& basicString);
 
-    static vector<vector<double>> createTestVectors(const string& basicString);
+    vector<vector<double>> createTestVectors(const string& basicString);
+
+    pair<string, vector<double>> pairFromString(const string& vector);
+
+    vector<double> vectorFromString(const string &vecString);
 };
 
 #endif
