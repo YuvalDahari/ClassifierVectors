@@ -13,7 +13,7 @@ void DisplayResults::execute() {
         i++;
     }
     this->send_data += "Done.\n";
-    sendProtocol();
+    HandleIO::sendProtocol(this->client_sock, this->send_data);
 }
 
 void DisplayResults::setClassified(const DBCreator &classifier) {

@@ -42,7 +42,7 @@ void ClassifyCommand::setUnclassified(const vector<vector<double>> &unclassify) 
 
 void ClassifyCommand::finish() {
     this->send_data = "classifying data complete";
-    sendProtocol();
+    HandleIO::sendProtocol(this->client_sock, this->send_data);
 }
 
 ClassifyCommand::~ClassifyCommand() = default;

@@ -405,7 +405,7 @@ pair<string, vector<double>> HandleIO::pairFromString(const string& vecString) {
     return rv;
 }
 
-static void HandleIO::sendProtocol(int socket, string& send_data) {
+void HandleIO::sendProtocol(int socket, string send_data) {
     send_data += "\n\r\n\r";
     string segment;
     const char *data;
@@ -425,7 +425,7 @@ static void HandleIO::sendProtocol(int socket, string& send_data) {
     }
 }
 
-static void HandleIO::receiveProtocol(int socket, string& receive_data) {
+void HandleIO::receiveProtocol(int socket, string& receive_data) {
     receive_data = "";
     char buffer[BUFFER_SIZE] = {};
     int expected_data_len = sizeof(buffer);
@@ -444,4 +444,20 @@ static void HandleIO::receiveProtocol(int socket, string& receive_data) {
         }
     }
     receive_data += buffer;
+}
+
+int HandleIO::checkDemand(bool &array[], string toCheck) {
+    if (toCheck.empty() or toCheck.size() > 1) {
+        return 0;
+    }
+    char condition = toCheck[0];
+    switch (condition) {
+        case 1:
+            return 1;
+        case 2:
+            return 1;
+        case 3:
+
+        
+    }
 }

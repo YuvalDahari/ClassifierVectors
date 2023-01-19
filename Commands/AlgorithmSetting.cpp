@@ -8,7 +8,7 @@ AlgorithmSetting::AlgorithmSetting() {
 
 void AlgorithmSetting::execute() {
     correntValues();
-    receiveProtocol();
+    HandleIO::receiveProtocol(this->client_sock, this->receive_data);
     // TODO: check if the empty work
     if (this->receive_data.empty()) {
         // the user doesn't want to change a thing.
@@ -46,22 +46,22 @@ const string &AlgorithmSetting::getAlgorithm() const {
 void AlgorithmSetting::correntValues() {
     AlgorithmSetting::send_data = "The current KNN parameters are: K = " + to_string(this->approximation) +
                                   ", distance metric = " + this->algorithm + "\n";
-    sendProtocol();
+    HandleIO::sendProtocol(this->client_sock, this->send_data);
 }
 
 void AlgorithmSetting::invalidInput(int indicator) {
     switch (indicator) {
         case INVALID_PARAMETERS:
             this->send_data = "invalid value for K\ninvalid value for metric\n";
-            sendProtocol();
+            HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         case INVALID_APPROXIMATION:
             this->send_data = "invalid value for K\n";
-            sendProtocol();
+            HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         case INVALID_ALGORITHM:
             this->send_data = "invalid value for metric\n";
-            sendProtocol();
+            HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         default:
             return;

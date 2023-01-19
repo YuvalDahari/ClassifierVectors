@@ -194,15 +194,15 @@ public:
      */
     static int CheckAlgoK(string &str);
 
-    SpecialVector createTrainDB(const string& basicString);
+    static SpecialVector createTrainDB(const string& basicString);
 
-    vector<vector<double>> createTestVectors(const string& basicString);
+    static vector<vector<double>> createTestVectors(const string& basicString);
 
-    pair<string, vector<double>> pairFromString(const string& vector);
+    static pair<string, vector<double>> pairFromString(const string& vector);
 
-    vector<double> vectorFromString(const string &vecString);
+    static vector<double> vectorFromString(const string &vecString);
 
-    static void sendProtocol(int socket, string& send_data);
+    static void sendProtocol(int socket, string send_data);
 
     static void receiveProtocol(int socket, string &receive_data);
 };
