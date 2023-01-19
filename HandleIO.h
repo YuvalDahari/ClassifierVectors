@@ -187,9 +187,9 @@ public:
      */
     static int CheckAlgoK(string &str);
 
-    static SpecialVector createTrainDB(string basicString);
+    static SpecialVector createTrainDB(const string& basicString);
 
-    static vector<vector<double>> createTestVectors(string basicString);
+    static vector<vector<double>> createTestVectors(const string& basicString);
 };
 
 #endif

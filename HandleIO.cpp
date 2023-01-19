@@ -344,6 +344,10 @@ int HandleIO::CheckAlgoK(string &str){
     return i;
 }
 
-vector<vector<double>> HandleIO::createTestVectors(string basicString) {
+vector<vector<double>> HandleIO::createTestVectors(const string& basicString) {
     return vector<vector<double>>();
+}
+
+SpecialVector HandleIO::createTrainDB(const string& basicString) {
+    return SpecialVector();
 }
