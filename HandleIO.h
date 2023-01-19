@@ -47,6 +47,14 @@
 #define CLIENT_PORT argv[2]
 #define BUFFER_SIZE 4096
 
+// define for the commands
+#define COMMAND_1 0
+#define COMMAND_2 1
+#define COMMAND_3 2
+#define COMMAND_4 3
+#define COMMAND_5 4
+
+
 using namespace std;
 
 /**
@@ -194,6 +202,11 @@ public:
      */
     static int CheckAlgoK(string &str);
 
+    /**
+     * the function creates a DB to classify with.
+     * @param basicString (string)
+     * @return rv - a Special vector which is the DB.
+     */
     static SpecialVector createTrainDB(const string& basicString);
 
     static vector<vector<double>> createTestVectors(const string& basicString);
@@ -205,6 +218,8 @@ public:
     static void sendProtocol(int socket, string send_data);
 
     static void receiveProtocol(int socket, string &receive_data);
+
+    static int checkDemand(bool *array, string toCheck, int socket);
 };
 
 #endif

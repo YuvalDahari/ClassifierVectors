@@ -446,18 +446,50 @@ void HandleIO::receiveProtocol(int socket, string& receive_data) {
     receive_data += buffer;
 }
 
-int HandleIO::checkDemand(bool &array[], string toCheck) {
+int HandleIO::checkDemand(bool* array, string toCheck, int socket) {
     if (toCheck.empty() or toCheck.size() > 1) {
-        return 0;
+        sendProtocol(socket, "invalid input\n");
+        return OFF;
     }
     char condition = toCheck[0];
     switch (condition) {
         case 1:
-            return 1;
+            array[COMMAND_1] = true;
+            return ON;
         case 2:
-            return 1;
+            return ON;
         case 3:
-
-        
+            if (!array[COMMAND_2]) {
+                sendProtocol(socket, "please upload data\n");
+                return OFF;
+            }
+            array[COMMAND_3] = true;
+            return ON;
+        case 4:
+            if (!array[COMMAND_1]) {
+                sendProtocol(socket, "please upload data\n");
+                return OFF;
+            }
+            if (!array[COMMAND_3]) {
+                sendProtocol(socket, "please classify the data\n");
+                return OFF;
+            }
+            array[COMMAND_4] = true;
+            return ON;
+        case 5:
+            if (!array[COMMAND_1]) {
+                sendProtocol(socket, "please upload data\n");
+                return OFF;
+            }
+            if (!array[COMMAND_3]) {
+            sendProtocol(socket, "please classify the data\n");
+            return OFF;
+            }
+            array[COMMAND_5] = true;
+            return ON;
+        case 8:
+            return -1;
+        default:
+            sendProtocol(socket, "invalid input\n");
     }
 }
