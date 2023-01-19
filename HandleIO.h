@@ -253,7 +253,7 @@ public:
      */
     static int checkDemand(bool *array, string toCheck, int socket, const string& menu);
 
-    int extractChoice(const string& choice);
+    static int extractChoice(const string& choice);
 };
 
 #endif
