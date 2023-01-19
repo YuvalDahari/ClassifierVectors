@@ -9,10 +9,9 @@
 #include <cstring>
 #include "Sprites/DBCreator.h"
 #include "Classified.h"
+#include "Sprites/CLI.h"
 
 #define PORT argv[2]
-#define FIN "-1"
-#define S_BUFFER_SIZE 8192
 
 using namespace std;
 
@@ -49,11 +48,8 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    DBCreator db = DBCreator(FILE_NAME);
-
     struct sockaddr_in client_sin{};
     unsigned int addr_len = sizeof(client_sin);
-    int validFlag;
 
     while (true) {
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
@@ -61,54 +57,8 @@ int main(int argc, char *argv[]) {
             perror("Fail accepting client");
             continue;
         }
-
-        while (true) {
-            char buffer[S_BUFFER_SIZE] = {};
-            int expected_data_len = sizeof(buffer);
-            string data;
-            long read_bytes = recv(client_sock, buffer, expected_data_len, 0);
-            if (read_bytes == 0) {
-                close(client_sock);
-                break;
-            } else if (read_bytes < 0) {
-                perror("Fail reading data");
-            }
-            bool join = true;
-            while (read_bytes == S_BUFFER_SIZE && buffer[S_BUFFER_SIZE - 1] != '\n') {
-                data += buffer;
-                unsigned long length = strlen(buffer);
-                for (unsigned long i = 0; i < length; ++i) {
-                    buffer[i] = '\0';
-                }
-                read_bytes = recv(client_sock, buffer, expected_data_len, 0);
-                if (read_bytes < 0) {
-                    perror("Fail reading data");
-                    close(client_sock);
-                    join = false;
-                    break;
-                }
-            }
-            if (!join) {
-                break;
-            }
-            data += buffer;
-            int approximation;
-            string algorithm;
-            vector<double> v;
-            char *answer;
-            validFlag = handleIO.dataExtract(data, v, db.getObjType().getLength(), algorithm, approximation);
-            if (validFlag < 0) {
-                answer = handleIO.convertStringToArray("invalid input");
-            } else {
-                Classified classifier = Classified(approximation, db, algorithm);
-                answer = handleIO.convertStringToArray(classifier.findDistances(v));
-            }
-
-            long sent_bytes = send(client_sock, answer, strlen(answer), 0);
-            if (sent_bytes < 0) {
-                perror("Fail sending to client");
-            }
-        }
+        CLI cli = CLI(client_sock);
+        cli.start();
     }
     close(sock);
     return 0;

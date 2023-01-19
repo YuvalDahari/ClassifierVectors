@@ -11,6 +11,8 @@ private:
     int client_sock;
     bool indicators[5] = {false, false, false, false, false};
 public:
+    explicit CLI(int clientSock);
+
     void start();
 };
 
