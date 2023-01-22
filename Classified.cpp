@@ -1,11 +1,5 @@
 #include "Classified.h"
 
-Classified::Classified(int k, const DBCreator &dbCreator, string algo) {
-    this->approximation = k;
-    this->db = dbCreator;
-    this->algorithm = algo;
-}
-
 void Classified::setApproximation(int defineApproximation){
     Classified::approximation = defineApproximation;
 }

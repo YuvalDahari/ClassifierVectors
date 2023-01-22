@@ -16,13 +16,6 @@ private:
     string algorithm;
 public:
     Classified();
-    /**
-     * constructor for creating a new classifier via approximation, data base and an algorithm.
-     * @param k (int)
-     * @param dbCreator (const DBCreator)
-     * @param algorithm (string)
-     */
-    Classified(int k, const DBCreator &dbCreator, string algorithm);
 
     /**
      * the function sets a new approximation.

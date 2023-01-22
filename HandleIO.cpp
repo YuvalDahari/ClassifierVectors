@@ -56,7 +56,7 @@ bool HandleIO::validateUserVector(vector<double> &vector, const string &s_number
     return true;
 }
 
-pair<string, vector<double>> HandleIO::pairExtract(string &line, int length) {
+pair<string, vector<double>> HandleIO::pairExtract(string &line, unsigned long length) {
     string number;
     if (line.empty()) {
         printBye(2);
@@ -75,17 +75,6 @@ pair<string, vector<double>> HandleIO::pairExtract(string &line, int length) {
     }
     returnPair.first = number;
     return returnPair;
-}
-
-int HandleIO::dataExtract(string &data, vector<double> &pVector, int length, string &algorithm, int &approximation)
-{
-    extractVector(pVector, length, data);
-    algorithm = extractAlgorithm(data);
-    approximation = extractApproximation(data);
-    if (approximation == 0) {
-        return -1;
-    }
-    return 1;
 }
 
 void HandleIO::extractVector(vector<double> &pVector, int length, string &input) {

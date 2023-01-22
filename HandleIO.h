@@ -48,13 +48,12 @@
 
 // define for the commands
 #define COMMAND_1 0
-#define COMMAND_2 1
 #define COMMAND_3 2
 #define COMMAND_4 3
 #define COMMAND_5 4
 
 // define for search in strings
-# define LETTERS_AND_NUMBERS " \n\r\t"
+#define LETTERS_AND_NUMBERS " \n\r\t"
 
 using namespace std;
 
@@ -63,14 +62,13 @@ using namespace std;
  */
 class HandleIO {
 public:
-
     /**
      * the function gets a line as a string and extract a matching pair.
      * @param line (string)
      * @param length (int)
      * @return pair<string,vector<double>> - a pair of the vector and it's name.
      */
-    static pair<string, vector<double>> pairExtract(string &line, int length) ;
+    static pair<string, vector<double>> pairExtract(string &line, unsigned long length) ;
 
     /**
      * the function checks if the file we got is valid.
@@ -94,13 +92,6 @@ public:
      * we call this function while we have invalid input.
      */
     static void printBye(int i);
-
-    /**
-     * the function checks the input from the user.
-     * @param pVector (vector<double>)
-     * @param length (int)
-     */
-    static void extractVector(vector<double> &pVector, int length, string &input);
 
     /**
      * the function checks if the algorithm given is a valid one.
@@ -179,17 +170,6 @@ public:
     static int extractApproximation(string &input);
 
     /**
-     * the function manages all the data extract from the general input.
-     * @param data (string)
-     * @param pVector (vector<double>)
-     * @param length (int)
-     * @param algorithm (string)
-     * @param approximation (approximation)
-     * @return int - 1 for success, -1 for failure.
-     */
-    static int dataExtract(string &data, vector<double> &pVector, int length, string &algorithm, int &approximation) ;
-
-    /**
      * the function convert a string to char*.
      * @param input (string)
      * @return char* - the string as char*.
@@ -257,7 +237,6 @@ public:
     static int extractChoice(const string &choice);
 
     static int checkDBLine(const string &line, int length, int file);
-
 };
 
 #endif
