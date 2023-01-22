@@ -6,15 +6,15 @@ Classified::Classified(int k, const DBCreator &dbCreator, string algo) {
     this->algorithm = algo;
 }
 
-void Classified::setApproximation(int defineApproximation) const {
+void Classified::setApproximation(int defineApproximation){
     Classified::approximation = defineApproximation;
 }
 
-void Classified::setAlgorithm(string algo) const {
+void Classified::setAlgorithm(string algo) {
     Classified::algorithm = algo;
 }
 
-void Classified::setDbCreator(const DBCreator &dbCreator) const {
+void Classified::setDbCreator(const DBCreator &dbCreator) {
     Classified::db = dbCreator;
 }
 

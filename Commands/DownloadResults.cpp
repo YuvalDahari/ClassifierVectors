@@ -9,7 +9,7 @@ void DownloadResults::execute() {
     this->send_data = "";
     unsigned long i = 1;
     for (const pair<string,vector<double>>& v:vectors) {
-        this->send_data += to_string(i) + "\t" + v.first + "\n";
+        this->send_data += to_string(i) + "," + v.first + "\n";
         i++;
     }
     HandleIO::sendProtocol(this->client_sock, this->send_data + this->getMenu());

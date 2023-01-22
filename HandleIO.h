@@ -79,14 +79,14 @@ public:
      * 3. it's not an empty file.
      * @param file (string)
      */
-    static int checkFile(string file);
+    static int checkFile(string file, int indicator);
 
     /**
      * the function checks the length of the vectors in the file by the first line.
      * @param firstLine (string)
      * @return int - the length of the vectors in the file.
      */
-    int lengthExtract(const string &firstLine) const;
+    static int lengthExtract(const string &firstLine);
 
     /**
      * the function prints an exit massage and close the program.
@@ -113,7 +113,7 @@ public:
      * @param line (string)
      * @return double - a valid double.
      */
-    double validateFileVector(const string &line) const;
+    static double validateFileVector(const string &line);
 
     /**
      * the function checks the user vector.
@@ -129,13 +129,13 @@ public:
      * 2. if the string contains more than one '.'.
      * @param number (string)
      */
-    bool checkSneakyCases(string &number) const;
+    static bool checkSneakyCases(string &number);
 
     /**
      * the function checks if the string is to big.
      * @param number (string)
      */
-    void normalizeDoubleSize(string &number) const;
+    static void normalizeDoubleSize(string &number);
 
     /**
      * the function validates the input from the user.
@@ -254,6 +254,9 @@ public:
     static int checkDemand(bool *array, string toCheck, int socket, const string& menu);
 
     static int extractChoice(const string& choice);
+
+    static int checkDBLine(const string& line, int length, int file);
+
 };
 
 #endif

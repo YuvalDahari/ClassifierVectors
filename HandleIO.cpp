@@ -1,6 +1,6 @@
 #include "HandleIO.h"
 
-double HandleIO::validateFileVector(const string &s) const {
+double HandleIO::validateFileVector(const string &s) {
     int pointFlag = 0;
     string str;
     for (char i: s) {
@@ -10,18 +10,18 @@ double HandleIO::validateFileVector(const string &s) const {
         } else if (i == POINT) {
             pointFlag += ON;
             if (pointFlag >= (2 * ON)) {
-                printBye(4);
+                return -1;
             }
             str += i;
         } else if (isdigit(i)) {
             str += i;
             pointFlag = OFF;
         } else if (i != '\n') {
-            printBye(4);
+            return -1;
         }
     }
     if (!checkSneakyCases(str)) {
-        printBye(4);
+        return -1;
     }
     normalizeDoubleSize(str);
     // return a guaranteed double
@@ -157,7 +157,7 @@ int HandleIO::extractApproximation(string &input) {
     return stoi(k);
 }
 
-int HandleIO::checkFile(string vecFile) {
+int HandleIO::checkFile(string vecFile, int indicator) {
     string isCsv;
     unsigned long pointPlace = 0;
     int index = 0;
@@ -181,8 +181,10 @@ int HandleIO::checkFile(string vecFile) {
         return -1;
     }
     // check if the file is empty
-    if (file.peek() == EOF) {
-        return -1;
+    if (indicator == 1) {
+        if (file.peek() == EOF) return -1;
+    } else {
+        if (file.peek() != EOF) return -1;
     }
     return 0;
 }
@@ -208,9 +210,9 @@ void HandleIO::printBye(int i) const {
     exit(0);
 }
 
-int HandleIO::lengthExtract(const string &firstLine) const {
+int HandleIO::lengthExtract(const string &firstLine) {
     if (firstLine.empty()) {
-        printBye(4);
+        return -1;
     }
     int length = 0;
     // split the line into individual columns
@@ -220,7 +222,7 @@ int HandleIO::lengthExtract(const string &firstLine) const {
         }
     }
     if ((length) <= 0) {
-        printBye(4);
+        return -1;
     }
     return length;
 }
@@ -234,7 +236,7 @@ bool HandleIO::checkAlgo(const string &algorithm) {
     return false;
 }
 
-bool HandleIO::checkSneakyCases(string &number) const {
+bool HandleIO::checkSneakyCases(string &number) {
     int pointFlag = 0;
     if (number.empty() or number == STR_POINT or number == STR_MINUS) {
         return false;
@@ -250,7 +252,7 @@ bool HandleIO::checkSneakyCases(string &number) const {
     return true;
 }
 
-void HandleIO::normalizeDoubleSize(string &number) const {
+void HandleIO::normalizeDoubleSize(string &number) {
     // why the casting? we do an operator between long and double
     if ((double) number.size() >= log(DBL_MAX) - 1) {
         number = number.substr(0, sizeof(double_t));
@@ -269,7 +271,6 @@ void HandleIO::checkServerArguments(int argc, char *argv[]) const {
     if (argc != NUM_OF_ARGS) {
         printBye(4);
     }
-    checkFile(FILE_NAME);
     checkPort(CLIENT_PORT);
 }
 
@@ -447,7 +448,7 @@ bool HandleIO::receiveProtocol(int socket, string &receive_data) {
     return true;
 }
 
-int HandleIO::checkDemand(bool *array, string toCheck, int socket, const string& menu) {
+int HandleIO::checkDemand(bool *array, string toCheck, int socket, const string &menu) {
     if (toCheck.empty() or toCheck.size() > 1) {
         sendProtocol(socket, "invalid input\n" + menu);
         return OFF;
@@ -496,14 +497,42 @@ int HandleIO::checkDemand(bool *array, string toCheck, int socket, const string&
     }
 }
 
-int HandleIO::extractChoice(const string& choice) {
+int HandleIO::extractChoice(const string &choice) {
     int rv;
     try {
         rv = stoi(choice);
         return rv;
-    } catch (exception& e) {
+    } catch (exception &e) {
         return -1;
     }
 }
+
+int HandleIO::checkDBLine(const string &line, int length, int file) {
+    int counter = 0;
+    if (line.empty()) {
+        return -1;
+    }
+    string temp;
+    for (char c: line) {
+        if (c == COMMA) {
+            counter++;
+            if (validateFileVector(temp) == -1) return -1;
+            temp.clear();
+            continue;
+        }
+        temp += c;
+    }
+    if (file == 1) {
+        if (temp.empty()) {
+            return -1;
+        }
+    } else {
+        if (validateFileVector(temp) == -1) return -1;
+        counter++;
+    }
+    if (counter != length) return -1;
+    return 1;
+}
+
 
 

@@ -22,8 +22,6 @@ public:
 
     void startAnswer();
 
-    void secondAnswer();
-
     void finishAnswer();
 
     void updateCommands();
@@ -32,6 +30,8 @@ public:
      * default destructor.
      */
     ~UploadCommand() override;
+
+    void finishFirstAnswer();
 };
 
 #endif

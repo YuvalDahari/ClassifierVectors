@@ -9,8 +9,7 @@ void UploadCommand::execute() {
     HandleIO::receiveProtocol(this->client_sock, this->receive_data);
     SpecialVector specialVector = HandleIO::createTrainDB(this->receive_data);
     this->DB.setObjType(specialVector);
-    finishAnswer();
-    secondAnswer();
+    finishFirstAnswer();
     HandleIO::receiveProtocol(this->client_sock, this->receive_data);
     this->unclassifiedVectors = HandleIO::createTestVectors(this->receive_data);
     finishAnswer();
@@ -22,8 +21,9 @@ void UploadCommand::startAnswer() {
     HandleIO::sendProtocol(this->client_sock, this->send_data);
 }
 
-void UploadCommand::secondAnswer() {
-    this->send_data = "Please upload your local test CSV file.\n";
+
+void UploadCommand::finishFirstAnswer(){
+    this->send_data = "Upload Complete.\nPlease upload your local test CSV file.\n";
     HandleIO::sendProtocol(this->client_sock, this->send_data);
 }
 

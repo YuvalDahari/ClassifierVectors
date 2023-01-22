@@ -18,6 +18,8 @@ void AlgorithmSetting::execute() {
         invalidInput(index);
     } else {
         setFields(index, this->receive_data);
+        this->send_data = getMenu();
+        HandleIO::sendProtocol(this->client_sock, this->send_data);
     }
 }
 
