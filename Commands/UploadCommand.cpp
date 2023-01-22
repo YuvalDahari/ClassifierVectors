@@ -7,13 +7,15 @@ UploadCommand::UploadCommand() {
 void UploadCommand::execute() {
     startAnswer();
     HandleIO::receiveProtocol(this->client_sock, this->receive_data);
+    cout << receive_data << endl;
     SpecialVector specialVector = HandleIO::createTrainDB(this->receive_data);
     this->DB.setObjType(specialVector);
     finishFirstAnswer();
     HandleIO::receiveProtocol(this->client_sock, this->receive_data);
+    cout << receive_data << endl;
     this->unclassifiedVectors = HandleIO::createTestVectors(this->receive_data);
-    finishAnswer();
     updateCommands();
+    finishAnswer();
 }
 
 void UploadCommand::startAnswer() {

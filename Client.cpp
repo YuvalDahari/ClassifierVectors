@@ -23,13 +23,13 @@ int makeStringFromFile(int &length, string &sendData, const string &fileName, in
     getline(file, line);
     if (indicator == 1) {
         length = HandleIO::lengthExtract(line);
+    } else {
+        sendData = "";
     }
-    sendData = to_string(length) + "\n";
     do {
         flag = HandleIO::checkDBLine(line, length, indicator);
         sendData += line + "\n";
     } while (getline(file, line) and flag != -1);
-    sendData += "\r\n\r";
     file.close();
     return flag;
 }
@@ -55,6 +55,22 @@ int writeToFile(const string &receiveData, const string &fileName) {
     }
     file.close();
     return 1;
+}
+
+void Case1(int &server_sock, string &send_data, string &receive_data, string &fileName,
+           int &flag, int &length, int indicator){
+    HandleIO::sendProtocol(server_sock, send_data);
+    HandleIO::receiveProtocol(server_sock, receive_data);
+    cout << receive_data << endl;
+    getline(cin, fileName);
+    flag = makeStringFromFile(length, send_data, fileName, indicator);
+    while (flag == -1) {
+        send_data = "invalid file\nWrite a new path\n";
+        cout << send_data << endl;
+        send_data.clear();
+        getline(cin, fileName);
+        flag = makeStringFromFile(length, send_data, fileName, 1);
+    }
 }
 
 
@@ -96,47 +112,28 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     HandleIO::receiveProtocol(server_sock, receive_data);
-    cout << receive_data;
+    cout << receive_data << endl;
     while (true) {
         getline(cin, send_data);
         int choice = HandleIO::extractChoice(send_data);
         switch (choice) {
             case 1:
+                Case1(server_sock, send_data, receive_data, fileName, flag, length, 1);
+                Case1(server_sock, send_data, receive_data, fileName, flag, length, 2);
                 HandleIO::sendProtocol(server_sock, send_data);
                 HandleIO::receiveProtocol(server_sock, receive_data);
-                cout << receive_data;
-                getline(cin, fileName);
-                flag = makeStringFromFile(length, send_data, fileName, 1);
-                while (flag == -1) {
-                    send_data = "invalid file\nWrite a new path\n";
-                    cout << send_data;
-                    getline(cin, fileName);
-                    flag = makeStringFromFile(length, send_data, fileName, 1);
-                }
-                HandleIO::sendProtocol(server_sock, send_data);
+                cout << receive_data << "\n";
                 HandleIO::receiveProtocol(server_sock, receive_data);
-                //duplicate code, need to rewrite when finished.
-                cout << receive_data;
-                getline(cin, fileName);
-                flag = makeStringFromFile(length, send_data, fileName, 2);
-                while (flag == -1) {
-                    send_data = "invalid file\nWrite a new path\n";
-                    cout << send_data;
-                    getline(cin, fileName);
-                    flag = makeStringFromFile(length, send_data, fileName, 2);
-                }
-                HandleIO::sendProtocol(server_sock, send_data);
-                HandleIO::receiveProtocol(server_sock, receive_data);
-                cout << receive_data;
+                cout << receive_data << endl;
                 continue;
             case 2:
                 HandleIO::sendProtocol(server_sock, send_data);
                 HandleIO::receiveProtocol(server_sock, receive_data);
-                cout << receive_data;
+                cout << receive_data << endl;
                 getline(cin, send_data);
                 HandleIO::sendProtocol(server_sock, send_data);
                 HandleIO::receiveProtocol(server_sock, receive_data);
-                cout << receive_data;
+                cout << receive_data << endl;
                 continue;
             case 3:
                 HandleIO::sendProtocol(server_sock, send_data);
@@ -148,19 +145,19 @@ int main(int argc, char *argv[]) {
                 HandleIO::receiveProtocol(server_sock, receive_data);
                 if (receive_data.find("please upload data") != string::npos ||
                 receive_data.find("please classify the data") != string::npos) {
-                    cout << receive_data;
+                    cout << receive_data << endl;
                     continue;
                 }
                 index = receive_data.find("Welcome");
                 receive_data = receive_data.substr(0, index - 1);
-                cout << receive_data;
+                cout << receive_data << endl;
                 continue;
             case 5:
                 HandleIO::sendProtocol(server_sock, send_data);
                 HandleIO::receiveProtocol(server_sock, receive_data);
                 if (receive_data.find("please upload data") != string::npos ||
                     receive_data.find("please classify the data") != string::npos) {
-                    cout << receive_data;
+                    cout << receive_data << endl;
                     continue;
                 }
                 index = receive_data.find("Welcome");
@@ -169,7 +166,7 @@ int main(int argc, char *argv[]) {
                 flag = writeToFile(receive_data, fileName);
                 while (flag == -1) {
                     send_data = "invalid file\nWrite a new path\n";
-                    cout << send_data;
+                    cout << send_data << endl;
                     getline(cin, fileName);
                     flag = writeToFile(receive_data, fileName);
                 }

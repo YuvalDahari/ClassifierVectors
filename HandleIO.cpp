@@ -17,7 +17,6 @@ int HandleIO::validateFileVector(const string &s) {
             str += i;
             pointFlag = OFF;
         } else if (i != '\n') {
-            cout << "IM HERE" << endl;
             return -1;
         }
     }
@@ -145,7 +144,6 @@ int HandleIO::extractApproximation(string &input) {
 }
 
 int HandleIO::checkFile(string vecFile, int indicator) {
-    cout << vecFile << endl;
     string isCsv;
     unsigned long pointPlace = 0;
     int index = 0;
@@ -247,7 +245,7 @@ void HandleIO::normalizeDoubleSize(string &number) {
     }
 }
 
-void HandleIO::checkClientArguments(int argc, char *argv[]){
+void HandleIO::checkClientArguments(int argc, char *argv[]) {
     if (argc != NUM_OF_ARGS + 1) {
         printBye(4);
     }
@@ -285,7 +283,7 @@ void HandleIO::checkIP(const string &ip) {
     }
 }
 
-void HandleIO::checkPort(const string &port){
+void HandleIO::checkPort(const string &port) {
     //define 65535
     int portNum = 0;
     try {
@@ -303,6 +301,8 @@ char *HandleIO::convertStringToArray(const string &input) {
 }
 
 int HandleIO::CheckAlgoK(string &str) {
+    int kFlag = 0;
+    int algFlag = 0;
     int rv = INVALID_PARAMETERS;
     int i = 0;
     if (str.empty()) {
@@ -316,8 +316,8 @@ int HandleIO::CheckAlgoK(string &str) {
         tmp += str[i];
     }
     int k = extractApproximation(tmp);
-    if (k != 0) {
-        rv++;
+    if (k <= 0) {
+        kFlag = -1;
     }
     i++;
     tmp = str.substr(i, str.size() - 1);
@@ -327,21 +327,23 @@ int HandleIO::CheckAlgoK(string &str) {
     }
     string alg = extractAlgorithm(tmp);
     if (alg == "invalid") {
-        return rv;
+        algFlag = -2;
+    }
+    if (algFlag + kFlag < 2) {
+        return algFlag + kFlag;
     }
     return i;
 }
 
 vector<vector<double>> HandleIO::createTestVectors(const string &basicString) {
     string temp;
-    temp = basicString.substr(0, basicString.size() - 1);
-    cout << "HEREEE" << endl;
-    cout << temp << endl;
+    string copy;
+    copy = basicString;
     vector<vector<double>> rv;
     int prev = 0;
-    for (int i = 0; i < temp.size(); i++) {
-        if (temp[i] == '\n') {
-            temp = temp.substr(prev, i - 1);
+    for (int i = 0; i < copy.size(); i++) {
+        if (copy[i] == '\n') {
+            temp = copy.substr(prev, i);
             rv.push_back(vectorFromString(temp));
             prev = i + 1;
         }
@@ -360,6 +362,7 @@ vector<double> HandleIO::vectorFromString(const string &vecString) {
         }
         temp += c;
     }
+    temp = temp.substr(0, temp.size() - 1);
     vec.push_back(stod(temp));
     return vec;
 
@@ -372,8 +375,8 @@ SpecialVector HandleIO::createTrainDB(const string &basicString) {
     for (int i = 0; i < basicString.size(); i++) {
         if (basicString[i] == '\n') {
             temp = basicString.substr(prev, i - 1);
-            rv.getProperties().push_back(pairFromString(temp));
             prev = i + 1;
+            rv.getProperties().push_back(pairFromString(temp));
         }
     }
     return rv;
@@ -417,13 +420,13 @@ void HandleIO::sendProtocol(int socket, string send_data) {
 }
 
 bool HandleIO::receiveProtocol(int socket, string &receive_data) {
-    receive_data = "";
     char buffer[BUFFER_SIZE] = {};
+    receive_data = "";
     int expected_data_len = sizeof(buffer);
     long read_bytes = recv(socket, buffer, expected_data_len, 0);
     while (read_bytes == BUFFER_SIZE && buffer[BUFFER_SIZE - 1] != '\r') {
-        receive_data += buffer;
         unsigned long length = strlen(buffer);
+        receive_data += buffer;
         for (unsigned long i = 0; i < length; ++i) {
             buffer[i] = '\0';
         }
@@ -435,7 +438,7 @@ bool HandleIO::receiveProtocol(int socket, string &receive_data) {
         }
     }
     receive_data += buffer;
-    receive_data = receive_data.substr(0, receive_data.size() - 4);
+    receive_data.erase(receive_data.find_last_not_of(" \n\r\t") + 1);
     return true;
 }
 

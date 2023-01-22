@@ -98,7 +98,7 @@ public:
      * @param pVector (vector<double>)
      * @param length (int)
      */
-    static void extractVector(vector<double> &pVector, int length, string &input) ;
+    static void extractVector(vector<double> &pVector, int length, string &input);
 
     /**
      * the function checks if the algorithm given is a valid one.
@@ -120,7 +120,7 @@ public:
      * @param s_number (string)
      * @return bool - if the input is valid.
      */
-    static bool validateUserVector(vector<double> &vector, const string &s_number) ;
+    static bool validateUserVector(vector<double> &vector, const string &s_number);
 
     /**
      * the function checks the following cases in the process of validating a string as a double:
@@ -160,7 +160,7 @@ public:
      * @param argc (int)
      * @param argv (char**)
      */
-    static void checkServerArguments(int argc, char **argv) ;
+    static void checkServerArguments(int argc, char **argv);
 
     /**
      * the function extract the algorithm from a string.
@@ -206,21 +206,21 @@ public:
      * @param basicString (string)
      * @return rv - a Special vector which is the DB.
      */
-    static SpecialVector createTrainDB(const string& basicString);
+    static SpecialVector createTrainDB(const string &basicString);
 
     /**
      * the function creates a vector of unclassified vectors.
      * @param basicString (string)
      * @return rv - a vector of unclassified vectors.
      */
-    static vector<vector<double>> createTestVectors(const string& basicString);
+    static vector<vector<double>> createTestVectors(const string &basicString);
 
     /**
      * the function creates a  pair of string and vector.
      * @param vector (string)
      * @return rv - a pair of string and a vector (a classified vector)
      */
-    static pair<string, vector<double>> pairFromString(const string& vector);
+    static pair<string, vector<double>> pairFromString(const string &vector);
 
     /**
      * the function creates a vector from a string.
@@ -252,9 +252,9 @@ public:
      */
     static int checkDemand(bool (&array)[5], string toCheck, int socket);
 
-    static int extractChoice(const string& choice);
+    static int extractChoice(const string &choice);
 
-    static int checkDBLine(const string& line, int length, int file);
+    static int checkDBLine(const string &line, int length, int file);
 
 };
 
