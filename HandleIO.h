@@ -53,6 +53,8 @@
 #define COMMAND_4 3
 #define COMMAND_5 4
 
+// define for search in strings
+# define LETTERS_AND_NUMBERS " \n\r\t"
 
 using namespace std;
 

@@ -336,17 +336,10 @@ int HandleIO::CheckAlgoK(string &str) {
 }
 
 vector<vector<double>> HandleIO::createTestVectors(const string &basicString) {
-    string temp;
-    string copy;
-    copy = basicString;
+    istringstream ss(basicString);
     vector<vector<double>> rv;
-    int prev = 0;
-    for (int i = 0; i < copy.size(); i++) {
-        if (copy[i] == '\n') {
-            temp = copy.substr(prev, i);
-            rv.push_back(vectorFromString(temp));
-            prev = i + 1;
-        }
+    for (string line; getline(ss, line);) {
+        rv.push_back(vectorFromString(line));
     }
     return rv;
 }
@@ -362,7 +355,7 @@ vector<double> HandleIO::vectorFromString(const string &vecString) {
         }
         temp += c;
     }
-    temp = temp.substr(0, temp.size() - 1);
+    temp = temp.substr(0, temp.size());
     vec.push_back(stod(temp));
     return vec;
 
@@ -370,14 +363,9 @@ vector<double> HandleIO::vectorFromString(const string &vecString) {
 
 SpecialVector HandleIO::createTrainDB(const string &basicString) {
     SpecialVector rv;
-    string temp;
-    int prev = 0;
-    for (int i = 0; i < basicString.size(); i++) {
-        if (basicString[i] == '\n') {
-            temp = basicString.substr(prev, i - 1);
-            prev = i + 1;
-            rv.getProperties().push_back(pairFromString(temp));
-        }
+    istringstream ss(basicString);
+    for (string line; getline(ss, line);) {
+        rv.getProperties().push_back(pairFromString(line));
     }
     return rv;
 }
@@ -387,7 +375,7 @@ pair<string, vector<double>> HandleIO::pairFromString(const string &vecString) {
     pair<string, vector<double>> rv;
     string temp;
     for (char c: vecString) {
-        if (c == SPACE) {
+        if (c == COMMA) {
             vec.push_back(stod(temp));
             temp.clear();
             continue;
@@ -400,7 +388,7 @@ pair<string, vector<double>> HandleIO::pairFromString(const string &vecString) {
 }
 
 void HandleIO::sendProtocol(int socket, string send_data) {
-    send_data += "\n\r\n\r";
+    send_data += "\n\r";
     string segment;
     const char *data;
     while (send_data.size() > BUFFER_SIZE) {
@@ -438,7 +426,7 @@ bool HandleIO::receiveProtocol(int socket, string &receive_data) {
         }
     }
     receive_data += buffer;
-    receive_data.erase(receive_data.find_last_not_of(" \n\r\t") + 1);
+    receive_data.erase(receive_data.find_last_not_of(LETTERS_AND_NUMBERS) + 1);
     return true;
 }
 

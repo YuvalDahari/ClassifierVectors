@@ -8,8 +8,7 @@ void UploadCommand::execute() {
     startAnswer();
     HandleIO::receiveProtocol(this->client_sock, this->receive_data);
     cout << receive_data << endl;
-    SpecialVector specialVector = HandleIO::createTrainDB(this->receive_data);
-    this->DB.setObjType(specialVector);
+    this->DB.setObjType(HandleIO::createTrainDB(this->receive_data));
     finishFirstAnswer();
     HandleIO::receiveProtocol(this->client_sock, this->receive_data);
     cout << receive_data << endl;
