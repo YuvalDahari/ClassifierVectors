@@ -12,6 +12,7 @@
 #include "Sprites/CLI.h"
 
 #define PORT argv[1]
+#define FIX_LISTEN 5
 
 using namespace std;
 
@@ -40,7 +41,7 @@ int main(int argc, char *argv[]) {
         close(sock);
         return 0;
     }
-    if (listen(sock, 5) < 0) {
+    if (listen(sock, FIX_LISTEN) < 0) {
         perror("Fail defining the listening of the socket");
         close(sock);
         return 0;
