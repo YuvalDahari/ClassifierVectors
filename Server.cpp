@@ -22,9 +22,8 @@ using namespace std;
  * @return int - 0 for success.
  */
 int main(int argc, char *argv[]) {
-    const HandleIO handleIO;
     // arguments checks
-    handleIO.checkServerArguments(argc, argv);
+    HandleIO::checkServerArguments(argc, argv);
 
     const int port = stoi(PORT);
     int sock = socket(AF_INET, SOCK_STREAM, 0);
