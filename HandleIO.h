@@ -37,14 +37,14 @@
 
 // define for all the arguments from the user
 #define FILE_NAME argv[1]
-#define NUM_OF_ARGS 3
+#define NUM_OF_ARGS 2
 #define IP_RANGE 255
 #define MIN_ALG_K_SIZE 5
 #define ALG_SIZE 3
 
 // sockets logics
-#define SERVER_IP argv[1]
-#define CLIENT_PORT argv[2]
+#define SERVER_IP argv[2]
+#define CLIENT_PORT argv[1]
 #define BUFFER_SIZE 4096
 
 // define for the commands

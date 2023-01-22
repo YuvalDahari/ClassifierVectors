@@ -260,7 +260,7 @@ void HandleIO::normalizeDoubleSize(string &number) {
 }
 
 void HandleIO::checkClientArguments(int argc, char *argv[]) const {
-    if (argc != NUM_OF_ARGS) {
+    if (argc != NUM_OF_ARGS + 1) {
         printBye(4);
     }
     checkIP(SERVER_IP);

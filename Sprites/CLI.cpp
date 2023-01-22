@@ -8,6 +8,7 @@ void CLI::start() {
     HandleIO::sendProtocol(this->client_sock, menu);
 
     while (true) {
+        HandleIO::sendProtocol(this->client_sock, menu);
         if (!HandleIO::receiveProtocol(this->client_sock, this->receive_data)) {
             return;
         }

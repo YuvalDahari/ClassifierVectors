@@ -11,8 +11,7 @@
 #include "Sprites/DBCreator.h"
 #include "Classified.h"
 
-#define SERVER_IP argv[1]
-#define S_PORT argv[2]
+#define S_PORT argv[1]
 
 int makeStringFromFile(int &length, string &sendData, const string &fileName, int indicator) {
     int flag;
@@ -168,8 +167,10 @@ int main(int argc, char *argv[]) {
                 }
                 continue;
             case 8:
-            default:
                 HandleIO::sendProtocol(server_sock, send_data);
+                return 0;
+            default:
+                cout << "Invalid input\n"
         }
     }
     return 0;

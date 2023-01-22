@@ -11,7 +11,7 @@
 #include "Classified.h"
 #include "Sprites/CLI.h"
 
-#define PORT argv[2]
+#define PORT argv[1]
 
 using namespace std;
 
@@ -23,7 +23,6 @@ using namespace std;
  */
 int main(int argc, char *argv[]) {
     const HandleIO handleIO;
-
     // arguments checks
     handleIO.checkServerArguments(argc, argv);
 
