@@ -56,7 +56,7 @@ bool HandleIO::validateUserVector(vector<double> &vector, const string &s_number
     return true;
 }
 
-pair<string, vector<double>> HandleIO::pairExtract(string &line, int length) const {
+pair<string, vector<double>> HandleIO::pairExtract(string &line, int length) {
     string number;
     if (line.empty()) {
         printBye(2);
@@ -78,7 +78,7 @@ pair<string, vector<double>> HandleIO::pairExtract(string &line, int length) con
 }
 
 int HandleIO::dataExtract(string &data, vector<double> &pVector, int length, string &algorithm, int &approximation)
-const {
+{
     extractVector(pVector, length, data);
     algorithm = extractAlgorithm(data);
     approximation = extractApproximation(data);
@@ -250,14 +250,14 @@ void HandleIO::checkClientArguments(int argc, char *argv[]) {
         printBye(4);
     }
     checkIP(SERVER_IP);
-    checkPort(CLIENT_PORT);
+    checkPort(PORT);
 }
 
 void HandleIO::checkServerArguments(int argc, char *argv[]) {
     if (argc != NUM_OF_ARGS) {
         printBye(4);
     }
-    checkPort(CLIENT_PORT);
+    checkPort(PORT);
 }
 
 void HandleIO::checkIP(const string &ip) {
@@ -284,7 +284,7 @@ void HandleIO::checkIP(const string &ip) {
 }
 
 void HandleIO::checkPort(const string &port) {
-    //define 65535
+    // define 65535
     int portNum = 0;
     try {
         portNum = stoi(port);
@@ -497,7 +497,9 @@ int HandleIO::checkDBLine(const string &line, int length, int file) {
     for (char c: line) {
         if (c == COMMA) {
             counter++;
-            if (validateFileVector(temp) == -1) return -1;
+            if (validateFileVector(temp) == -1){
+                return -1;
+            }
             temp.clear();
             continue;
         }
@@ -509,10 +511,14 @@ int HandleIO::checkDBLine(const string &line, int length, int file) {
         }
     } else {
         temp = temp.substr(0, temp.size() - 1);
-        if (validateFileVector(temp) == -1) return -1;
+        if (validateFileVector(temp) == -1){
+            return -1;
+        }
         counter++;
     }
-    if (counter != length) return -1;
+    if (counter != length){
+        return -1;
+    }
     return 1;
 }
 

@@ -1,7 +1,7 @@
 #include "UploadCommand.h"
 
 UploadCommand::UploadCommand() {
-    this->description = "1. upload an unclassified csv data file\n";
+    this->description = DESCRIPTION_1;
 }
 
 void UploadCommand::execute() {
@@ -34,7 +34,7 @@ void UploadCommand::finishAnswer(){
 }
 
 void UploadCommand::updateCommands() {
-    ClassifyCommand* pClassifyCommand = (ClassifyCommand*)this->commandsMap.at(3);
+    ClassifyCommand* pClassifyCommand = (ClassifyCommand*)this->commandsMap.at(COMMAND3);
     pClassifyCommand->setUnclassified(this->unclassifiedVectors);
     pClassifyCommand->getClassifier().setDbCreator(this->DB);
 }

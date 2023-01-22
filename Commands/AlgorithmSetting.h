@@ -4,6 +4,9 @@
 #include "Command.h"
 #include "ClassifyCommand.h"
 
+#define DEFAULT_APPROXIMATION 5
+#define DEFAULT_ALGORITHM "AUC"
+
 /**
  * a class which manages the option to set different arguments for classification.
  */

@@ -1,7 +1,7 @@
 #include "DisplayResults.h"
 
 DisplayResults::DisplayResults() {
-    this->description = "4. display results\n";
+    this->description = DESCRIPTION_4;
 }
 
 void DisplayResults::execute() {

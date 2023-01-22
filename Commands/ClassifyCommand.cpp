@@ -1,7 +1,7 @@
 #include "ClassifyCommand.h"
 
 ClassifyCommand::ClassifyCommand() {
-    this->description = "3. classify data\n";
+    this->description = DESCRIPTION_3;
 }
 
 void ClassifyCommand::execute() {
@@ -31,8 +31,8 @@ void ClassifyCommand::finish() {
 }
 
 void ClassifyCommand::updateCommands() {
-    DisplayResults* pDisplayResults = (DisplayResults*)this->commandsMap.at(4);
-    DownloadResults* pDownloadResults = (DownloadResults*)this->commandsMap.at(5);
+    DisplayResults* pDisplayResults = (DisplayResults*)this->commandsMap.at(COMMAND4);
+    DownloadResults* pDownloadResults = (DownloadResults*)this->commandsMap.at(COMMAND5);
     pDisplayResults->setClassified(this->DB);
     pDownloadResults->setClassified(this->DB);
 }

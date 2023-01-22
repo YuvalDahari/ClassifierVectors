@@ -1,9 +1,9 @@
 #include "AlgorithmSetting.h"
 
 AlgorithmSetting::AlgorithmSetting() {
-    this->description = "2. algorithm settings\n";
-    this->approximation = 5;
-    this->algorithm = "AUC";
+    this->description = DESCRIPTION_2;
+    this->approximation = DEFAULT_APPROXIMATION;
+    this->algorithm = DEFAULT_ALGORITHM;
 }
 
 void AlgorithmSetting::execute() {
@@ -24,7 +24,7 @@ void AlgorithmSetting::execute() {
 void AlgorithmSetting::setFields(int index, const string& settings) {
     setApproximation(stoi(settings.substr(0, index + 1)));
     setAlgorithm(settings.substr(index + 2, settings.size()));
-    ClassifyCommand* pClassifyCommand = (ClassifyCommand*)this->commandsMap.at(3);
+    ClassifyCommand* pClassifyCommand = (ClassifyCommand*)this->commandsMap.at(COMMAND3);
     pClassifyCommand->getClassifier().setApproximation(this->approximation);
     pClassifyCommand->getClassifier().setAlgorithm(this->algorithm);
 }

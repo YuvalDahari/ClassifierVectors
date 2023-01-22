@@ -43,7 +43,7 @@
 
 // sockets logics
 #define SERVER_IP argv[2]
-#define CLIENT_PORT argv[1]
+#define PORT argv[1]
 #define BUFFER_SIZE 4096
 
 // define for the commands
@@ -70,7 +70,7 @@ public:
      * @param length (int)
      * @return pair<string,vector<double>> - a pair of the vector and it's name.
      */
-    pair<string, vector<double>> pairExtract(string &line, int length) const;
+    static pair<string, vector<double>> pairExtract(string &line, int length) ;
 
     /**
      * the function checks if the file we got is valid.
@@ -187,7 +187,7 @@ public:
      * @param approximation (approximation)
      * @return int - 1 for success, -1 for failure.
      */
-    int dataExtract(string &data, vector<double> &pVector, int length, string &algorithm, int &approximation) const;
+    static int dataExtract(string &data, vector<double> &pVector, int length, string &algorithm, int &approximation) ;
 
     /**
      * the function convert a string to char*.
