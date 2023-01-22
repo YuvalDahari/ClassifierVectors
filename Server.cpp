@@ -13,6 +13,7 @@
 
 #define PORT argv[1]
 #define FIX_LISTEN 5
+#define FAIL 0
 
 using namespace std;
 
@@ -28,7 +29,7 @@ int main(int argc, char *argv[]) {
 
     const int port = stoi(PORT);
     int sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock < 0) {
+    if (sock < FAIL) {
         perror("Fail creating the socket");
     }
     struct sockaddr_in sin{};
@@ -41,7 +42,7 @@ int main(int argc, char *argv[]) {
         close(sock);
         return 0;
     }
-    if (listen(sock, FIX_LISTEN) < 0) {
+    if (listen(sock, FIX_LISTEN) < FAIL) {
         perror("Fail defining the listening of the socket");
         close(sock);
         return 0;
@@ -52,7 +53,7 @@ int main(int argc, char *argv[]) {
 
     while (true) {
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
-        if (client_sock < 0) {
+        if (client_sock < FAIL) {
             perror("Fail accepting client");
         }
         CLI cli = CLI(client_sock);
