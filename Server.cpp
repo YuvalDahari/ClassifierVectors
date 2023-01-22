@@ -54,7 +54,6 @@ int main(int argc, char *argv[]) {
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
         if (client_sock < 0) {
             perror("Fail accepting client");
-            continue;
         }
         CLI cli = CLI(client_sock);
         cli.start();

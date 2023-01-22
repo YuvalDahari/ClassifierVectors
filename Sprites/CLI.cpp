@@ -2,17 +2,16 @@
 
 void CLI::start() {
     CommandsMap commandsMap;
-    string menu = commandsMap.getDescriptions();
     commandsMap.initialize();
     commandsMap.initializeCommands(this->client_sock);
-    HandleIO::sendProtocol(this->client_sock, menu);
+    string menu = commandsMap.getDescriptions();
 
     while (true) {
         HandleIO::sendProtocol(this->client_sock, menu);
         if (!HandleIO::receiveProtocol(this->client_sock, this->receive_data)) {
             return;
         }
-        int command = HandleIO::checkDemand(this->indicators, this->receive_data, this->client_sock, menu);
+        int command = HandleIO::checkDemand(this->indicators, this->receive_data, this->client_sock);
         switch (command) {
             case 1:
                 commandsMap.getCommands().at(stoi(this->receive_data))->execute();

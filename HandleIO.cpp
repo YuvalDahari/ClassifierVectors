@@ -1,6 +1,6 @@
 #include "HandleIO.h"
 
-double HandleIO::validateFileVector(const string &s) {
+int HandleIO::validateFileVector(const string &s) {
     int pointFlag = 0;
     string str;
     for (char i: s) {
@@ -17,6 +17,7 @@ double HandleIO::validateFileVector(const string &s) {
             str += i;
             pointFlag = OFF;
         } else if (i != '\n') {
+            cout << "IM HERE" << endl;
             return -1;
         }
     }
@@ -25,10 +26,10 @@ double HandleIO::validateFileVector(const string &s) {
     }
     normalizeDoubleSize(str);
     // return a guaranteed double
-    return stod(str);
+    return 0;
 }
 
-bool HandleIO::validateUserVector(vector<double> &vector, const string &s_number) const {
+bool HandleIO::validateUserVector(vector<double> &vector, const string &s_number) {
     int pointFlag = 0;
     string str;
     for (char i: s_number) {
@@ -88,7 +89,7 @@ const {
     return 1;
 }
 
-void HandleIO::extractVector(vector<double> &pVector, int length, string &input) const {
+void HandleIO::extractVector(vector<double> &pVector, int length, string &input) {
     string s_number;
     bool flag;
     unsigned long inputSize = input.size();
@@ -121,43 +122,30 @@ void HandleIO::extractVector(vector<double> &pVector, int length, string &input)
 
 string HandleIO::extractAlgorithm(string &input) {
     unsigned long inputSize = input.size();
+    string algorithm = input;
     // we need to have 3 letters and a space + k which at least 1
-    if (inputSize < MIN_ALG_K_SIZE) {
-        input.clear();
+    if (inputSize != ALG_SIZE) {
         return "invalid";
     }
-    string algorithm = input.substr(0, ALG_SIZE);
-    if (!checkAlgo(algorithm)) {
-        input.clear();
-        return "invalid";
-    }
-    if (input[ALG_SIZE] != SPACE) {
-        input.clear();
+    if (!checkAlgo(input)) {
         return "invalid";
     }
     // why +2? we want to skip the space straight to the k
-    input = input.substr(ALG_SIZE + 1, inputSize);
     return algorithm;
 }
 
 int HandleIO::extractApproximation(string &input) {
-    if (input.empty() || input[0] == '\n') {
+    int rv = 0;
+    try {
+        rv = stoi(input);
+    } catch (exception &e) {
         return 0;
     }
-    string k;
-    for (char i: input) {
-        if (i == '\n') {
-            break;
-        }
-        if (!isdigit(i)) {
-            return 0;
-        }
-        k += i;
-    }
-    return stoi(k);
+    return rv;
 }
 
 int HandleIO::checkFile(string vecFile, int indicator) {
+    cout << vecFile << endl;
     string isCsv;
     unsigned long pointPlace = 0;
     int index = 0;
@@ -181,7 +169,7 @@ int HandleIO::checkFile(string vecFile, int indicator) {
         return -1;
     }
     // check if the file is empty
-    if (indicator == 1) {
+    if (indicator > 0) {
         if (file.peek() == EOF) return -1;
     } else {
         if (file.peek() != EOF) return -1;
@@ -189,7 +177,7 @@ int HandleIO::checkFile(string vecFile, int indicator) {
     return 0;
 }
 
-void HandleIO::printBye(int i) const {
+void HandleIO::printBye(int i) {
     switch (i) {
         case 1:
             cout << "Invalid K\n";
@@ -259,7 +247,7 @@ void HandleIO::normalizeDoubleSize(string &number) {
     }
 }
 
-void HandleIO::checkClientArguments(int argc, char *argv[]) const {
+void HandleIO::checkClientArguments(int argc, char *argv[]){
     if (argc != NUM_OF_ARGS + 1) {
         printBye(4);
     }
@@ -267,14 +255,14 @@ void HandleIO::checkClientArguments(int argc, char *argv[]) const {
     checkPort(CLIENT_PORT);
 }
 
-void HandleIO::checkServerArguments(int argc, char *argv[]) const {
+void HandleIO::checkServerArguments(int argc, char *argv[]) {
     if (argc != NUM_OF_ARGS) {
         printBye(4);
     }
     checkPort(CLIENT_PORT);
 }
 
-void HandleIO::checkIP(const string &ip) const {
+void HandleIO::checkIP(const string &ip) {
     //if its start with .
     int pointsCounter = 0;
     string tempIP;
@@ -297,7 +285,7 @@ void HandleIO::checkIP(const string &ip) const {
     }
 }
 
-void HandleIO::checkPort(const string &port) const {
+void HandleIO::checkPort(const string &port){
     //define 65535
     int portNum = 0;
     try {
@@ -331,14 +319,13 @@ int HandleIO::CheckAlgoK(string &str) {
     if (k != 0) {
         rv++;
     }
-
     i++;
-    str = str.substr(i, str.size());
+    tmp = str.substr(i, str.size() - 1);
     i -= 2;
     if (str.empty()) {
         return rv;
     }
-    string alg = extractAlgorithm(str);
+    string alg = extractAlgorithm(tmp);
     if (alg == "invalid") {
         return rv;
     }
@@ -346,12 +333,15 @@ int HandleIO::CheckAlgoK(string &str) {
 }
 
 vector<vector<double>> HandleIO::createTestVectors(const string &basicString) {
-    vector<vector<double>> rv;
     string temp;
+    temp = basicString.substr(0, basicString.size() - 1);
+    cout << "HEREEE" << endl;
+    cout << temp << endl;
+    vector<vector<double>> rv;
     int prev = 0;
-    for (int i = 0; i < basicString.size(); i++) {
-        if (basicString[i] == '\n') {
-            temp = basicString.substr(prev, i - 1);
+    for (int i = 0; i < temp.size(); i++) {
+        if (temp[i] == '\n') {
+            temp = temp.substr(prev, i - 1);
             rv.push_back(vectorFromString(temp));
             prev = i + 1;
         }
@@ -363,7 +353,7 @@ vector<double> HandleIO::vectorFromString(const string &vecString) {
     vector<double> vec;
     string temp;
     for (char c: vecString) {
-        if (c == SPACE) {
+        if (c == COMMA) {
             vec.push_back(stod(temp));
             temp.clear();
             continue;
@@ -445,54 +435,55 @@ bool HandleIO::receiveProtocol(int socket, string &receive_data) {
         }
     }
     receive_data += buffer;
+    receive_data = receive_data.substr(0, receive_data.size() - 4);
     return true;
 }
 
-int HandleIO::checkDemand(bool *array, string toCheck, int socket, const string &menu) {
+int HandleIO::checkDemand(bool (&array)[5], string toCheck, int socket) {
     if (toCheck.empty() or toCheck.size() > 1) {
-        sendProtocol(socket, "invalid input\n" + menu);
+        sendProtocol(socket, "invalid input");
         return OFF;
     }
     char condition = toCheck[0];
     switch (condition) {
-        case 1:
+        case '1':
             array[COMMAND_1] = true;
             return ON;
-        case 2:
+        case '2':
             return ON;
-        case 3:
+        case '3':
             if (!array[COMMAND_1]) {
-                sendProtocol(socket, "please upload data\n" + menu);
+                sendProtocol(socket, "please upload data");
                 return OFF;
             }
             array[COMMAND_3] = true;
             return ON;
-        case 4:
+        case '4':
             if (!array[COMMAND_1]) {
-                sendProtocol(socket, "please upload data\n" + menu);
+                sendProtocol(socket, "please upload data");
                 return OFF;
             }
             if (!array[COMMAND_3]) {
-                sendProtocol(socket, "please classify the data\n" + menu);
+                sendProtocol(socket, "please classify the data");
                 return OFF;
             }
             array[COMMAND_4] = true;
             return ON;
-        case 5:
+        case '5':
             if (!array[COMMAND_1]) {
-                sendProtocol(socket, "please upload data\n" + menu);
+                sendProtocol(socket, "please upload data");
                 return OFF;
             }
             if (!array[COMMAND_3]) {
-                sendProtocol(socket, "please classify the data\n" + menu);
+                sendProtocol(socket, "please classify the data");
                 return OFF;
             }
             array[COMMAND_5] = true;
             return ON;
-        case 8:
+        case '8':
             return -1;
         default:
-            sendProtocol(socket, "invalid input\n" + menu);
+            sendProtocol(socket, "invalid input");
             return 0;
     }
 }
@@ -500,8 +491,7 @@ int HandleIO::checkDemand(bool *array, string toCheck, int socket, const string 
 int HandleIO::extractChoice(const string &choice) {
     int rv;
     try {
-        rv = stoi(choice);
-        return rv;
+        return stoi(choice);
     } catch (exception &e) {
         return -1;
     }
@@ -527,6 +517,7 @@ int HandleIO::checkDBLine(const string &line, int length, int file) {
             return -1;
         }
     } else {
+        temp = temp.substr(0, temp.size() - 1);
         if (validateFileVector(temp) == -1) return -1;
         counter++;
     }

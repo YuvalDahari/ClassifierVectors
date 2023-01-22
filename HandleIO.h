@@ -31,15 +31,14 @@
 #define ON 1
 #define OFF 0
 #define ALGO_ARRAY {"AUC", "MAN", "CHB", "CAN", "MIN"}
-#define INVALID_ALGORITHM (-1)
-#define INVALID_APPROXIMATION (-2)
+#define INVALID_APPROXIMATION (-1)
+#define INVALID_ALGORITHM (-2)
 #define INVALID_PARAMETERS (-3)
 
 // define for all the arguments from the user
 #define FILE_NAME argv[1]
 #define NUM_OF_ARGS 2
 #define IP_RANGE 255
-#define MIN_ALG_K_SIZE 5
 #define ALG_SIZE 3
 
 // sockets logics
@@ -92,14 +91,14 @@ public:
      * the function prints an exit massage and close the program.
      * we call this function while we have invalid input.
      */
-    void printBye(int i) const;
+    static void printBye(int i);
 
     /**
      * the function checks the input from the user.
      * @param pVector (vector<double>)
      * @param length (int)
      */
-    void extractVector(vector<double> &pVector, int length, string &input) const;
+    static void extractVector(vector<double> &pVector, int length, string &input) ;
 
     /**
      * the function checks if the algorithm given is a valid one.
@@ -113,7 +112,7 @@ public:
      * @param line (string)
      * @return double - a valid double.
      */
-    static double validateFileVector(const string &line);
+    static int validateFileVector(const string &line);
 
     /**
      * the function checks the user vector.
@@ -121,7 +120,7 @@ public:
      * @param s_number (string)
      * @return bool - if the input is valid.
      */
-    bool validateUserVector(vector<double> &vector, const string &s_number) const;
+    static bool validateUserVector(vector<double> &vector, const string &s_number) ;
 
     /**
      * the function checks the following cases in the process of validating a string as a double:
@@ -142,26 +141,26 @@ public:
      * @param argc (int)
      * @param argv (char**)
      */
-    void checkClientArguments(int argc, char *argv[]) const;
+    static void checkClientArguments(int argc, char *argv[]);
 
     /**
      * the function checks the validation of ip address.
      * @param ip (string)
      */
-    void checkIP(const string &ip) const;
+    static void checkIP(const string &ip);
 
     /**
      * the function checks the validation of port address.
      * @param port (string)
      */
-    void checkPort(const string &port) const;
+    static void checkPort(const string &port);
 
     /**
      * the function checks the validation of the arguments the server gets.
      * @param argc (int)
      * @param argv (char**)
      */
-    void checkServerArguments(int argc, char **argv) const;
+    static void checkServerArguments(int argc, char **argv) ;
 
     /**
      * the function extract the algorithm from a string.
@@ -251,7 +250,7 @@ public:
      * @param socket (int)
      * @return rv - an indicator if the demand id valid.
      */
-    static int checkDemand(bool *array, string toCheck, int socket, const string& menu);
+    static int checkDemand(bool (&array)[5], string toCheck, int socket);
 
     static int extractChoice(const string& choice);
 

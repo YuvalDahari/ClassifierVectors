@@ -9,7 +9,7 @@ AlgorithmSetting::AlgorithmSetting() {
 void AlgorithmSetting::execute() {
     currentValues();
     HandleIO::receiveProtocol(this->client_sock, this->receive_data);
-    if (this->receive_data == "\n") {
+    if (this->receive_data.empty()) {
         // the user doesn't want to change a thing.
         return;
     }
@@ -18,13 +18,11 @@ void AlgorithmSetting::execute() {
         invalidInput(index);
     } else {
         setFields(index, this->receive_data);
-        this->send_data = getMenu();
-        HandleIO::sendProtocol(this->client_sock, this->send_data);
     }
 }
 
 void AlgorithmSetting::setFields(int index, const string& settings) {
-    setApproximation(stoi(settings.substr(0, index)));
+    setApproximation(stoi(settings.substr(0, index + 1)));
     setAlgorithm(settings.substr(index + 2, settings.size()));
     ClassifyCommand* pClassifyCommand = (ClassifyCommand*)this->commandsMap.at(3);
     pClassifyCommand->getClassifier().setApproximation(this->approximation);
@@ -48,15 +46,15 @@ void AlgorithmSetting::currentValues() {
 void AlgorithmSetting::invalidInput(int indicator) {
     switch (indicator) {
         case INVALID_PARAMETERS:
-            this->send_data = "invalid value for K\ninvalid value for metric\n" + this->getMenu();
+            this->send_data = "invalid value for K\ninvalid value for metric";
             HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         case INVALID_APPROXIMATION:
-            this->send_data = "invalid value for K\n" + this->getMenu();
+            this->send_data = "invalid value for K";
             HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         case INVALID_ALGORITHM:
-            this->send_data = "invalid value for metric\n" + this->getMenu();
+            this->send_data = "invalid value for metric";
             HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         default:

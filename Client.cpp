@@ -15,24 +15,27 @@
 
 int makeStringFromFile(int &length, string &sendData, const string &fileName, int indicator) {
     int flag;
-    if (HandleIO::checkFile(fileName, 1) == -1) {
+    if (HandleIO::checkFile(fileName, indicator) == -1) {
         return -1;
     }
     ifstream file(fileName);
     string line;
     getline(file, line);
-    length = HandleIO::lengthExtract(line);
+    if (indicator == 1) {
+        length = HandleIO::lengthExtract(line);
+    }
     sendData = to_string(length) + "\n";
     do {
         flag = HandleIO::checkDBLine(line, length, indicator);
         sendData += line + "\n";
     } while (getline(file, line) and flag != -1);
     sendData += "\r\n\r";
+    file.close();
     return flag;
 }
 
-int writeToFile(const string& receiveData, const string &fileName) {
-    if (HandleIO::checkFile(fileName, 2) == -1) {
+int writeToFile(const string &receiveData, const string &fileName) {
+    if (HandleIO::checkFile(fileName, -1) == -1) {
         return -1;
     }
     ofstream file(fileName);
@@ -70,13 +73,11 @@ int main(int argc, char *argv[]) {
     int index;
 
 
-
-    const HandleIO handleIO;
     string send_data;
     string receive_data;
 
     // arguments checks
-    handleIO.checkClientArguments(argc, argv);
+    HandleIO::checkClientArguments(argc, argv);
 
     const char *ip_address = SERVER_IP;
     const int port = stoi(S_PORT);
@@ -94,11 +95,9 @@ int main(int argc, char *argv[]) {
         close(server_sock);
         return 0;
     }
-
-
+    HandleIO::receiveProtocol(server_sock, receive_data);
+    cout << receive_data;
     while (true) {
-        HandleIO::receiveProtocol(server_sock, receive_data);
-        cout << receive_data;
         getline(cin, send_data);
         int choice = HandleIO::extractChoice(send_data);
         switch (choice) {
@@ -111,6 +110,7 @@ int main(int argc, char *argv[]) {
                 while (flag == -1) {
                     send_data = "invalid file\nWrite a new path\n";
                     cout << send_data;
+                    getline(cin, fileName);
                     flag = makeStringFromFile(length, send_data, fileName, 1);
                 }
                 HandleIO::sendProtocol(server_sock, send_data);
@@ -122,6 +122,7 @@ int main(int argc, char *argv[]) {
                 while (flag == -1) {
                     send_data = "invalid file\nWrite a new path\n";
                     cout << send_data;
+                    getline(cin, fileName);
                     flag = makeStringFromFile(length, send_data, fileName, 2);
                 }
                 HandleIO::sendProtocol(server_sock, send_data);
@@ -145,24 +146,31 @@ int main(int argc, char *argv[]) {
             case 4:
                 HandleIO::sendProtocol(server_sock, send_data);
                 HandleIO::receiveProtocol(server_sock, receive_data);
+                if (receive_data.find("please upload data") != string::npos ||
+                receive_data.find("please classify the data") != string::npos) {
+                    cout << receive_data;
+                    continue;
+                }
                 index = receive_data.find("Welcome");
-                menu = receive_data.substr(index, receive_data.length()- 4);
                 receive_data = receive_data.substr(0, index - 1);
                 cout << receive_data;
-                getline(cin, fileName);
-                cout << menu;
                 continue;
             case 5:
                 HandleIO::sendProtocol(server_sock, send_data);
                 HandleIO::receiveProtocol(server_sock, receive_data);
+                if (receive_data.find("please upload data") != string::npos ||
+                    receive_data.find("please classify the data") != string::npos) {
+                    cout << receive_data;
+                    continue;
+                }
                 index = receive_data.find("Welcome");
-                menu = receive_data.substr(index, receive_data.length()- 4);
                 receive_data = receive_data.substr(0, index - 1);
                 getline(cin, fileName);
                 flag = writeToFile(receive_data, fileName);
                 while (flag == -1) {
                     send_data = "invalid file\nWrite a new path\n";
                     cout << send_data;
+                    getline(cin, fileName);
                     flag = writeToFile(receive_data, fileName);
                 }
                 continue;
@@ -170,7 +178,7 @@ int main(int argc, char *argv[]) {
                 HandleIO::sendProtocol(server_sock, send_data);
                 return 0;
             default:
-                cout << "Invalid input\n"
+                cout << "invalid input\n";
         }
     }
     return 0;

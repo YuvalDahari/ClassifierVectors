@@ -1,7 +1,7 @@
 #include "UploadCommand.h"
 
 UploadCommand::UploadCommand() {
-    this->description = "1. upload an unclassifiedVectors csv data file\n";
+    this->description = "1. upload an unclassified csv data file\n";
 }
 
 void UploadCommand::execute() {
@@ -28,7 +28,7 @@ void UploadCommand::finishFirstAnswer(){
 }
 
 void UploadCommand::finishAnswer(){
-    this->send_data = "Upload Complete.\n" + this->getMenu();
+    this->send_data = "Upload Complete.";
     HandleIO::sendProtocol(this->client_sock, this->send_data);
 }
 
