@@ -80,7 +80,7 @@ bool Client::isMissData(int &server_sock, string &send_data, string &receive_dat
 bool Client::createEmptyFile(const string &directory, const string &fileName) {
     string fullPath = directory + "/" + fileName;
     ifstream file(fullPath);
-    if (file.good()) {
+    if (!file.good()) {
         ofstream new_file(fullPath);
         if(new_file.is_open()) {
             new_file.close();
@@ -171,7 +171,8 @@ int main(int argc, char *argv[]) {
                 cout << "Please write a path name to create a new file there.\n";
                 getline(cin, dirName);
                 if(Client::createEmptyFile(dirName, fileName)) {
-                    Client::writeToFile(receive_data, dirName);
+                    string temp =  dirName += "/" + fileName;
+                    Client::writeToFile(receive_data, temp);
                 }
                 i++;
                 fileName = "file_num_" + to_string(i) + ".csv";
