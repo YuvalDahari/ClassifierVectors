@@ -17,6 +17,8 @@ private:
 public:
     Classified();
 
+    Classified(int approximation, const DBCreator &db, const string &algorithm);
+
     /**
      * the function sets a new approximation.
      * @param defineApproximation (int)

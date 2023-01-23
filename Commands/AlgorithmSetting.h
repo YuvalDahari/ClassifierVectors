@@ -50,6 +50,10 @@ public:
      * default destructor.
      */
     ~AlgorithmSetting() override;
+
+    int getApproximation() const;
+
+    const string &getAlgorithm() const;
 };
 
 #endif

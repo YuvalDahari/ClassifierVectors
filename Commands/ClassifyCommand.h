@@ -32,6 +32,10 @@ public:
     ~ClassifyCommand() override;
 
     void finish();
+
+    void setClassifier(const Classified &classifier);
+
+    void setDb(const DBCreator &db);
 };
 
 #endif

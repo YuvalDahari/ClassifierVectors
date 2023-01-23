@@ -17,7 +17,7 @@ class Client {
 public:
     static int makeStringFromFile(int &length, string &sendData, const string &fileName, int indicator);
 
-    static int writeToFile(const string &receiveData, const string &fileName);
+    static void writeToFile(const string &receiveData, const string &fileName);
 
     static void InputOutput(int &server_sock, string &send_data, string &receive_data);
 
@@ -25,6 +25,8 @@ public:
                       int &length, int indicator);
 
     static bool isMissData(int &server_sock, string &send_data, string &receive_data, unsigned long &index);
+
+    static bool createEmptyFile(const string &fileName);
 };
 
 #endif

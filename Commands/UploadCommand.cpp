@@ -1,17 +1,16 @@
 #include "UploadCommand.h"
 
 UploadCommand::UploadCommand() {
-    this->description = "1. upload an unclassified csv data file\n";
+    this->description = "Welcome to the KNN Classifier Server. Please choose an option:\n1."
+                        " upload an unclassified csv data file\n";
 }
 
 void UploadCommand::execute() {
     startAnswer();
     HandleIO::receiveProtocol(this->client_sock, this->receive_data);
-    cout << receive_data << endl;
     this->DB.setObjType(HandleIO::createTrainDB(this->receive_data));
     finishFirstAnswer();
     HandleIO::receiveProtocol(this->client_sock, this->receive_data);
-    cout << receive_data << endl;
     this->unclassifiedVectors = HandleIO::createTestVectors(this->receive_data);
     updateCommands();
     finishAnswer();
@@ -35,8 +34,11 @@ void UploadCommand::finishAnswer(){
 
 void UploadCommand::updateCommands() {
     ClassifyCommand* pClassifyCommand = (ClassifyCommand*)this->commandsMap.at(COMMAND3);
+    AlgorithmSetting* pSettingCommand = (AlgorithmSetting*)this->commandsMap.at(2);
+    Classified c = Classified(pSettingCommand->getApproximation(), this->DB, pSettingCommand->getAlgorithm());
+    pClassifyCommand->setClassifier(c);
+    pClassifyCommand->setDb(DBCreator());
     pClassifyCommand->setUnclassified(this->unclassifiedVectors);
-    pClassifyCommand->getClassifier().setDbCreator(this->DB);
 }
 
 UploadCommand::~UploadCommand() = default;

@@ -367,20 +367,20 @@ void HandleIO::sendProtocol(int socket, string send_data) {
 }
 
 bool HandleIO::receiveProtocol(int socket, string &receive_data) {
+    int flag = 0;
     char buffer[BUFFER_SIZE] = {};
     for (char & i : buffer) {
         i = '\0';
     }
-    receive_data = "";
-    int expected_data_len = sizeof(buffer);
-    long read_bytes = recv(socket, buffer, expected_data_len, 0);
+    receive_data.clear();
+    long read_bytes = recv(socket, buffer, sizeof(buffer), 0);
     while (read_bytes == BUFFER_SIZE && buffer[BUFFER_SIZE - 1] != '\r') {
-        unsigned long length = strlen(buffer);
+        flag = 1;
         receive_data += buffer;
         for (char & i : buffer) {
             i = '\0';
         }
-        read_bytes = recv(socket, buffer, expected_data_len, 0);
+        read_bytes = recv(socket, buffer, sizeof(buffer), 0);
         if (read_bytes < 0) {
             perror("Fail reading data");
             close(socket);
@@ -389,6 +389,9 @@ bool HandleIO::receiveProtocol(int socket, string &receive_data) {
     }
     receive_data += buffer;
     receive_data.erase(receive_data.find_last_not_of(LETTERS_AND_NUMBERS) + 1);
+    if (flag == 1) {
+        removeLastLine(receive_data);
+    }
     return true;
 }
 
@@ -484,5 +487,11 @@ int HandleIO::checkDBLine(const string &line, int length, int file) {
     return 1;
 }
 
+void HandleIO::removeLastLine(string & data) {
+    size_t secondLastNewlinePos = data.rfind('\n', data.rfind('\n') - 1);
+    if (secondLastNewlinePos != std::string::npos) {
+        data.erase(secondLastNewlinePos);
+    }
+}
 
 

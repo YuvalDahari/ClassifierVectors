@@ -5,6 +5,7 @@
 #include "../Sprites/DBCreator.h"
 #include "../Classified.h"
 #include "ClassifyCommand.h"
+#include "AlgorithmSetting.h"
 
 class UploadCommand : public Command{
 private:

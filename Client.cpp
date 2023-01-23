@@ -20,20 +20,17 @@ int Client::makeStringFromFile(int &length, string &sendData, const string &file
         flag = HandleIO::checkDBLine(line, length, indicator);
         sendData += line + "\n";
     } while (getline(file, line) and flag != -1);
+    sendData += "\r";
     file.close();
     return flag;
 }
 
-int Client::writeToFile(const string &receiveData, const string &fileName) {
-    if (HandleIO::checkFile(fileName, -1) == -1) {
-        return -1;
-    }
+void Client::writeToFile(const string &receiveData, const string &fileName) {
     ofstream file(fileName);
-
     // use a 'stringstream' to parse the input string
     stringstream ss(receiveData);
     string line;
-    while (std::getline(ss, line, '\n')) {
+    while (getline(ss, line, '\n')) {
         // use another 'stringstream' to parse the line and extract the number and word
         stringstream lineStream(line);
         string number, word;
@@ -41,10 +38,9 @@ int Client::writeToFile(const string &receiveData, const string &fileName) {
         getline(lineStream, word, ',');
 
         // write the number and word to the CSV file
-        file << number << "," << word << std::endl;
+        file << number << "," << word << endl;
     }
     file.close();
-    return 1;
 }
 
 void Client::InputOutput(int &server_sock, string &send_data, string &receive_data) {
@@ -59,7 +55,7 @@ void Client::Case1(int &server_sock, string &send_data, string &receive_data, st
     getline(cin, fileName);
     flag = makeStringFromFile(length, send_data, fileName, indicator);
     while (flag == -1) {
-        send_data = "invalid file\nWrite a new path\n";
+        send_data = "invalid file\nWrite a new path";
         cout << send_data << endl;
         send_data.clear();
         getline(cin, fileName);
@@ -76,8 +72,27 @@ bool Client::isMissData(int &server_sock, string &send_data, string &receive_dat
         return true;
     }
     index = receive_data.find("Welcome");
+    send_data = receive_data.substr(index, receive_data.size());
     receive_data = receive_data.substr(0, index - 1);
     return false;
+}
+
+bool Client::createEmptyFile(const string &fileName) {
+    ifstream file(fileName, ios::in);
+    if (!file.good()) {
+        ofstream new_file(fileName);
+        if (new_file.is_open()) {
+
+            new_file.close();
+        } else {
+            cerr << "Failed to create file: " << fileName << endl;
+            return false;
+        }
+    } else {
+        cerr << "File Already Exist: " << fileName << endl;
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -134,25 +149,24 @@ int main(int argc, char *argv[]) {
                 continue;
             case 3:
                 Client::InputOutput(server_sock, send_data, receive_data);
-                getline(cin, send_data);
                 continue;
             case 4:
                 if (Client::isMissData(server_sock, send_data, receive_data, index)) {
                     continue;
                 }
-                cout << receive_data << endl;
+                cout << receive_data;
+                getline(cin, receive_data);
+                cout << send_data << endl;
                 continue;
             case 5:
                 if (Client::isMissData(server_sock, send_data, receive_data, index)) {
                     continue;
                 }
+                //todo: a path to the file.
+                cout << "Please write a path name to create a new file there.\n";
                 getline(cin, fileName);
-                flag = Client::writeToFile(receive_data, fileName);
-                while (flag == -1) {
-                    send_data = "invalid file\nWrite a new path\n";
-                    cout << send_data << endl;
-                    getline(cin, fileName);
-                    flag = Client::writeToFile(receive_data, fileName);
+                if(Client::createEmptyFile(fileName)) {
+                    Client::writeToFile(receive_data, fileName);
                 }
                 continue;
             case 8:

@@ -37,6 +37,14 @@ void AlgorithmSetting::setAlgorithm(string algo) {
     AlgorithmSetting::algorithm = std::move(algo);
 }
 
+int AlgorithmSetting::getApproximation() const {
+    return approximation;
+}
+
+const string &AlgorithmSetting::getAlgorithm() const {
+    return algorithm;
+}
+
 void AlgorithmSetting::currentValues() {
     AlgorithmSetting::send_data = "The current KNN parameters are: K = " + to_string(this->approximation) +
                                   ", distance metric = " + this->algorithm + "\n";

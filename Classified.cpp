@@ -1,6 +1,6 @@
 #include "Classified.h"
 
-void Classified::setApproximation(int defineApproximation){
+void Classified::setApproximation(int defineApproximation) {
     Classified::approximation = defineApproximation;
 }
 
@@ -12,11 +12,17 @@ void Classified::setDbCreator(const DBCreator &dbCreator) {
     Classified::db = dbCreator;
 }
 
+Classified::Classified(int approximation, const DBCreator &db, const string &algorithm) {
+    this->approximation = approximation;
+    this->db = db;
+    this->algorithm = algorithm;
+}
+
 string Classified::findDistances(const vector<double> &v) {
     string type;
     const AlgoMap algoMap;
-    map<string, Algo*> algorithms = algoMap.getAlgorithms();
-    Algo* algo = algorithms.at(this->algorithm);
+    map<string, Algo *> algorithms = algoMap.getAlgorithms();
+    Algo *algo = algorithms.at(this->algorithm);
     vector<pair<string, double>> distances;
     vector<pair<string, vector<double>>> properties = this->db.getObjType().getProperties();
     unsigned long size = properties.size();
@@ -50,7 +56,7 @@ string Classified::identify(const vector<pair<string, double>> &distances) {
             map[pair.first] = 0;
         }
     }
-    vector<pair<string, int>>
+    vector<pair < string, int>>
     values(map.begin(), map.end());
     make_heap(values.begin(), values.end(),
               [](const pair<string, double> &pair1, const pair<string, double> &pair2)

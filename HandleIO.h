@@ -237,6 +237,8 @@ public:
     static int extractChoice(const string &choice);
 
     static int checkDBLine(const string &line, int length, int file);
+
+    static void removeLastLine(string &data);
 };
 
 #endif
