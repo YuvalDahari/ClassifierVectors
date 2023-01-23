@@ -26,8 +26,16 @@ void AlgorithmSetting::execute() {
 }
 
 void AlgorithmSetting::setFields(int index, const string& settings) {
-    setApproximation(stoi(settings.substr(0, index + 1)));
-    setAlgorithm(settings.substr(index + 2, settings.size() - 1));
+    int kFlag = 0;
+    string string1 = settings.substr(0, index + 1);
+    string string2 = settings.substr(index + 2, settings.size() - 1);
+    if (HandleIO::extractApproximation(string1) < 0) {
+        setApproximation(stoi(string2));
+        setAlgorithm(string1);
+    } else {
+        setApproximation(stoi(string1));
+        setAlgorithm(string2);
+    }
     ClassifyCommand* pClassifyCommand = (ClassifyCommand*)this->commandsMap.at(COMMAND3);
     pClassifyCommand->getClassifier().setApproximation(this->approximation);
     pClassifyCommand->getClassifier().setAlgorithm(this->algorithm);

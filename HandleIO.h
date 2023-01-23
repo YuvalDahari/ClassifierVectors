@@ -160,7 +160,7 @@ public:
      * @param input (string)
      * @return string - the algorithm key (if it's valid).
      */
-    static string extractAlgorithm(string &input);
+    static int extractAlgorithm(string &input);
 
     /**
      * the function extract the approximation from a string.

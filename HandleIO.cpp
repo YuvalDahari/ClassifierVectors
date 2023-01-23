@@ -78,28 +78,30 @@ pair<string, vector<double>> HandleIO::pairExtract(string &line, unsigned long l
 }
 
 
-string HandleIO::extractAlgorithm(string &input) {
+int HandleIO::extractAlgorithm(string &input) {
     unsigned long inputSize = input.size();
-    string algorithm = input;
     // we need to have 3 letters and a space + k which at least 1
     if (inputSize != ALG_SIZE) {
-        return "invalid";
+        return -2;
     }
     if (!checkAlgo(input)) {
-        return "invalid";
+        return -2;
     }
     // why +2? we want to skip the space straight to the k
-    return algorithm;
+    return 0;
 }
 
 int HandleIO::extractApproximation(string &input) {
-    int rv = 0;
+    int rv;
     try {
         rv = stoi(input);
     } catch (exception &e) {
-        return 0;
+        return -1;
     }
-    return rv;
+    if (rv <= 0) {
+        return -1;
+    }
+    return 0;
 }
 
 int HandleIO::checkFile(string vecFile, int indicator) {
@@ -260,42 +262,36 @@ char *HandleIO::convertStringToArray(const string &input) {
 }
 
 int HandleIO::CheckAlgoK(string &str) {
-    int kFlag = 0;
-    int algFlag = 0;
+    string kString;
+    string algString;
+    int kFlag;
+    int algFlag;
     int rv = INVALID_PARAMETERS;
     int i = 0;
-    if (str.empty()) {
-        return rv;
-    }
-    string tmp;
     for (; i < str.length(); i++) {
         if (str[i] == SPACE) {
             break;
         }
-        tmp += str[i];
+        kString += str[i];
     }
-    int k = extractApproximation(tmp);
-    if (k <= 0) {
-        kFlag = -1;
-    }
-    if (str.length() - i < 3) {
-        return -2 + kFlag;
-    }
-    // i was space, we ++ it to be the first letter og the algorithm.
+    rv = i;
     i++;
-    tmp = str.substr(i, str.size() - 1);
-    i-=2;
-    if (str.empty()) {
-        return rv;
+    for (; i < str.length(); i++) {
+        if (str[i] == SPACE) {
+            break;
+        }
+        algString += str[i];
     }
-    string alg = extractAlgorithm(tmp);
-    if (alg == "invalid") {
-        algFlag = -2;
+    if (rv == str.length()) {
+        algString = kString;
+        return extractApproximation(kString) + extractAlgorithm(algString);
     }
-    if (algFlag + kFlag < 0) {
-        return algFlag + kFlag;
+    kFlag = max(extractApproximation(kString), extractApproximation(algString));
+    algFlag = max(extractAlgorithm(algString), extractAlgorithm(kString));
+    if (kFlag < 0 || algFlag < 0) {
+        return kFlag + algFlag;
     }
-    return i;
+    return rv - 1;
 }
 
 vector<vector<double>> HandleIO::createTestVectors(const string &basicString) {
