@@ -278,9 +278,10 @@ int HandleIO::CheckAlgoK(string &str) {
     if (k <= 0) {
         kFlag = -1;
     }
+    // i was space, we ++ it to be the first letter og the algorithm.
     i++;
     tmp = str.substr(i, str.size() - 1);
-    i -= 2;
+    i-=2;
     if (str.empty()) {
         return rv;
     }
@@ -288,7 +289,7 @@ int HandleIO::CheckAlgoK(string &str) {
     if (alg == "invalid") {
         algFlag = -2;
     }
-    if (algFlag + kFlag < 2) {
+    if (algFlag + kFlag < 0) {
         return algFlag + kFlag;
     }
     return i;
@@ -395,7 +396,7 @@ bool HandleIO::receiveProtocol(int socket, string &receive_data) {
     return true;
 }
 
-int HandleIO::checkDemand(bool (&array)[5], string toCheck, int socket) {
+int HandleIO::checkDemand(bool (&array)[5], string toCheck, int socket, string menu) {
     if (toCheck.empty() or toCheck.size() > 1) {
         sendProtocol(socket, "invalid input");
         return OFF;
@@ -409,29 +410,29 @@ int HandleIO::checkDemand(bool (&array)[5], string toCheck, int socket) {
             return ON;
         case '3':
             if (!array[COMMAND_1]) {
-                sendProtocol(socket, "please upload data");
+                sendProtocol(socket, "please upload data\n" + menu);
                 return OFF;
             }
             array[COMMAND_3] = true;
             return ON;
         case '4':
             if (!array[COMMAND_1]) {
-                sendProtocol(socket, "please upload data");
+                sendProtocol(socket, "please upload data\n" + menu);
                 return OFF;
             }
             if (!array[COMMAND_3]) {
-                sendProtocol(socket, "please classify the data");
+                sendProtocol(socket, "please classify the data\n" + menu);
                 return OFF;
             }
             array[COMMAND_4] = true;
             return ON;
         case '5':
             if (!array[COMMAND_1]) {
-                sendProtocol(socket, "please upload data");
+                sendProtocol(socket, "please upload data\n" + menu);
                 return OFF;
             }
             if (!array[COMMAND_3]) {
-                sendProtocol(socket, "please classify the data");
+                sendProtocol(socket, "please classify the data\n" + menu);
                 return OFF;
             }
             array[COMMAND_5] = true;
@@ -439,13 +440,12 @@ int HandleIO::checkDemand(bool (&array)[5], string toCheck, int socket) {
         case '8':
             return -1;
         default:
-            sendProtocol(socket, "invalid input");
+            sendProtocol(socket, "invalid input\n" + menu);
             return 0;
     }
 }
 
 int HandleIO::extractChoice(const string &choice) {
-    int rv;
     try {
         return stoi(choice);
     } catch (exception &e) {

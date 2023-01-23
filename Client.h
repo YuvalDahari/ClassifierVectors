@@ -26,7 +26,7 @@ public:
 
     static bool isMissData(int &server_sock, string &send_data, string &receive_data, unsigned long &index);
 
-    static bool createEmptyFile(const string &fileName);
+    static bool createEmptyFile(const string &directory, const string &fileName);
 };
 
 #endif

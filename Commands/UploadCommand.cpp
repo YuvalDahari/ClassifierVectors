@@ -28,7 +28,7 @@ void UploadCommand::finishFirstAnswer(){
 }
 
 void UploadCommand::finishAnswer(){
-    this->send_data = "Upload Complete.";
+    this->send_data = "Upload Complete.\n" + this->getMenu();
     HandleIO::sendProtocol(this->client_sock, this->send_data);
 }
 

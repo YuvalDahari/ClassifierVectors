@@ -46,7 +46,7 @@ void Client::writeToFile(const string &receiveData, const string &fileName) {
 void Client::InputOutput(int &server_sock, string &send_data, string &receive_data) {
     HandleIO::sendProtocol(server_sock, send_data);
     HandleIO::receiveProtocol(server_sock, receive_data);
-    cout << receive_data << "\n";
+    cout << receive_data << endl;
 }
 
 void Client::Case1(int &server_sock, string &send_data, string &receive_data, string &fileName, int &flag, int &length,
@@ -73,23 +73,24 @@ bool Client::isMissData(int &server_sock, string &send_data, string &receive_dat
     }
     index = receive_data.find("Welcome");
     send_data = receive_data.substr(index, receive_data.size());
-    receive_data = receive_data.substr(0, index - 1);
+    receive_data = receive_data.substr(0, index);
     return false;
 }
 
-bool Client::createEmptyFile(const string &fileName) {
-    ifstream file(fileName, ios::in);
-    if (!file.good()) {
-        ofstream new_file(fileName);
-        if (new_file.is_open()) {
-
+bool Client::createEmptyFile(const string &directory, const string &fileName) {
+    string fullPath = directory + "/" + fileName;
+    ifstream file(fullPath);
+    if (file.good()) {
+        ofstream new_file(fullPath);
+        if(new_file.is_open()) {
             new_file.close();
-        } else {
-            cerr << "Failed to create file: " << fileName << endl;
+        }
+        else {
+            cerr << "Failed to create file: " << fullPath << endl;
             return false;
         }
     } else {
-        cerr << "File Already Exist: " << fileName << endl;
+        cerr << "File Already Exist: " << fullPath << endl;
         return false;
     }
     return true;
@@ -102,9 +103,11 @@ bool Client::createEmptyFile(const string &fileName) {
  * @return int - 0 for success.
  */
 int main(int argc, char *argv[]) {
+    int i = 1;
+    string fileName = "file_num_" + to_string(i) + ".csv";
     // cases vars:
     int length;
-    string fileName;
+    string dirName;
     int flag;
     string menu;
     unsigned long index;
@@ -138,13 +141,16 @@ int main(int argc, char *argv[]) {
         int choice = HandleIO::extractChoice(send_data);
         switch (choice) {
             case 1:
-                Client::Case1(server_sock, send_data, receive_data, fileName, flag, length, 1);
-                Client::Case1(server_sock, send_data, receive_data, fileName, flag, length, 2);
+                Client::Case1(server_sock, send_data, receive_data, dirName, flag, length, 1);
+                Client::Case1(server_sock, send_data, receive_data, dirName, flag, length, 2);
                 Client::InputOutput(server_sock, send_data, receive_data);
                 continue;
             case 2:
                 Client::InputOutput(server_sock, send_data, receive_data);
                 getline(cin, send_data);
+                if (send_data.empty()) {
+                    send_data = "-1";
+                }
                 Client::InputOutput(server_sock, send_data, receive_data);
                 continue;
             case 3:
@@ -154,7 +160,7 @@ int main(int argc, char *argv[]) {
                 if (Client::isMissData(server_sock, send_data, receive_data, index)) {
                     continue;
                 }
-                cout << receive_data;
+                cout << receive_data << endl;
                 getline(cin, receive_data);
                 cout << send_data << endl;
                 continue;
@@ -162,12 +168,14 @@ int main(int argc, char *argv[]) {
                 if (Client::isMissData(server_sock, send_data, receive_data, index)) {
                     continue;
                 }
-                //todo: a path to the file.
                 cout << "Please write a path name to create a new file there.\n";
-                getline(cin, fileName);
-                if(Client::createEmptyFile(fileName)) {
-                    Client::writeToFile(receive_data, fileName);
+                getline(cin, dirName);
+                if(Client::createEmptyFile(dirName, fileName)) {
+                    Client::writeToFile(receive_data, dirName);
                 }
+                i++;
+                fileName = "file_num_" + to_string(i) + ".csv";
+                cout << send_data << endl;
                 continue;
             case 8:
                 HandleIO::sendProtocol(server_sock, send_data);

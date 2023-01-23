@@ -12,7 +12,7 @@ void DisplayResults::execute() {
         this->send_data += to_string(i) + "\t" + v.first + "\n";
         i++;
     }
-    this->send_data += "Done.";
+    this->send_data += "Done." + this->getMenu();
     HandleIO::sendProtocol(this->client_sock, this->send_data);
 }
 

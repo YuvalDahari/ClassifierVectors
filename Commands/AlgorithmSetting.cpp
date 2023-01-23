@@ -9,8 +9,10 @@ AlgorithmSetting::AlgorithmSetting() {
 void AlgorithmSetting::execute() {
     currentValues();
     HandleIO::receiveProtocol(this->client_sock, this->receive_data);
-    if (this->receive_data.empty()) {
+    if (this->receive_data == "-1") {
         // the user doesn't want to change a thing.
+        AlgorithmSetting::send_data = this->getMenu();
+        HandleIO::sendProtocol(this->client_sock, this->send_data);
         return;
     }
     int index = HandleIO::CheckAlgoK(this->receive_data);
@@ -18,12 +20,14 @@ void AlgorithmSetting::execute() {
         invalidInput(index);
     } else {
         setFields(index, this->receive_data);
+        AlgorithmSetting::send_data = this->getMenu();
+        HandleIO::sendProtocol(this->client_sock, this->send_data);
     }
 }
 
 void AlgorithmSetting::setFields(int index, const string& settings) {
     setApproximation(stoi(settings.substr(0, index + 1)));
-    setAlgorithm(settings.substr(index + 2, settings.size()));
+    setAlgorithm(settings.substr(index + 2, settings.size() - 1));
     ClassifyCommand* pClassifyCommand = (ClassifyCommand*)this->commandsMap.at(COMMAND3);
     pClassifyCommand->getClassifier().setApproximation(this->approximation);
     pClassifyCommand->getClassifier().setAlgorithm(this->algorithm);
@@ -54,15 +58,15 @@ void AlgorithmSetting::currentValues() {
 void AlgorithmSetting::invalidInput(int indicator) {
     switch (indicator) {
         case INVALID_PARAMETERS:
-            this->send_data = "invalid value for K\ninvalid value for metric";
+            this->send_data = "invalid value for K\ninvalid value for metric\n" + this->getMenu();
             HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         case INVALID_APPROXIMATION:
-            this->send_data = "invalid value for K";
+            this->send_data = "invalid value for K\n" + this->getMenu();
             HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         case INVALID_ALGORITHM:
-            this->send_data = "invalid value for metric";
+            this->send_data = "invalid value for metric\n" + this->getMenu();
             HandleIO::sendProtocol(this->client_sock, this->send_data);
             return;
         default:

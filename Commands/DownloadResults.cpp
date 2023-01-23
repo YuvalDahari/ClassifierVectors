@@ -12,6 +12,7 @@ void DownloadResults::execute() {
         this->send_data += to_string(i) + "," + v.first + "\n";
         i++;
     }
+    this->send_data += this->getMenu();
     HandleIO::sendProtocol(this->client_sock, this->send_data);
 }
 

@@ -232,7 +232,7 @@ public:
      * @param socket (int)
      * @return rv - an indicator if the demand id valid.
      */
-    static int checkDemand(bool (&array)[5], string toCheck, int socket);
+    static int checkDemand(bool (&array)[5], string toCheck, int socket, string menu);
 
     static int extractChoice(const string &choice);
 
