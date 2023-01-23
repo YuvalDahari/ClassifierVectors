@@ -1,7 +1,7 @@
 #include "ClassifyCommand.h"
 
 ClassifyCommand::ClassifyCommand() {
-    this->description = "3. classify data\n";
+    this->description = DESCRIPTION_3;
 }
 
 void ClassifyCommand::execute() {
@@ -26,7 +26,7 @@ void ClassifyCommand::setClassifier(const Classified &cllassifier) {
 }
 
 void ClassifyCommand::setDb(const DBCreator &db) {
-    DB = db;
+    ClassifyCommand::DB = db;
 }
 
 void ClassifyCommand::setUnclassified(const vector<vector<double>> &unclassify) {

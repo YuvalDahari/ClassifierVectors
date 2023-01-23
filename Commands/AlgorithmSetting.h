@@ -21,7 +21,7 @@ public:
     AlgorithmSetting();
 
     /**
-     * the function call functions to get and check the user input and works according to the input.
+     * the function calls functions to get and check the user input and works according to the input.
      */
     void execute() override;
 
@@ -37,9 +37,6 @@ public:
     */
     void setAlgorithm(string algo);
 
-    /**
-     *
-     */
     void currentValues();
 
     void invalidInput(int indicator);

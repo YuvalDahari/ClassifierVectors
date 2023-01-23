@@ -1,7 +1,7 @@
 #include "AlgorithmSetting.h"
 
 AlgorithmSetting::AlgorithmSetting() {
-    this->description = "2. algorithm settings\n";
+    this->description = DESCRIPTION_2;
     this->approximation = DEFAULT_APPROXIMATION;
     this->algorithm = DEFAULT_ALGORITHM;
 }
@@ -42,11 +42,11 @@ void AlgorithmSetting::setAlgorithm(string algo) {
 }
 
 int AlgorithmSetting::getApproximation() const {
-    return approximation;
+    return AlgorithmSetting::approximation;
 }
 
 const string &AlgorithmSetting::getAlgorithm() const {
-    return algorithm;
+    return AlgorithmSetting::algorithm;
 }
 
 void AlgorithmSetting::currentValues() {

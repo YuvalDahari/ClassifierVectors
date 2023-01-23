@@ -7,7 +7,7 @@ const map<const int, Command*> &CommandsMap::getCommands() const {
 }
 
 string CommandsMap::getDescriptions() {
-    string menu;
+    string menu = "Welcome to the KNN Classifier Server. Please choose an option:\n";
     for (const pair<const int, Command*> &command : this->commands) {
         menu += command.second->getDescription();
     }

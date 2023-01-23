@@ -1,7 +1,7 @@
 #include "Exit.h"
 
 Exit::Exit() {
-    this->description = "8. exit";
+    this->description = DESCRIPTION_8;
 }
 
 void Exit::execute() {

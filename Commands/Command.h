@@ -12,6 +12,13 @@
 #include "../Classified.h"
 #include "../HandleIO.h"
 
+#define DESCRIPTION_1 "1. upload an unclassified csv data file\n"
+#define DESCRIPTION_2 "2. algorithm settings\n"
+#define DESCRIPTION_3 "3. classify data\n"
+#define DESCRIPTION_4 "4. display results\n"
+#define DESCRIPTION_5 "5. download results\n"
+#define DESCRIPTION_8 "8. exit"
+#define COMMAND2 2
 #define COMMAND3 3
 #define COMMAND4 4
 #define COMMAND5 5
@@ -45,16 +52,10 @@ public:
      */
     void setClient(int sock);
 
-    void sendProtocol();
-
-    void setInvalid();
-
     /**
      * a virtual function of destructor.
      */
     virtual ~Command();
-
-    void receiveProtocol();
 
     string getMenu();
 };

@@ -45,7 +45,7 @@ void Client::writeToFile(const string &receiveData, const string &fileName) {
 
 void Client::InputOutput(int &server_sock, string &send_data, string &receive_data) {
     HandleIO::sendProtocol(server_sock, send_data);
-    HandleIO::receiveProtocol(server_sock, receive_data);
+    if (!HandleIO::receiveProtocol(server_sock, receive_data)) exit(0);
     cout << receive_data << endl;
 }
 
@@ -65,7 +65,7 @@ void Client::Case1(int &server_sock, string &send_data, string &receive_data, st
 
 bool Client::isMissData(int &server_sock, string &send_data, string &receive_data, unsigned long &index) {
     HandleIO::sendProtocol(server_sock, send_data);
-    HandleIO::receiveProtocol(server_sock, receive_data);
+    if (!HandleIO::receiveProtocol(server_sock, receive_data)) exit(0);
     if (receive_data.find("please upload data") != string::npos ||
         receive_data.find("please classify the data") != string::npos) {
         cout << receive_data << endl;
@@ -82,10 +82,9 @@ bool Client::createEmptyFile(const string &directory, const string &fileName) {
     ifstream file(fullPath);
     if (!file.good()) {
         ofstream new_file(fullPath);
-        if(new_file.is_open()) {
+        if (new_file.is_open()) {
             new_file.close();
-        }
-        else {
+        } else {
             cerr << "Failed to create file: " << fullPath << endl;
             return false;
         }
@@ -134,7 +133,7 @@ int main(int argc, char *argv[]) {
         close(server_sock);
         return 0;
     }
-    HandleIO::receiveProtocol(server_sock, receive_data);
+    if (!HandleIO::receiveProtocol(server_sock, receive_data)) exit(0);
     cout << receive_data << endl;
     while (true) {
         getline(cin, send_data);
@@ -170,8 +169,8 @@ int main(int argc, char *argv[]) {
                 }
                 cout << "Please write a path name to create a new file there.\n";
                 getline(cin, dirName);
-                if(Client::createEmptyFile(dirName, fileName)) {
-                    string temp =  dirName += "/" + fileName;
+                if (Client::createEmptyFile(dirName, fileName)) {
+                    string temp = dirName += "/" + fileName;
                     Client::writeToFile(receive_data, temp);
                 }
                 i++;
