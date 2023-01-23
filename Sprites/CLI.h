@@ -1,6 +1,7 @@
 #ifndef CLASSIFIERVECTORS_CLI_H
 #define CLASSIFIERVECTORS_CLI_H
 
+#include <thread>
 #include "CommandsMap.h"
 
 class CLI {

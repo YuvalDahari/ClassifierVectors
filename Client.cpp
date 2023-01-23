@@ -49,8 +49,9 @@ void Client::InputOutput(int &serverSock, string &sendData, string &receiveData)
     cout << receiveData << endl;
 }
 
-void Client::Case1(int &serverSock, string &sendData, string &receiveData, string &fileName, int &flag, int &length,
+void Client::case1(int &serverSock, string &sendData, string &receiveData, int &flag, int &length,
                    int indicator) {
+    string fileName;
     Client::InputOutput(serverSock, sendData, receiveData);
     getline(cin, fileName);
     flag = makeStringFromFile(length, sendData, fileName, indicator);
@@ -63,7 +64,7 @@ void Client::Case1(int &serverSock, string &sendData, string &receiveData, strin
     }
 }
 
-bool Client::isMissData(int &serverSock, string &sendData, string &receiveData, unsigned long &index) {
+bool Client::isMissData(int &serverSock,  string &menu, string &sendData, string &receiveData, unsigned long &index) {
     HandleIO::sendProtocol(serverSock, sendData);
     if (!HandleIO::receiveProtocol(serverSock, receiveData)) exit(0);
     if (receiveData.find("please upload data") != string::npos ||
@@ -72,12 +73,12 @@ bool Client::isMissData(int &serverSock, string &sendData, string &receiveData, 
         return true;
     }
     index = receiveData.find("Welcome");
-    sendData = receiveData.substr(index, receiveData.size());
+    menu = receiveData.substr(index, receiveData.size());
     receiveData = receiveData.substr(0, index);
     return false;
 }
 
-bool Client::createEmptyFile(const string &directory, const string &fileName) {
+bool Client::createEmptyFile(const string& directory, const string& fileName) {
     string fullPath = directory + "/" + fileName;
     ifstream file(fullPath);
     if (!file.good()) {
@@ -95,6 +96,30 @@ bool Client::createEmptyFile(const string &directory, const string &fileName) {
     return true;
 }
 
+void Client::threadRun(string receiveData, string temp) {
+    Client::writeToFile(receiveData, temp);
+}
+
+void Client::handleFile(string &receiveData, int &i) {
+    string fileName = "file_num_" + to_string(i) + ".csv";
+    string dirName;
+    cout << "Please write a path name to create a new file there.\n";
+    getline(cin, dirName);
+    if (Client::createEmptyFile(dirName, fileName)) {
+        string temp = dirName += "/" + fileName;
+        thread t(Client::threadRun, receiveData, temp);
+        t.detach();
+    }
+}
+
+void Client::case5(int serverSock, string &menu, string  &sendData, string &receiveData, unsigned long index, int &i){
+    if (Client::isMissData(serverSock, menu, sendData, receiveData, index)) {
+        return;
+    }
+    Client::handleFile(receiveData, i);
+    cout << menu << endl;
+}
+
 /**
  * a main function for a client which receive input from the user and send it to the server for classification.
  * @param argc (int)
@@ -103,16 +128,14 @@ bool Client::createEmptyFile(const string &directory, const string &fileName) {
  */
 int main(int argc, char *argv[]) {
     int i = 1;
-    string fileName = "file_num_" + to_string(i) + ".csv";
     // cases vars:
     int length;
-    string dirName;
     int flag;
-    string menu;
     unsigned long index;
 
     string sendData;
     string receiveData;
+    string menu;
 
     // arguments checks
     HandleIO::checkClientArguments(argc, argv);
@@ -140,8 +163,8 @@ int main(int argc, char *argv[]) {
         int choice = HandleIO::extractChoice(sendData);
         switch (choice) {
             case 1:
-                Client::Case1(serverSock, sendData, receiveData, dirName, flag, length, 1);
-                Client::Case1(serverSock, sendData, receiveData, dirName, flag, length, 2);
+                Client::case1(serverSock, sendData, receiveData, flag, length, 1);
+                Client::case1(serverSock, sendData, receiveData, flag, length, 2);
                 Client::InputOutput(serverSock, sendData, receiveData);
                 continue;
             case 2:
@@ -156,26 +179,15 @@ int main(int argc, char *argv[]) {
                 Client::InputOutput(serverSock, sendData, receiveData);
                 continue;
             case 4:
-                if (Client::isMissData(serverSock, sendData, receiveData, index)) {
+                if (Client::isMissData(serverSock,  menu,sendData, receiveData, index)) {
                     continue;
                 }
                 cout << receiveData << endl;
                 getline(cin, receiveData);
-                cout << sendData << endl;
+                cout << menu << endl;
                 continue;
             case 5:
-                if (Client::isMissData(serverSock, sendData, receiveData, index)) {
-                    continue;
-                }
-                cout << "Please write a path name to create a new file there.\n";
-                getline(cin, dirName);
-                if (Client::createEmptyFile(dirName, fileName)) {
-                    string temp = dirName += "/" + fileName;
-                    Client::writeToFile(receiveData, temp);
-                    i++;
-                    fileName = "file_num_" + to_string(i) + ".csv";
-                }
-                cout << sendData << endl;
+                Client::case5(serverSock, menu, sendData, receiveData, index, i);
                 continue;
             case 8:
                 HandleIO::sendProtocol(serverSock, sendData);

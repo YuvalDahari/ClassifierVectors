@@ -8,6 +8,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <cstring>
+#include <thread>
 #include "Sprites/DBCreator.h"
 #include "Classified.h"
 
@@ -21,12 +22,18 @@ public:
 
     static void InputOutput(int &serverSock, string &sendData, string &receiveData);
 
-    static void Case1(int &serverSock, string &sendData, string &receiveData, string &fileName, int &flag,
+    static void case1(int &serverSock, string &sendData, string &receiveData, int &flag,
                       int &length, int indicator);
 
-    static bool isMissData(int &serverSock, string &sendData, string &receiveData, unsigned long &index);
+    static bool isMissData(int &serverSock, string &menu, string &sendData, string &receiveData, unsigned long &index);
 
-    static bool createEmptyFile(const string &directory, const string &fileName);
+    static bool createEmptyFile(const string& directory, const string& fileName);
+
+    static void handleFile(string &receiveData, int &i);
+
+    static void threadRun(string receiveData, string temp);
+
+    static void case5(int serverSock, string &menu, string &sendData, string &receiveData, unsigned long index, int &i);
 };
 
 #endif
