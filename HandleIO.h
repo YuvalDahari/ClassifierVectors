@@ -110,10 +110,10 @@ public:
     /**
      * the function checks the user vector.
      * @param vector (vector<double>)
-     * @param s_number (string)
+     * @param sNumber (string)
      * @return bool - if the input is valid.
      */
-    static bool validateUserVector(vector<double> &vector, const string &s_number);
+    static bool validateUserVector(vector<double> &vector, const string &sNumber);
 
     /**
      * the function checks the following cases in the process of validating a string as a double:
@@ -214,16 +214,16 @@ public:
     /**
      * the function sends data to a socket.
      * @param socket (int)
-     * @param send_data (string)
+     * @param sendData (string)
      */
-    static void sendProtocol(int socket, string send_data);
+    static void sendProtocol(int socket, string sendData);
 
     /**
      * the function receives data from a socket and put the data in a given string.
      * @param socket (int)
-     * @param receive_data (string)
+     * @param receiveData (string)
      */
-    static bool receiveProtocol(int socket, string &receive_data);
+    static bool receiveProtocol(int socket, string &receiveData);
 
     /**
      * the function check if a request is valid. if so - updates the array in the relevant place.

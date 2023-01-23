@@ -48,15 +48,15 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    struct sockaddr_in client_sin{};
-    unsigned int addr_len = sizeof(client_sin);
+    struct sockaddr_in clientSin{};
+    unsigned int addrLen = sizeof(clientSin);
 
     while (true) {
-        int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
-        if (client_sock < FAIL) {
+        int clientSock = accept(sock, (struct sockaddr *) &clientSin, &addrLen);
+        if (clientSock < FAIL) {
             perror("Fail accepting client");
         }
-        CLI cli = CLI(client_sock);
+        CLI cli = CLI(clientSock);
         cli.start();
     }
     close(sock);

@@ -22,9 +22,9 @@ using namespace std;
 class Command {
 protected:
     string description;
-    int client_sock;
-    string send_data;
-    string receive_data;
+    int clientSock;
+    string sendData;
+    string receiveData;
     map<const int, Command*> commandsMap;
 public:
     /**

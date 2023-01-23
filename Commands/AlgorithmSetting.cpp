@@ -8,20 +8,20 @@ AlgorithmSetting::AlgorithmSetting() {
 
 void AlgorithmSetting::execute() {
     currentValues();
-    HandleIO::receiveProtocol(this->client_sock, this->receive_data);
-    if (this->receive_data == "-1") {
+    HandleIO::receiveProtocol(this->clientSock, this->receiveData);
+    if (this->receiveData == "-1") {
         // the user doesn't want to change a thing.
-        AlgorithmSetting::send_data = this->getMenu();
-        HandleIO::sendProtocol(this->client_sock, this->send_data);
+        AlgorithmSetting::sendData = this->getMenu();
+        HandleIO::sendProtocol(this->clientSock, this->sendData);
         return;
     }
-    int index = HandleIO::CheckAlgoK(this->receive_data);
+    int index = HandleIO::CheckAlgoK(this->receiveData);
     if (index < 0) {
         invalidInput(index);
     } else {
-        setFields(index, this->receive_data);
-        AlgorithmSetting::send_data = this->getMenu();
-        HandleIO::sendProtocol(this->client_sock, this->send_data);
+        setFields(index, this->receiveData);
+        AlgorithmSetting::sendData = this->getMenu();
+        HandleIO::sendProtocol(this->clientSock, this->sendData);
     }
 }
 
@@ -50,24 +50,24 @@ const string &AlgorithmSetting::getAlgorithm() const {
 }
 
 void AlgorithmSetting::currentValues() {
-    AlgorithmSetting::send_data = "The current KNN parameters are: K = " + to_string(this->approximation) +
-                                  ", distance metric = " + this->algorithm + "\n";
-    HandleIO::sendProtocol(this->client_sock, this->send_data);
+    AlgorithmSetting::sendData = "The current KNN parameters are: K = " + to_string(this->approximation) +
+                                 ", distance metric = " + this->algorithm + "\n";
+    HandleIO::sendProtocol(this->clientSock, this->sendData);
 }
 
 void AlgorithmSetting::invalidInput(int indicator) {
     switch (indicator) {
         case INVALID_PARAMETERS:
-            this->send_data = "invalid value for K\ninvalid value for metric\n" + this->getMenu();
-            HandleIO::sendProtocol(this->client_sock, this->send_data);
+            this->sendData = "invalid value for K\ninvalid value for metric\n" + this->getMenu();
+            HandleIO::sendProtocol(this->clientSock, this->sendData);
             return;
         case INVALID_APPROXIMATION:
-            this->send_data = "invalid value for K\n" + this->getMenu();
-            HandleIO::sendProtocol(this->client_sock, this->send_data);
+            this->sendData = "invalid value for K\n" + this->getMenu();
+            HandleIO::sendProtocol(this->clientSock, this->sendData);
             return;
         case INVALID_ALGORITHM:
-            this->send_data = "invalid value for metric\n" + this->getMenu();
-            HandleIO::sendProtocol(this->client_sock, this->send_data);
+            this->sendData = "invalid value for metric\n" + this->getMenu();
+            HandleIO::sendProtocol(this->clientSock, this->sendData);
             return;
         default:
             return;

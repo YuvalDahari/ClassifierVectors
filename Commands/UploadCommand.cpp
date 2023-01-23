@@ -1,35 +1,34 @@
 #include "UploadCommand.h"
 
 UploadCommand::UploadCommand() {
-    this->description = "Welcome to the KNN Classifier Server. Please choose an option:\n"
-                        "1. upload an unclassified csv data file\n";
+    this->description = "1. upload an unclassified csv data file\n";
 }
 
 void UploadCommand::execute() {
     startAnswer();
-    HandleIO::receiveProtocol(this->client_sock, this->receive_data);
-    this->DB.setObjType(HandleIO::createTrainDB(this->receive_data));
+    HandleIO::receiveProtocol(this->clientSock, this->receiveData);
+    this->DB.setObjType(HandleIO::createTrainDB(this->receiveData));
     finishFirstAnswer();
-    HandleIO::receiveProtocol(this->client_sock, this->receive_data);
-    this->unclassifiedVectors = HandleIO::createTestVectors(this->receive_data);
+    HandleIO::receiveProtocol(this->clientSock, this->receiveData);
+    this->unclassifiedVectors = HandleIO::createTestVectors(this->receiveData);
     updateCommands();
     finishAnswer();
 }
 
 void UploadCommand::startAnswer() {
-    this->send_data = "Please upload your local train CSV file.\n";
-    HandleIO::sendProtocol(this->client_sock, this->send_data);
+    this->sendData = "Please upload your local train CSV file.\n";
+    HandleIO::sendProtocol(this->clientSock, this->sendData);
 }
 
 
 void UploadCommand::finishFirstAnswer() {
-    this->send_data = "Upload Complete.\nPlease upload your local test CSV file.\n";
-    HandleIO::sendProtocol(this->client_sock, this->send_data);
+    this->sendData = "Upload Complete.\nPlease upload your local test CSV file.\n";
+    HandleIO::sendProtocol(this->clientSock, this->sendData);
 }
 
 void UploadCommand::finishAnswer() {
-    this->send_data = "Upload Complete.\n" + this->getMenu();
-    HandleIO::sendProtocol(this->client_sock, this->send_data);
+    this->sendData = "Upload Complete.\n" + this->getMenu();
+    HandleIO::sendProtocol(this->clientSock, this->sendData);
 }
 
 void UploadCommand::updateCommands() {

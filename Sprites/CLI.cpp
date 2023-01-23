@@ -3,29 +3,28 @@
 void CLI::start() {
     CommandsMap commandsMap;
     commandsMap.initialize();
-    commandsMap.initializeCommands(this->client_sock);
+    commandsMap.initializeCommands(this->clientSock);
     string menu = commandsMap.getDescriptions();
-    HandleIO::sendProtocol(this->client_sock, menu);
+    HandleIO::sendProtocol(this->clientSock, menu);
     while (true) {
-        if (!HandleIO::receiveProtocol(this->client_sock, this->receive_data)) {
+        if (!HandleIO::receiveProtocol(this->clientSock, this->receiveData)) {
             return;
         }
-        int command = HandleIO::checkDemand(this->indicators, this->receive_data, this->client_sock, menu);
+        int command = HandleIO::checkDemand(this->indicators, this->receiveData, this->clientSock, menu);
         switch (command) {
             case 1:
-                cout << "WTF" << endl;
-                commandsMap.getCommands().at(stoi(this->receive_data))->execute();
+                commandsMap.getCommands().at(stoi(this->receiveData))->execute();
                 continue;
             case 0:
                 continue;
             default:
                 // if the user decide to exit, we execute the Exit's command and break the loop for ending the thread.
-                commandsMap.getCommands().at(stoi(this->receive_data))->execute();
+                commandsMap.getCommands().at(stoi(this->receiveData))->execute();
                 return;
         }
     }
 }
 
 CLI::CLI(int clientSock) {
-    this->client_sock = clientSock;
+    this->clientSock = clientSock;
 }

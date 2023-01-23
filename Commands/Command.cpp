@@ -5,7 +5,7 @@ string Command::getDescription() {
 }
 
 void Command::setClient(int sock) {
-    Command::client_sock = sock;
+    Command::clientSock = sock;
 }
 
 void Command::setCommandsMap(const map<const int, Command *> &commands) {

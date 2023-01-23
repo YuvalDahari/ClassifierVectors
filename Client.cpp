@@ -43,37 +43,37 @@ void Client::writeToFile(const string &receiveData, const string &fileName) {
     file.close();
 }
 
-void Client::InputOutput(int &server_sock, string &send_data, string &receive_data) {
-    HandleIO::sendProtocol(server_sock, send_data);
-    if (!HandleIO::receiveProtocol(server_sock, receive_data)) exit(0);
-    cout << receive_data << endl;
+void Client::InputOutput(int &serverSock, string &sendData, string &receiveData) {
+    HandleIO::sendProtocol(serverSock, sendData);
+    if (!HandleIO::receiveProtocol(serverSock, receiveData)) exit(0);
+    cout << receiveData << endl;
 }
 
-void Client::Case1(int &server_sock, string &send_data, string &receive_data, string &fileName, int &flag, int &length,
+void Client::Case1(int &serverSock, string &sendData, string &receiveData, string &fileName, int &flag, int &length,
                    int indicator) {
-    Client::InputOutput(server_sock, send_data, receive_data);
+    Client::InputOutput(serverSock, sendData, receiveData);
     getline(cin, fileName);
-    flag = makeStringFromFile(length, send_data, fileName, indicator);
+    flag = makeStringFromFile(length, sendData, fileName, indicator);
     while (flag == -1) {
-        send_data = "invalid file\nWrite a new path";
-        cout << send_data << endl;
-        send_data.clear();
+        sendData = "invalid file\nWrite a new path";
+        cout << sendData << endl;
+        sendData.clear();
         getline(cin, fileName);
-        flag = makeStringFromFile(length, send_data, fileName, indicator);
+        flag = makeStringFromFile(length, sendData, fileName, indicator);
     }
 }
 
-bool Client::isMissData(int &server_sock, string &send_data, string &receive_data, unsigned long &index) {
-    HandleIO::sendProtocol(server_sock, send_data);
-    if (!HandleIO::receiveProtocol(server_sock, receive_data)) exit(0);
-    if (receive_data.find("please upload data") != string::npos ||
-        receive_data.find("please classify the data") != string::npos) {
-        cout << receive_data << endl;
+bool Client::isMissData(int &serverSock, string &sendData, string &receiveData, unsigned long &index) {
+    HandleIO::sendProtocol(serverSock, sendData);
+    if (!HandleIO::receiveProtocol(serverSock, receiveData)) exit(0);
+    if (receiveData.find("please upload data") != string::npos ||
+        receiveData.find("please classify the data") != string::npos) {
+        cout << receiveData << endl;
         return true;
     }
-    index = receive_data.find("Welcome");
-    send_data = receive_data.substr(index, receive_data.size());
-    receive_data = receive_data.substr(0, index);
+    index = receiveData.find("Welcome");
+    sendData = receiveData.substr(index, receiveData.size());
+    receiveData = receiveData.substr(0, index);
     return false;
 }
 
@@ -81,9 +81,9 @@ bool Client::createEmptyFile(const string &directory, const string &fileName) {
     string fullPath = directory + "/" + fileName;
     ifstream file(fullPath);
     if (!file.good()) {
-        ofstream new_file(fullPath);
-        if (new_file.is_open()) {
-            new_file.close();
+        ofstream newFile(fullPath);
+        if (newFile.is_open()) {
+            newFile.close();
         } else {
             cerr << "Failed to create file: " << fullPath << endl;
             return false;
@@ -111,80 +111,79 @@ int main(int argc, char *argv[]) {
     string menu;
     unsigned long index;
 
-    string send_data;
-    string receive_data;
+    string sendData;
+    string receiveData;
 
     // arguments checks
     HandleIO::checkClientArguments(argc, argv);
 
-    const char *ip_address = SERVER_IP;
+    const char *ipAddress = SERVER_IP;
     const int port = stoi(S_PORT);
-    int server_sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_sock < 0) {
+    int serverSock = socket(AF_INET, SOCK_STREAM, 0);
+    if (serverSock < 0) {
         perror("Fail creating the socket");
     }
     struct sockaddr_in sin{};
     memset(&sin, 0, sizeof(sin));
     sin.sin_family = AF_INET;
-    sin.sin_addr.s_addr = inet_addr(ip_address);
+    sin.sin_addr.s_addr = inet_addr(ipAddress);
     sin.sin_port = htons(port);
-    if (connect(server_sock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {
+    if (connect(serverSock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {
         perror("Fail connecting to server");
-        close(server_sock);
+        close(serverSock);
         return 0;
     }
-    if (!HandleIO::receiveProtocol(server_sock, receive_data)) exit(0);
-    cout << receive_data << endl;
+    if (!HandleIO::receiveProtocol(serverSock, receiveData)) exit(0);
+    cout << receiveData << endl;
     while (true) {
-        getline(cin, send_data);
-        int choice = HandleIO::extractChoice(send_data);
+        getline(cin, sendData);
+        int choice = HandleIO::extractChoice(sendData);
         switch (choice) {
             case 1:
-                Client::Case1(server_sock, send_data, receive_data, dirName, flag, length, 1);
-                Client::Case1(server_sock, send_data, receive_data, dirName, flag, length, 2);
-                Client::InputOutput(server_sock, send_data, receive_data);
+                Client::Case1(serverSock, sendData, receiveData, dirName, flag, length, 1);
+                Client::Case1(serverSock, sendData, receiveData, dirName, flag, length, 2);
+                Client::InputOutput(serverSock, sendData, receiveData);
                 continue;
             case 2:
-                Client::InputOutput(server_sock, send_data, receive_data);
-                getline(cin, send_data);
-                if (send_data.empty()) {
-                    send_data = "-1";
+                Client::InputOutput(serverSock, sendData, receiveData);
+                getline(cin, sendData);
+                if (sendData.empty()) {
+                    sendData = "-1";
                 }
-                Client::InputOutput(server_sock, send_data, receive_data);
+                Client::InputOutput(serverSock, sendData, receiveData);
                 continue;
             case 3:
-                Client::InputOutput(server_sock, send_data, receive_data);
+                Client::InputOutput(serverSock, sendData, receiveData);
                 continue;
             case 4:
-                if (Client::isMissData(server_sock, send_data, receive_data, index)) {
+                if (Client::isMissData(serverSock, sendData, receiveData, index)) {
                     continue;
                 }
-                cout << receive_data << endl;
-                getline(cin, receive_data);
-                cout << send_data << endl;
+                cout << receiveData << endl;
+                getline(cin, receiveData);
+                cout << sendData << endl;
                 continue;
             case 5:
-                if (Client::isMissData(server_sock, send_data, receive_data, index)) {
+                if (Client::isMissData(serverSock, sendData, receiveData, index)) {
                     continue;
                 }
                 cout << "Please write a path name to create a new file there.\n";
                 getline(cin, dirName);
                 if (Client::createEmptyFile(dirName, fileName)) {
                     string temp = dirName += "/" + fileName;
-                    Client::writeToFile(receive_data, temp);
+                    Client::writeToFile(receiveData, temp);
                     i++;
                     fileName = "file_num_" + to_string(i) + ".csv";
                 }
-                cout << send_data << endl;
+                cout << sendData << endl;
                 continue;
             case 8:
-                HandleIO::sendProtocol(server_sock, send_data);
+                HandleIO::sendProtocol(serverSock, sendData);
                 return 0;
             default:
                 cout << "invalid input\n";
         }
     }
-    return 0;
 }
 
 #endif

@@ -21,21 +21,21 @@ Classified ClassifyCommand::getClassifier() const {
     return this->classifier;
 }
 
-void ClassifyCommand::setClassifier(const Classified &cllassifier) {
-    ClassifyCommand::classifier = cllassifier;
+void ClassifyCommand::setClassifier(const Classified &classified) {
+    ClassifyCommand::classifier = classified;
 }
 
 void ClassifyCommand::setDb(const DBCreator &db) {
     ClassifyCommand::DB = db;
 }
 
-void ClassifyCommand::setUnclassified(const vector<vector<double>> &unclassify) {
-    ClassifyCommand::unclassifiedVectors = unclassify;
+void ClassifyCommand::setUnclassified(const vector<vector<double>> &vector) {
+    ClassifyCommand::unclassifiedVectors = vector;
 }
 
 void ClassifyCommand::finish() {
-    this->send_data = "classifying data complete\n" + this->getMenu();
-    HandleIO::sendProtocol(this->client_sock, this->send_data);
+    this->sendData = "classifying data complete\n" + this->getMenu();
+    HandleIO::sendProtocol(this->clientSock, this->sendData);
 }
 
 void ClassifyCommand::updateCommands() {

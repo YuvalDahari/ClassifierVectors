@@ -28,10 +28,10 @@ int HandleIO::validateFileVector(const string &s) {
     return 0;
 }
 
-bool HandleIO::validateUserVector(vector<double> &vector, const string &s_number) {
+bool HandleIO::validateUserVector(vector<double> &vector, const string &sNumber) {
     int pointFlag = 0;
     string str;
-    for (char i: s_number) {
+    for (char i: sNumber) {
         // only if the minus is the first char - it's ok
         if (i == MINUS and str.empty()) {
             str += i;
@@ -278,7 +278,7 @@ int HandleIO::CheckAlgoK(string &str) {
     if (k <= 0) {
         kFlag = -1;
     }
-    if (str.length() - i != 3) {
+    if (str.length() - i < 3) {
         return -2 + kFlag;
     }
     // i was space, we ++ it to be the first letter og the algorithm.
@@ -350,51 +350,51 @@ pair<string, vector<double>> HandleIO::pairFromString(const string &vecString) {
     return rv;
 }
 
-void HandleIO::sendProtocol(int socket, string send_data) {
-    send_data += "\n\r";
+void HandleIO::sendProtocol(int socket, string sendData) {
+    sendData += "\n\r";
     string segment;
     const char *data;
-    while (send_data.size() > BUFFER_SIZE) {
-        segment = send_data.substr(0, BUFFER_SIZE);
+    while (sendData.size() > BUFFER_SIZE) {
+        segment = sendData.substr(0, BUFFER_SIZE);
         data = convertStringToArray(segment);
         long sent_bytes = send(socket, data, strlen(data), 0);
         if (sent_bytes < 0) {
             perror("Fail sending to server");
         }
-        send_data = send_data.substr(BUFFER_SIZE, send_data.length() - 1);
+        sendData = sendData.substr(BUFFER_SIZE, sendData.length() - 1);
     }
-    data = convertStringToArray(send_data);
-    long sent_bytes = send(socket, data, strlen(data), 0);
-    if (sent_bytes < 0) {
+    data = convertStringToArray(sendData);
+    long sentBytes = send(socket, data, strlen(data), 0);
+    if (sentBytes < 0) {
         perror("Fail sending to client");
     }
 }
 
-bool HandleIO::receiveProtocol(int socket, string &receive_data) {
+bool HandleIO::receiveProtocol(int socket, string &receiveData) {
     int flag = 0;
     char buffer[BUFFER_SIZE] = {};
     for (char & i : buffer) {
         i = '\0';
     }
-    receive_data.clear();
-    long read_bytes = recv(socket, buffer, sizeof(buffer), 0);
-    while (read_bytes == BUFFER_SIZE && buffer[BUFFER_SIZE - 1] != '\r') {
+    receiveData.clear();
+    long readBytes = recv(socket, buffer, sizeof(buffer), 0);
+    while (readBytes == BUFFER_SIZE && buffer[BUFFER_SIZE - 1] != '\r') {
         flag = 1;
-        receive_data += buffer;
+        receiveData += buffer;
         for (char & i : buffer) {
             i = '\0';
         }
-        read_bytes = recv(socket, buffer, sizeof(buffer), 0);
-        if (read_bytes < 0) {
+        readBytes = recv(socket, buffer, sizeof(buffer), 0);
+        if (readBytes < 0) {
             perror("Fail reading data");
             close(socket);
             return false;
         }
     }
-    receive_data += buffer;
-    receive_data.erase(receive_data.find_last_not_of(LETTERS_AND_NUMBERS) + 1);
+    receiveData += buffer;
+    receiveData.erase(receiveData.find_last_not_of(LETTERS_AND_NUMBERS) + 1);
     if (flag == 1) {
-        removeLastLine(receive_data);
+        removeLastLine(receiveData);
     }
     return true;
 }

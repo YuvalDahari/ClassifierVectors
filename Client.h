@@ -19,12 +19,12 @@ public:
 
     static void writeToFile(const string &receiveData, const string &fileName);
 
-    static void InputOutput(int &server_sock, string &send_data, string &receive_data);
+    static void InputOutput(int &serverSock, string &sendData, string &receiveData);
 
-    static void Case1(int &server_sock, string &send_data, string &receive_data, string &fileName, int &flag,
+    static void Case1(int &serverSock, string &sendData, string &receiveData, string &fileName, int &flag,
                       int &length, int indicator);
 
-    static bool isMissData(int &server_sock, string &send_data, string &receive_data, unsigned long &index);
+    static bool isMissData(int &serverSock, string &sendData, string &receiveData, unsigned long &index);
 
     static bool createEmptyFile(const string &directory, const string &fileName);
 };

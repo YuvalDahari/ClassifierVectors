@@ -5,7 +5,7 @@ Exit::Exit() {
 }
 
 void Exit::execute() {
-    close(this->client_sock);
+    close(this->clientSock);
 }
 
 Exit::~Exit() = default;

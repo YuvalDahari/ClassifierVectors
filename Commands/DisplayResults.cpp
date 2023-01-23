@@ -6,14 +6,14 @@ DisplayResults::DisplayResults() {
 
 void DisplayResults::execute() {
     vector<pair<string, vector<double>>> vectors = this->DB.getObjType().getProperties();
-    this->send_data = "";
+    this->sendData = "";
     unsigned long i = 1;
     for (const pair<string,vector<double>>& v:vectors) {
-        this->send_data += to_string(i) + "\t" + v.first + "\n";
+        this->sendData += to_string(i) + "\t" + v.first + "\n";
         i++;
     }
-    this->send_data += "Done." + this->getMenu();
-    HandleIO::sendProtocol(this->client_sock, this->send_data);
+    this->sendData += "Done." + this->getMenu();
+    HandleIO::sendProtocol(this->clientSock, this->sendData);
 }
 
 void DisplayResults::setClassified(const DBCreator &classifier) {

@@ -2,13 +2,12 @@
 #define CLASSIFIERVECTORS_CLI_H
 
 #include "CommandsMap.h"
-#define WRONG_OPTION "invalid input"
 
 class CLI {
 private:
-    string send_data;
-    string receive_data;
-    int client_sock;
+    string sendData;
+    string receiveData;
+    int clientSock;
     bool indicators[5] = {false, false, false, false, false};
 public:
     explicit CLI(int clientSock);

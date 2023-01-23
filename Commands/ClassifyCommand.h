@@ -16,7 +16,7 @@ public:
 
     void updateCommands();
 
-    void setUnclassified(const vector<vector<double>> &unclassified);
+    void setUnclassified(const vector<vector<double>> &vector);
     /**
     * constructor for creating a new specific command.
      */
@@ -33,7 +33,7 @@ public:
 
     void finish();
 
-    void setClassifier(const Classified &classifier);
+    void setClassifier(const Classified &classified);
 
     void setDb(const DBCreator &db);
 };
