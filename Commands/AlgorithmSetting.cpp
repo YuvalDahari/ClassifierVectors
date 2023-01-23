@@ -26,7 +26,6 @@ void AlgorithmSetting::execute() {
 }
 
 void AlgorithmSetting::setFields(int index, const string& settings) {
-    int kFlag = 0;
     string string1 = settings.substr(0, index + 1);
     string string2 = settings.substr(index + 2, settings.size() - 1);
     if (HandleIO::extractApproximation(string1) < 0) {

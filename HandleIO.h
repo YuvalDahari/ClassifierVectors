@@ -45,6 +45,7 @@
 #define SERVER_IP argv[2]
 #define PORT argv[1]
 #define BUFFER_SIZE 4096
+#define MAX_PORT 65535
 
 // define for the commands
 #define COMMAND_1 0
@@ -91,7 +92,7 @@ public:
      * the function prints an exit massage and close the program.
      * we call this function while we have invalid input.
      */
-    static void printBye(int i);
+    static void printBye();
 
     /**
      * the function checks if the algorithm given is a valid one.
@@ -106,14 +107,6 @@ public:
      * @return double - a valid double.
      */
     static int validateFileVector(const string &line);
-
-    /**
-     * the function checks the user vector.
-     * @param vector (vector<double>)
-     * @param sNumber (string)
-     * @return bool - if the input is valid.
-     */
-    static bool validateUserVector(vector<double> &vector, const string &sNumber);
 
     /**
      * the function checks the following cases in the process of validating a string as a double:

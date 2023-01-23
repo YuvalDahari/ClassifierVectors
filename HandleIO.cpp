@@ -28,39 +28,8 @@ int HandleIO::validateFileVector(const string &s) {
     return 0;
 }
 
-bool HandleIO::validateUserVector(vector<double> &vector, const string &sNumber) {
-    int pointFlag = 0;
-    string str;
-    for (char i: sNumber) {
-        // only if the minus is the first char - it's ok
-        if (i == MINUS and str.empty()) {
-            str += i;
-        } else if (i == POINT) {
-            pointFlag += ON;
-            if (pointFlag >= (2 * ON)) {
-                return false;
-            }
-            str += i;
-        } else if (isdigit(i)) {
-            str += i;
-            pointFlag = OFF;
-        } else if (i != '\n') {
-            return false;
-        }
-    }
-    if (!checkSneakyCases(str)) {
-        return false;
-    }
-    normalizeDoubleSize(str);
-    vector.push_back(stod(str));
-    return true;
-}
-
 pair<string, vector<double>> HandleIO::pairExtract(string &line, unsigned long length) {
     string number;
-    if (line.empty()) {
-        printBye(2);
-    }
     pair<string, vector<double>> returnPair;
     for (char i: line) {
         if (i == COMMA) {
@@ -69,9 +38,6 @@ pair<string, vector<double>> HandleIO::pairExtract(string &line, unsigned long l
             continue;
         }
         number += i;
-    }
-    if (returnPair.second.size() != length) {
-        printBye(2);
     }
     returnPair.first = number;
     return returnPair;
@@ -136,23 +102,7 @@ int HandleIO::checkFile(string vecFile, int indicator) {
     return 0;
 }
 
-void HandleIO::printBye(int i) {
-    switch (i) {
-        case 1:
-            cout << "Invalid K\n";
-            break;
-        case 2:
-            cout << "Invalid file or path to file\n";
-            break;
-        case 3:
-            cout << "Invalid algorithm\n";
-            break;
-        case 4:
-            cout << "Invalid input\n";
-            break;
-        default:
-            break;
-    }
+void HandleIO::printBye() {
     cout << "Please restart the program, and try again!\n";
     exit(0);
 }
@@ -208,7 +158,7 @@ void HandleIO::normalizeDoubleSize(string &number) {
 
 void HandleIO::checkClientArguments(int argc, char *argv[]) {
     if (argc != NUM_OF_ARGS + 1) {
-        printBye(4);
+        printBye();
     }
     checkIP(SERVER_IP);
     checkPort(PORT);
@@ -216,7 +166,7 @@ void HandleIO::checkClientArguments(int argc, char *argv[]) {
 
 void HandleIO::checkServerArguments(int argc, char *argv[]) {
     if (argc != NUM_OF_ARGS) {
-        printBye(4);
+        printBye();
     }
     checkPort(PORT);
 }
@@ -229,31 +179,30 @@ void HandleIO::checkIP(const string &ip) {
         if (i == POINT) {
             pointsCounter++;
             if (stoi(tempIP) > IP_RANGE) {
-                printBye(4);
+                printBye();
             }
             tempIP.clear();
             continue;
         }
         if (!isdigit(i)) {
-            printBye(4);
+            printBye();
         }
         tempIP += i;
     }
     if (stoi(tempIP) > IP_RANGE || pointsCounter != 3) {
-        printBye(4);
+        printBye();
     }
 }
 
 void HandleIO::checkPort(const string &port) {
-    // define 65535
     int portNum = 0;
     try {
         portNum = stoi(port);
     } catch (exception &exception) {
-        printBye(4);
+        printBye();
     }
-    if (portNum < 0 || portNum > 65535) {
-        printBye(4);
+    if (portNum < 0 || portNum > MAX_PORT) {
+        printBye();
     }
 }
 
@@ -264,10 +213,7 @@ char *HandleIO::convertStringToArray(const string &input) {
 int HandleIO::CheckAlgoK(string &str) {
     string kString;
     string algString;
-    int kFlag;
-    int algFlag;
-    int rv = INVALID_PARAMETERS;
-    int i = 0;
+    int kFlag, algFlag, rv, i = 0;
     for (; i < str.length(); i++) {
         if (str[i] == SPACE) {
             break;
@@ -369,7 +315,7 @@ void HandleIO::sendProtocol(int socket, string sendData) {
 bool HandleIO::receiveProtocol(int socket, string &receiveData) {
     int flag = 0;
     char buffer[BUFFER_SIZE] = {};
-    for (char & i : buffer) {
+    for (char &i: buffer) {
         i = '\0';
     }
     receiveData.clear();
@@ -377,7 +323,7 @@ bool HandleIO::receiveProtocol(int socket, string &receiveData) {
     while (readBytes == BUFFER_SIZE && buffer[BUFFER_SIZE - 1] != '\r') {
         flag = 1;
         receiveData += buffer;
-        for (char & i : buffer) {
+        for (char &i: buffer) {
             i = '\0';
         }
         readBytes = recv(socket, buffer, sizeof(buffer), 0);
@@ -395,7 +341,7 @@ bool HandleIO::receiveProtocol(int socket, string &receiveData) {
     return true;
 }
 
-int HandleIO::checkDemand(bool (&array)[5], string toCheck, int socket, const string& menu) {
+int HandleIO::checkDemand(bool (&array)[5], string toCheck, int socket, const string &menu) {
     if (toCheck.empty() or toCheck.size() > 1) {
         sendProtocol(socket, "invalid input");
         return OFF;
@@ -461,7 +407,7 @@ int HandleIO::checkDBLine(const string &line, int length, int file) {
     for (char c: line) {
         if (c == COMMA) {
             counter++;
-            if (validateFileVector(temp) == -1){
+            if (validateFileVector(temp) == -1) {
                 return -1;
             }
             temp.clear();
@@ -475,22 +421,20 @@ int HandleIO::checkDBLine(const string &line, int length, int file) {
         }
     } else {
         temp = temp.substr(0, temp.size() - 1);
-        if (validateFileVector(temp) == -1){
+        if (validateFileVector(temp) == -1) {
             return -1;
         }
         counter++;
     }
-    if (counter != length){
+    if (counter != length) {
         return -1;
     }
     return 1;
 }
 
-void HandleIO::removeLastLine(string & data) {
+void HandleIO::removeLastLine(string &data) {
     size_t secondLastNewlinePos = data.rfind('\n', data.rfind('\n') - 1);
     if (secondLastNewlinePos != std::string::npos) {
         data.erase(secondLastNewlinePos);
     }
 }
-
-
