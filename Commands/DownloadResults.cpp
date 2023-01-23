@@ -1,7 +1,7 @@
 #include "DownloadResults.h"
 
 DownloadResults::DownloadResults() {
-    this->description = DESCRIPTION_5;
+    this->description = "5. download results\n";
 }
 
 void DownloadResults::execute() {

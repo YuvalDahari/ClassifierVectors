@@ -1,7 +1,7 @@
 #include "UploadCommand.h"
 
 UploadCommand::UploadCommand() {
-    this->description = DESCRIPTION_1;
+    this->description = "1. upload an unclassified csv data file\n";
 }
 
 void UploadCommand::execute() {

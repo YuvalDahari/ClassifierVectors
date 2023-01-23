@@ -77,36 +77,6 @@ pair<string, vector<double>> HandleIO::pairExtract(string &line, unsigned long l
     return returnPair;
 }
 
-void HandleIO::extractVector(vector<double> &pVector, int length, string &input) {
-    string s_number;
-    bool flag;
-    unsigned long inputSize = input.size();
-    unsigned long i;
-    for (i = 0; i < inputSize; i++) {
-        if (input[i] != SPACE && input[i] != MINUS && input[i] != POINT && !isdigit(input[i])) {
-            break;
-        }
-        if (input[i] == SPACE) {
-            flag = validateUserVector(pVector, s_number);
-            if (!flag) {
-                input.clear();
-                return;
-            }
-            s_number.clear();
-            continue;
-        }
-        s_number += input[i];
-    }
-    if (input[i - 1] != SPACE) {
-        input.clear();
-        return;
-    }
-    if (pVector.size() != ((unsigned long) length)) {
-        input.clear();
-        return;
-    }
-    input = input.substr(i, inputSize);
-}
 
 string HandleIO::extractAlgorithm(string &input) {
     unsigned long inputSize = input.size();
@@ -398,14 +368,17 @@ void HandleIO::sendProtocol(int socket, string send_data) {
 
 bool HandleIO::receiveProtocol(int socket, string &receive_data) {
     char buffer[BUFFER_SIZE] = {};
+    for (char & i : buffer) {
+        i = '\0';
+    }
     receive_data = "";
     int expected_data_len = sizeof(buffer);
     long read_bytes = recv(socket, buffer, expected_data_len, 0);
     while (read_bytes == BUFFER_SIZE && buffer[BUFFER_SIZE - 1] != '\r') {
         unsigned long length = strlen(buffer);
         receive_data += buffer;
-        for (unsigned long i = 0; i < length; ++i) {
-            buffer[i] = '\0';
+        for (char & i : buffer) {
+            i = '\0';
         }
         read_bytes = recv(socket, buffer, expected_data_len, 0);
         if (read_bytes < 0) {

@@ -1,7 +1,7 @@
 #include "AlgorithmSetting.h"
 
 AlgorithmSetting::AlgorithmSetting() {
-    this->description = DESCRIPTION_2;
+    this->description = "2. algorithm settings\n";
     this->approximation = DEFAULT_APPROXIMATION;
     this->algorithm = DEFAULT_ALGORITHM;
 }
