@@ -1,7 +1,8 @@
 #include "UploadCommand.h"
 
 UploadCommand::UploadCommand() {
-    this->description = DESCRIPTION_1;
+    this->description = "Welcome to the KNN Classifier Server. Please choose an option:\n"
+                        "1. upload an unclassified csv data file\n";
 }
 
 void UploadCommand::execute() {

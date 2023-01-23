@@ -172,9 +172,9 @@ int main(int argc, char *argv[]) {
                 if (Client::createEmptyFile(dirName, fileName)) {
                     string temp = dirName += "/" + fileName;
                     Client::writeToFile(receive_data, temp);
+                    i++;
+                    fileName = "file_num_" + to_string(i) + ".csv";
                 }
-                i++;
-                fileName = "file_num_" + to_string(i) + ".csv";
                 cout << send_data << endl;
                 continue;
             case 8:

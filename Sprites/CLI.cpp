@@ -13,6 +13,7 @@ void CLI::start() {
         int command = HandleIO::checkDemand(this->indicators, this->receive_data, this->client_sock, menu);
         switch (command) {
             case 1:
+                cout << "WTF" << endl;
                 commandsMap.getCommands().at(stoi(this->receive_data))->execute();
                 continue;
             case 0:

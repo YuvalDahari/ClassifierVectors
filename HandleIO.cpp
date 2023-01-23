@@ -278,6 +278,9 @@ int HandleIO::CheckAlgoK(string &str) {
     if (k <= 0) {
         kFlag = -1;
     }
+    if (str.length() - i != 3) {
+        return -2 + kFlag;
+    }
     // i was space, we ++ it to be the first letter og the algorithm.
     i++;
     tmp = str.substr(i, str.size() - 1);
@@ -396,7 +399,7 @@ bool HandleIO::receiveProtocol(int socket, string &receive_data) {
     return true;
 }
 
-int HandleIO::checkDemand(bool (&array)[5], string toCheck, int socket, string menu) {
+int HandleIO::checkDemand(bool (&array)[5], string toCheck, int socket, const string& menu) {
     if (toCheck.empty() or toCheck.size() > 1) {
         sendProtocol(socket, "invalid input");
         return OFF;
