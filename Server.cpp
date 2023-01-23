@@ -1,21 +1,14 @@
 #ifndef VECTORS_SOCKETS_SERVER_CPP
 #define VECTORS_SOCKETS_SERVER_CPP
 
-#include <iostream>
-#include <sys/socket.h>
-#include <cstdio>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <cstring>
-#include "Sprites/DBCreator.h"
-#include "Classified.h"
-#include "Sprites/CLI.h"
-
-#define PORT argv[1]
-#define FIX_LISTEN 5
-#define FAIL 0
+#include "Server.h"
 
 using namespace std;
+
+void Server::handleClient(int clientSock){
+    CLI cli = CLI(clientSock);
+    cli.start();
+}
 
 /**
  * a main function for the server which handles the data and classify vectors from clients.
@@ -56,11 +49,9 @@ int main(int argc, char *argv[]) {
         if (clientSock < FAIL) {
             perror("Fail accepting client");
         }
-        CLI cli = CLI(clientSock);
-        cli.start();
+        thread client(Server::handleClient, clientSock);
+        client.detach();
     }
-    close(sock);
-    return 0;
 }
 
 #endif

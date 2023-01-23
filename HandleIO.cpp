@@ -220,7 +220,7 @@ void HandleIO::checkServerArguments(int argc, char *argv[]) {
 }
 
 void HandleIO::checkIP(const string &ip) {
-    //if its start with .
+    //if its handleClient with .
     int pointsCounter = 0;
     string tempIP;
     for (char i: ip) {
