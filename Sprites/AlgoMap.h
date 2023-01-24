@@ -18,7 +18,6 @@ using namespace std;
 class AlgoMap {
 private:
     map<string, Algo*> algorithms;
-
 public:
     /**
      * the function creates a map of all the distance algorithms.
@@ -32,7 +31,7 @@ public:
     const map<string, Algo*> &getAlgorithms() const;
 
     /**
-     * destructor
+     * destructor.
      */
     virtual ~AlgoMap();
 };

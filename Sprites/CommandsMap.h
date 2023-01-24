@@ -24,7 +24,7 @@ public:
     /**
      * default constructor.
      */
-    CommandsMap() = default;
+    CommandsMap();
 
     /**
      * the function returns the map's algorithms.
@@ -32,12 +32,11 @@ public:
      */
     const map<const int, Command*> &getCommands() const;
 
-    string getDescriptions();
-
     /**
-     * destructor
+     * the function returns the command's description.
+     * @return string - the command description.
      */
-    virtual ~CommandsMap();
+    string getDescriptions();
 
     /**
      * the function initializes the maps to contain all the allows commands.
@@ -49,6 +48,11 @@ public:
      * @param client_sock (int)
      */
     void initializeCommands(int client_sock);
+
+    /**
+     * destructor.
+     */
+    virtual ~CommandsMap();
 };
 
 #endif

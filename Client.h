@@ -25,7 +25,7 @@ public:
      * @param sendData (string)
      * @param fileName (string)
      * @param indicator (int)
-     * @return
+     * @return int - 1 if the file is valid, end -1 if it is not.
      */
     static int makeStringFromFile(int &length, string &sendData, const string &fileName, int indicator);
 
