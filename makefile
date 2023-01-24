@@ -1,22 +1,22 @@
 all: Server.exe Client.exe
 
-Server.exe: Server.o HandleIO.o Classified.o DBCreator.o SpecialVector.o AlgoMap.o Algo.o CanberraDistance.o ChebyshevDistance.o EuclideanDistance.o ManhattanGeometry.o MinkowskiDistance.o Command.o UploadCommand.o AlgorithmSetting.o ClassifyCommand.o DisplayResults.o DownloadResults.o Exit.o CommandsMap.o CLI.o
-	g++ -std=c++11 Server.o HandleIO.o Classified.o DBCreator.o SpecialVector.o AlgoMap.o Algo.o CanberraDistance.o ChebyshevDistance.o EuclideanDistance.o ManhattanGeometry.o MinkowskiDistance.o Command.o UploadCommand.o AlgorithmSetting.o ClassifyCommand.o DisplayResults.o DownloadResults.o Exit.o CommandsMap.o CLI.o -o server.out
+Server.exe: Server.o HandleIO.o Classifier.o DBCreator.o SpecialVector.o AlgoMap.o Algo.o CanberraDistance.o ChebyshevDistance.o EuclideanDistance.o ManhattanGeometry.o MinkowskiDistance.o Command.o UploadCommand.o AlgorithmSetting.o ClassifyCommand.o DisplayResults.o DownloadResults.o Exit.o CommandsMap.o CLI.o
+	g++ -std=c++11 Server.o HandleIO.o Classifier.o DBCreator.o SpecialVector.o AlgoMap.o Algo.o CanberraDistance.o ChebyshevDistance.o EuclideanDistance.o ManhattanGeometry.o MinkowskiDistance.o Command.o UploadCommand.o AlgorithmSetting.o ClassifyCommand.o DisplayResults.o DownloadResults.o Exit.o CommandsMap.o CLI.o -o server.out
 
 Server.o: Sockets/Server.cpp HandleIO.h Sprites/Classifier.h Sprites/DBCreator.h Sprites/SpecialVector.h Sprites/AlgoMap.h Algorithms/Algo.h Algorithms/CanberraDistance.h Algorithms/ChebyshevDistance.h Algorithms/EuclideanDistance.h Algorithms/ManhattanGeometry.h Algorithms/MinkowskiDistance.h Commands/Command.h Commands/UploadCommand.h Commands/AlgorithmSetting.h Commands/ClassifyCommand.h Commands/DisplayResults.h Commands/DownloadResults.h Commands/Exit.h Sprites/CommandsMap.h Sprites/CLI.h
-	g++ -std=c++11 -c Server.cpp
+	g++ -std=c++11 -c Sockets/Server.cpp
 
-Client.exe: Client.o HandleIO.o Classified.o DBCreator.o SpecialVector.o AlgoMap.o Algo.o CanberraDistance.o ChebyshevDistance.o EuclideanDistance.o ManhattanGeometry.o MinkowskiDistance.o Command.o UploadCommand.o AlgorithmSetting.o ClassifyCommand.o DisplayResults.o DownloadResults.o Exit.o CommandsMap.o CLI.o
-	g++ -std=c++11 Client.o HandleIO.o Classified.o DBCreator.o SpecialVector.o AlgoMap.o Algo.o CanberraDistance.o ChebyshevDistance.o EuclideanDistance.o ManhattanGeometry.o MinkowskiDistance.o Command.o UploadCommand.o AlgorithmSetting.o ClassifyCommand.o DisplayResults.o DownloadResults.o Exit.o CommandsMap.o CLI.o -o client.out
+Client.exe: Client.o HandleIO.o Classifier.o DBCreator.o SpecialVector.o AlgoMap.o Algo.o CanberraDistance.o ChebyshevDistance.o EuclideanDistance.o ManhattanGeometry.o MinkowskiDistance.o Command.o UploadCommand.o AlgorithmSetting.o ClassifyCommand.o DisplayResults.o DownloadResults.o Exit.o CommandsMap.o CLI.o
+	g++ -std=c++11 Client.o HandleIO.o Classifier.o DBCreator.o SpecialVector.o AlgoMap.o Algo.o CanberraDistance.o ChebyshevDistance.o EuclideanDistance.o ManhattanGeometry.o MinkowskiDistance.o Command.o UploadCommand.o AlgorithmSetting.o ClassifyCommand.o DisplayResults.o DownloadResults.o Exit.o CommandsMap.o CLI.o -o client.out
 
 Client.o: Sockets/Client.cpp HandleIO.h Sprites/Classifier.h Sprites/DBCreator.h Sprites/SpecialVector.h Sprites/AlgoMap.h Algorithms/Algo.h Algorithms/CanberraDistance.h Algorithms/ChebyshevDistance.h Algorithms/EuclideanDistance.h Algorithms/ManhattanGeometry.h Algorithms/MinkowskiDistance.h Commands/Command.h Commands/UploadCommand.h Commands/AlgorithmSetting.h Commands/ClassifyCommand.h Commands/DisplayResults.h Commands/DownloadResults.h Commands/Exit.h Sprites/CommandsMap.h Sprites/CLI.h
-	g++ -std=c++11 -c Client.cpp
+	g++ -std=c++11 -c Sockets/Client.cpp
 
 HandleIO.o: HandleIO.cpp HandleIO.h
 	g++ -std=c++11 -c HandleIO.cpp
 
-Classified.o: Sprites/Classifier.cpp Sprites/Classifier.h
-	g++ -std=c++11 -c Classified.cpp
+Classifier.o: Sprites/Classifier.cpp Sprites/Classifier.h
+	g++ -std=c++11 -c Sprites/Classifier.cpp
 
 DBCreator.o: Sprites/DBCreator.cpp Sprites/DBCreator.h
 	g++ -std=c++11 -c Sprites/DBCreator.cpp
