@@ -1,15 +1,15 @@
-#ifndef CLASSIFIERVECTORS_CLASSIFIED_H
-#define CLASSIFIERVECTORS_CLASSIFIED_H
+#ifndef CLASSIFIERVECTORS_CLASSIFIER_H
+#define CLASSIFIERVECTORS_CLASSIFIER_H
 
-#include "Sprites/DBCreator.h"
-#include "Algorithms/Algo.h"
+#include "DBCreator.h"
+#include "../Algorithms/Algo.h"
 #include <algorithm>
 #include <map>
 
 /**
  * a class which manages the classification of new vector of elements.
  */
-class Classified {
+class Classifier {
 private:
     int approximation;
     DBCreator db;
@@ -18,7 +18,7 @@ public:
     /**
      * the function creates new classifier with default values.
      */
-    Classified();
+    Classifier();
 
     /**
      * the function creates new classifier according to given values.
@@ -26,7 +26,7 @@ public:
      * @param db (DBCreator)
      * @param algorithm (string)
      */
-    Classified(int approximation, const DBCreator &db, const string &algorithm);
+    Classifier(int approximation, const DBCreator &db, const string &algorithm);
 
     /**
      * the function sets a new approximation.

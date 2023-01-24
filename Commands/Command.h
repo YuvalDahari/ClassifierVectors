@@ -9,7 +9,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <cstring>
-#include "../Classified.h"
+#include "../Sprites/Classifier.h"
 #include "../HandleIO.h"
 
 #define COMMAND2 2

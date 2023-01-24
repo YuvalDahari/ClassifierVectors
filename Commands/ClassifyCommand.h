@@ -2,7 +2,7 @@
 #define CLASSIFIERVECTORS_CLASSIFYCOMMAND_H
 
 #include "Command.h"
-#include "../Classified.h"
+#include "../Sprites/Classifier.h"
 #include "DisplayResults.h"
 #include "DownloadResults.h"
 
@@ -11,7 +11,7 @@
  */
 class ClassifyCommand : public Command{
 private:
-    Classified classifier;
+    Classifier classifier;
     DBCreator DB;
     vector<vector<double>> unclassifiedVectors;
 public:
@@ -27,9 +27,9 @@ public:
 
     /**
      * the function return the classifier of the class.
-     * @return Classified - the classifier of the class.
+     * @return Classifier - the classifier of the class.
      */
-    Classified getClassifier() const;
+    Classifier getClassifier() const;
 
     /**
      * the function sets new vector of unclassified vectors.
@@ -39,9 +39,9 @@ public:
 
     /**
      * the function sets new classifier.
-     * @param classified (Classified)
+     * @param classified (Classifier)
      */
-    void setClassifier(const Classified &classified);
+    void setClassifier(const Classifier &classified);
 
     /**
      * the function sets new data base.

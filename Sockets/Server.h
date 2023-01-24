@@ -8,9 +8,9 @@
 #include <unistd.h>
 #include <cstring>
 #include <thread>
-#include "Sprites/DBCreator.h"
-#include "Classified.h"
-#include "Sprites/CLI.h"
+#include "../Sprites/DBCreator.h"
+#include "../Sprites/Classifier.h"
+#include "../Sprites/CLI.h"
 
 #define PORT argv[1]
 #define FIX_LISTEN 5

@@ -3,7 +3,7 @@
 
 #include "Command.h"
 #include "../Sprites/DBCreator.h"
-#include "../Classified.h"
+#include "../Sprites/Classifier.h"
 #include "ClassifyCommand.h"
 #include "AlgorithmSetting.h"
 

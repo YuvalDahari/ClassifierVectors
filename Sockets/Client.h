@@ -9,8 +9,8 @@
 #include <unistd.h>
 #include <cstring>
 #include <thread>
-#include "Sprites/DBCreator.h"
-#include "Classified.h"
+#include "../Sprites/DBCreator.h"
+#include "../Sprites/Classifier.h"
 
 #define S_PORT argv[1]
 

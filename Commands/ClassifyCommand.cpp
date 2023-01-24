@@ -17,11 +17,11 @@ void ClassifyCommand::execute() {
     finish();
 }
 
-Classified ClassifyCommand::getClassifier() const {
+Classifier ClassifyCommand::getClassifier() const {
     return this->classifier;
 }
 
-void ClassifyCommand::setClassifier(const Classified &classified) {
+void ClassifyCommand::setClassifier(const Classifier &classified) {
     ClassifyCommand::classifier = classified;
 }
 
