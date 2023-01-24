@@ -16,7 +16,7 @@ private:
     string algorithm;
 public:
     /**
-     * constructor for creating a new specific command.
+     * the function creates new AlgorithmSetting, and initializes it with default arguments and it's unique description.
      */
     AlgorithmSetting();
 
@@ -26,31 +26,52 @@ public:
     void execute() override;
 
     /**
-     * the function sets a new approximation.
+     * the function return the current approximation.
+     * @return int - current approximation.
+     */
+    int getApproximation() const;
+
+    /**
+     * the function return the current algorithm's key.
+     * @return string - current algorithm's key.
+     */
+    const string &getAlgorithm() const;
+
+    /**
+    * the function manages the update of the class's values.
+    * @param index (int)
+    * @param settings (string)
+    */
+    void setFields(int index, const string &settings);
+
+    /**
+     * the function sets new approximation.
      * @param defineApproximation (int)
      */
     void setApproximation(int defineApproximation);
 
     /**
-    * the function sets a new algorithm.
+    * the function sets new algorithm.
     * @param algo (string)
     */
     void setAlgorithm(string algo);
 
+    /**
+     * the function send the current values of the approximation and given algorithm.
+     */
     void currentValues();
 
+    /**
+     * the function checks the input and change the class's values if it's valid, else it's send a message according to
+     * the invalid input's type.
+     * @param indicator (int)
+     */
     void invalidInput(int indicator);
-
-    void setFields(int index, const string& settings);
 
     /**
      * default destructor.
      */
     ~AlgorithmSetting() override;
-
-    int getApproximation() const;
-
-    const string &getAlgorithm() const;
 };
 
 #endif

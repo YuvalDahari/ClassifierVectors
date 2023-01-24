@@ -13,7 +13,7 @@
 using namespace std;
 
 /**
- * a class which represents the map's algorithms.
+ * a class which represents the algorithms' map.
  */
 class AlgoMap {
 private:

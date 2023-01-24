@@ -398,7 +398,7 @@ int HandleIO::extractChoice(const string &choice) {
     }
 }
 
-int HandleIO::checkDBLine(const string &line, int length, int file) {
+int HandleIO::checkDBLine(const string &line, int length, int numOfFile) {
     int counter = 0;
     if (line.empty()) {
         return -1;
@@ -415,7 +415,7 @@ int HandleIO::checkDBLine(const string &line, int length, int file) {
         }
         temp += c;
     }
-    if (file == 1) {
+    if (numOfFile == 1) {
         if (temp.empty()) {
             return -1;
         }
@@ -430,11 +430,4 @@ int HandleIO::checkDBLine(const string &line, int length, int file) {
         return -1;
     }
     return 1;
-}
-
-void HandleIO::removeLastLine(string &data) {
-    size_t secondLastNewlinePos = data.rfind('\n', data.rfind('\n') - 1);
-    if (secondLastNewlinePos != std::string::npos) {
-        data.erase(secondLastNewlinePos);
-    }
 }

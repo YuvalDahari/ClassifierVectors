@@ -43,7 +43,7 @@ void Client::writeToFile(const string &receiveData, const string &fileName) {
     file.close();
 }
 
-void Client::InputOutput(int &serverSock, string &sendData, string &receiveData) {
+void Client::inputOutput(int &serverSock, string &sendData, string &receiveData) {
     HandleIO::sendProtocol(serverSock, sendData);
     if (!HandleIO::receiveProtocol(serverSock, receiveData)) exit(0);
     cout << receiveData << endl;
@@ -52,7 +52,7 @@ void Client::InputOutput(int &serverSock, string &sendData, string &receiveData)
 void Client::case1(int &serverSock, string &sendData, string &receiveData, int &flag, int &length,
                    int indicator) {
     string fileName;
-    Client::InputOutput(serverSock, sendData, receiveData);
+    Client::inputOutput(serverSock, sendData, receiveData);
     getline(cin, fileName);
     flag = makeStringFromFile(length, sendData, fileName, indicator);
     while (flag == -1) {
@@ -165,18 +165,18 @@ int main(int argc, char *argv[]) {
             case 1:
                 Client::case1(serverSock, sendData, receiveData, flag, length, 1);
                 Client::case1(serverSock, sendData, receiveData, flag, length, 2);
-                Client::InputOutput(serverSock, sendData, receiveData);
+                Client::inputOutput(serverSock, sendData, receiveData);
                 continue;
             case 2:
-                Client::InputOutput(serverSock, sendData, receiveData);
+                Client::inputOutput(serverSock, sendData, receiveData);
                 getline(cin, sendData);
                 if (sendData.empty()) {
                     sendData = "-1";
                 }
-                Client::InputOutput(serverSock, sendData, receiveData);
+                Client::inputOutput(serverSock, sendData, receiveData);
                 continue;
             case 3:
-                Client::InputOutput(serverSock, sendData, receiveData);
+                Client::inputOutput(serverSock, sendData, receiveData);
                 continue;
             case 4:
                 if (Client::isMissData(serverSock,  menu,sendData, receiveData, index)) {

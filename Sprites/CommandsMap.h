@@ -14,7 +14,7 @@
 using namespace std;
 
 /**
- * a class which represents the map's indicators.
+ * a class which represents the commands' map.
  */
 class CommandsMap {
 private:
@@ -22,9 +22,9 @@ private:
 
 public:
     /**
-     * the function creates a map of all the allows indicators.
+     * default constructor.
      */
-    CommandsMap();
+    CommandsMap() = default;
 
     /**
      * the function returns the map's algorithms.
@@ -39,8 +39,15 @@ public:
      */
     virtual ~CommandsMap();
 
+    /**
+     * the function initializes the maps to contain all the allows commands.
+     */
     void initialize();
 
+    /**
+     * the function initializes all the commands in the map to specific client.
+     * @param client_sock (int)
+     */
     void initializeCommands(int client_sock);
 };
 

@@ -27,6 +27,10 @@ public:
      */
     explicit DBCreator(const string& fileName);
 
+    /**
+     * the function sets new objType.
+     * @param objType (SpecialVector)
+     */
     void setObjType(const SpecialVector &objType);
 
     /**

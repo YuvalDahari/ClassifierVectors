@@ -4,19 +4,27 @@
 #include "Command.h"
 #include "../Sprites/DBCreator.h"
 
+/**
+ * a class which manages the option to print the classified results.
+ */
 class DisplayResults : public Command{
     DBCreator DB;
 public:
-    void setClassified(const DBCreator &classified);
+    /**
+    * the function creates new DisplayResults, and initializes with unique description.
+    */
+    DisplayResults();
 
     /**
-    * constructor for creating a new specific command.
-     */
-    DisplayResults();
-    /**
-     * the function .
+     * the function send all the classified vectors.
      */
     void execute() override;
+
+    /**
+     * the function sets new data base.
+     * @param classified (DBCreator)
+     */
+    void setClassified(const DBCreator &classified);
 
     /**
      * default destructor.

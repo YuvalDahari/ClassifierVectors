@@ -4,12 +4,8 @@ void Classified::setApproximation(int defineApproximation) {
     Classified::approximation = defineApproximation;
 }
 
-void Classified::setAlgorithm(string algo) {
+void Classified::setAlgorithm(string &algo) {
     Classified::algorithm = algo;
-}
-
-void Classified::setDbCreator(const DBCreator &dbCreator) {
-    Classified::db = dbCreator;
 }
 
 Classified::Classified(int approximation, const DBCreator &db, const string &algorithm) {
