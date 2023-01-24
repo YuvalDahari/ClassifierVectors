@@ -106,6 +106,7 @@ void Client::handleFile(string &receiveData, int &i) {
     getline(cin, dirName);
     if (Client::createEmptyFile(dirName, fileName)) {
         string temp = dirName += "/" + fileName;
+        i++;
         thread t(Client::threadRun, receiveData, temp);
         t.detach();
     }
