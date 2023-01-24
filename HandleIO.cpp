@@ -5,7 +5,7 @@ int HandleIO::validateFileVector(const string &s) {
     string str;
     for (char i: s) {
         // only if the minus is the first char - it's ok
-        if (i == MINUS and str.empty()) {
+        if (i == MINUS) {
             str += i;
         } else if (i == POINT) {
             pointFlag += ON;
@@ -13,7 +13,7 @@ int HandleIO::validateFileVector(const string &s) {
                 return -1;
             }
             str += i;
-        } else if (isdigit(i)) {
+        } else if (isdigit(i) || i == 'E') {
             str += i;
             pointFlag = OFF;
         } else if (i != '\n') {
@@ -242,8 +242,13 @@ int HandleIO::CheckAlgoK(string &str) {
 
 vector<vector<double>> HandleIO::createTestVectors(const string &basicString) {
     istringstream ss(basicString);
+    std::string numbers = "0123456789";
     vector<vector<double>> rv;
     for (string line; getline(ss, line);) {
+        if (line.find_first_of(numbers) == std::string::npos) {
+            // string does not contain any numbers
+            continue;
+        }
         rv.push_back(vectorFromString(line));
     }
     return rv;
@@ -260,16 +265,19 @@ vector<double> HandleIO::vectorFromString(const string &vecString) {
         }
         temp += c;
     }
-    temp = temp.substr(0, temp.size());
     vec.push_back(stod(temp));
     return vec;
-
 }
 
 SpecialVector HandleIO::createTrainDB(const string &basicString) {
+    std::string numbers = "0123456789";
     SpecialVector rv;
     istringstream ss(basicString);
     for (string line; getline(ss, line);) {
+        if (line.find_first_of(numbers) == std::string::npos) {
+            // string does not contain any numbers
+            continue;
+        }
         rv.getProperties().push_back(pairFromString(line));
     }
     return rv;
@@ -293,7 +301,6 @@ pair<string, vector<double>> HandleIO::pairFromString(const string &vecString) {
 }
 
 void HandleIO::sendProtocol(int socket, string sendData) {
-    sendData += "\n\r";
     string segment;
     const char *data;
     while (sendData.size() > BUFFER_SIZE) {
@@ -313,16 +320,16 @@ void HandleIO::sendProtocol(int socket, string sendData) {
 }
 
 bool HandleIO::receiveProtocol(int socket, string &receiveData) {
-    int flag = 0;
     char buffer[BUFFER_SIZE] = {};
+    string temp;
     for (char &i: buffer) {
         i = '\0';
     }
     receiveData.clear();
     long readBytes = recv(socket, buffer, sizeof(buffer), 0);
     while (readBytes == BUFFER_SIZE && buffer[BUFFER_SIZE - 1] != '\r') {
-        flag = 1;
-        receiveData += buffer;
+        temp = buffer;
+        receiveData += temp.substr(0, BUFFER_SIZE);
         for (char &i: buffer) {
             i = '\0';
         }
@@ -333,11 +340,10 @@ bool HandleIO::receiveProtocol(int socket, string &receiveData) {
             return false;
         }
     }
-    receiveData += buffer;
-    receiveData.erase(receiveData.find_last_not_of(LETTERS_AND_NUMBERS) + 1);
-    if (flag == 1) {
-        removeLastLine(receiveData);
-    }
+    temp = buffer;
+    temp.erase(temp.find_last_not_of('\n') + 1);
+    receiveData += temp;
+//    receiveData.erase(receiveData.find_last_not_of(LETTERS_AND_NUMBERS) + 1);
     return true;
 }
 
@@ -399,6 +405,7 @@ int HandleIO::extractChoice(const string &choice) {
 }
 
 int HandleIO::checkDBLine(const string &line, int length, int file) {
+    cout << line << endl;
     int counter = 0;
     if (line.empty()) {
         return -1;
@@ -430,11 +437,4 @@ int HandleIO::checkDBLine(const string &line, int length, int file) {
         return -1;
     }
     return 1;
-}
-
-void HandleIO::removeLastLine(string &data) {
-    size_t secondLastNewlinePos = data.rfind('\n', data.rfind('\n') - 1);
-    if (secondLastNewlinePos != std::string::npos) {
-        data.erase(secondLastNewlinePos);
-    }
 }
