@@ -4,6 +4,9 @@
 #include <thread>
 #include "CommandsMap.h"
 
+/**
+ * a class which manages every singular client's logic.
+ */
 class CLI {
 private:
     string sendData;
@@ -11,8 +14,15 @@ private:
     int clientSock;
     bool indicators[5] = {false, false, false, false, false};
 public:
+    /**
+     * the function creates a new CLI.
+     * @param clientSock (int)
+     */
     explicit CLI(int clientSock);
 
+    /**
+     * the function activates the classify program.
+     */
     void start();
 };
 

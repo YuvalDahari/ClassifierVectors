@@ -43,16 +43,15 @@ void Client::writeToFile(const string &receiveData, const string &fileName) {
     file.close();
 }
 
-void Client::InputOutput(int &serverSock, string &sendData, string &receiveData) {
+void Client::inputOutput(int &serverSock, string &sendData, string &receiveData) {
     HandleIO::sendProtocol(serverSock, sendData);
     if (!HandleIO::receiveProtocol(serverSock, receiveData)) exit(0);
     cout << receiveData << endl;
 }
 
-void Client::case1(int &serverSock, string &sendData, string &receiveData, int &flag, int &length,
-                   int indicator) {
+void Client::case1(int &serverSock, string &sendData, string &receiveData, int &flag, int &length, int indicator) {
     string fileName;
-    Client::InputOutput(serverSock, sendData, receiveData);
+    Client::inputOutput(serverSock, sendData, receiveData);
     getline(cin, fileName);
     flag = makeStringFromFile(length, sendData, fileName, indicator);
     while (flag == -1) {
@@ -64,7 +63,7 @@ void Client::case1(int &serverSock, string &sendData, string &receiveData, int &
     }
 }
 
-bool Client::isMissData(int &serverSock,  string &menu, string &sendData, string &receiveData, unsigned long &index) {
+bool Client::isMissData(int &serverSock, string &menu, string &sendData, string &receiveData, unsigned long &index) {
     HandleIO::sendProtocol(serverSock, sendData);
     if (!HandleIO::receiveProtocol(serverSock, receiveData)) exit(0);
     if (receiveData.find("please upload data") != string::npos ||
@@ -78,7 +77,7 @@ bool Client::isMissData(int &serverSock,  string &menu, string &sendData, string
     return false;
 }
 
-bool Client::createEmptyFile(const string& directory, const string& fileName) {
+bool Client::createEmptyFile(const string &directory, const string &fileName) {
     string fullPath = directory + "/" + fileName;
     ifstream file(fullPath);
     if (!file.good()) {
@@ -112,7 +111,7 @@ void Client::handleFile(string &receiveData, int &i) {
     }
 }
 
-void Client::case5(int serverSock, string &menu, string  &sendData, string &receiveData, unsigned long index, int &i){
+void Client::case5(int serverSock, string &menu, string &sendData, string &receiveData, unsigned long index, int &i) {
     if (Client::isMissData(serverSock, menu, sendData, receiveData, index)) {
         return;
     }
@@ -165,21 +164,21 @@ int main(int argc, char *argv[]) {
             case 1:
                 Client::case1(serverSock, sendData, receiveData, flag, length, 1);
                 Client::case1(serverSock, sendData, receiveData, flag, length, 2);
-                Client::InputOutput(serverSock, sendData, receiveData);
+                Client::inputOutput(serverSock, sendData, receiveData);
                 continue;
             case 2:
-                Client::InputOutput(serverSock, sendData, receiveData);
+                Client::inputOutput(serverSock, sendData, receiveData);
                 getline(cin, sendData);
                 if (sendData.empty()) {
                     sendData = "-1";
                 }
-                Client::InputOutput(serverSock, sendData, receiveData);
+                Client::inputOutput(serverSock, sendData, receiveData);
                 continue;
             case 3:
-                Client::InputOutput(serverSock, sendData, receiveData);
+                Client::inputOutput(serverSock, sendData, receiveData);
                 continue;
             case 4:
-                if (Client::isMissData(serverSock,  menu,sendData, receiveData, index)) {
+                if (Client::isMissData(serverSock, menu, sendData, receiveData, index)) {
                     continue;
                 }
                 cout << receiveData << endl;

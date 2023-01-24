@@ -36,7 +36,6 @@
 #define INVALID_PARAMETERS (-3)
 
 // define for all the arguments from the user
-#define FILE_NAME argv[1]
 #define NUM_OF_ARGS 2
 #define IP_RANGE 255
 #define ALG_SIZE 3
@@ -63,7 +62,7 @@ public:
     /**
      * the function gets a line as a string and extract a matching pair.
      * @param line (string)
-     * @param length (int)
+     * @param length (unsigned long)
      * @return pair<string,vector<double>> - a pair of the vector and it's name.
      */
     static pair<string, vector<double>> pairExtract(string &line, unsigned long length) ;
@@ -224,8 +223,20 @@ public:
      */
     static int checkDemand(bool (&array)[5], string toCheck, int socket, const string& menu);
 
+    /**
+     * the function extract the user choice.
+     * @param choice (string)
+     * @return int - the user choice.
+     */
     static int extractChoice(const string &choice);
 
+    /**
+     * the function identify the validation of the data base's file.
+     * @param line (string)
+     * @param length (int)
+     * @param file (int)
+     * @return int - 1 for valid file, and -1 for invalid's one.
+     */
     static int checkDBLine(const string &line, int length, int file);
 };
 

@@ -9,7 +9,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <cstring>
-#include "../Classified.h"
+#include "../Sprites/Classifier.h"
 #include "../HandleIO.h"
 
 #define COMMAND2 2
@@ -19,6 +19,9 @@
 
 using namespace std;
 
+/**
+ * a virtual class which is the base for all the commands' classes.
+ */
 class Command {
 protected:
     string description;
@@ -32,13 +35,23 @@ public:
     */
     virtual void execute() = 0;
 
-    void setCommandsMap(const map<const int, Command *> &commandsMap);
+    /**
+     * the function return a string, that been build according to all the commands' map description.
+     * @return string - all the commands' map description.
+     */
+    string getMenu();
 
     /**
      * the function returns the command's description.
      * @return string - the command description.
      */
     string getDescription();
+
+    /**
+     * the function sets new command's map.
+     * @param commandsMap
+     */
+    void setCommandsMap(const map<const int, Command *> &commandsMap);
 
     /**
      * the function set client for the command.
@@ -50,8 +63,6 @@ public:
      * a virtual function of destructor.
      */
     virtual ~Command();
-
-    string getMenu();
 };
 
 

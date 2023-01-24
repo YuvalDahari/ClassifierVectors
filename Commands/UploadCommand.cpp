@@ -35,7 +35,7 @@ void UploadCommand::finishAnswer() {
 void UploadCommand::updateCommands() {
     ClassifyCommand *pClassifyCommand = (ClassifyCommand *) this->commandsMap.at(COMMAND3);
     AlgorithmSetting *pSettingCommand = (AlgorithmSetting *) this->commandsMap.at(COMMAND2);
-    Classified c = Classified(pSettingCommand->getApproximation(), this->DB, pSettingCommand->getAlgorithm());
+    Classifier c = Classifier(pSettingCommand->getApproximation(), this->DB, pSettingCommand->getAlgorithm());
     pClassifyCommand->setClassifier(c);
     pClassifyCommand->setDb(DBCreator());
     pClassifyCommand->setUnclassified(this->unclassifiedVectors);

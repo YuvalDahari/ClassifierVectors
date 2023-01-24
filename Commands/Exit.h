@@ -3,12 +3,16 @@
 
 #include "Command.h"
 
+/**
+ * a class which manages the option to stop the program.
+ */
 class Exit : public Command{
 public:
     /**
-    * constructor for creating a new specific command.
+     * the function creates new Exit, and initializes with unique description.
      */
     Exit();
+
     /**
      * the function close the client connection.
      */

@@ -1,24 +1,20 @@
-#include "Classified.h"
+#include "Classifier.h"
 
-void Classified::setApproximation(int defineApproximation) {
-    Classified::approximation = defineApproximation;
+void Classifier::setApproximation(int defineApproximation) {
+    Classifier::approximation = defineApproximation;
 }
 
-void Classified::setAlgorithm(string algo) {
-    Classified::algorithm = algo;
+void Classifier::setAlgorithm(string &algo) {
+    Classifier::algorithm = algo;
 }
 
-void Classified::setDbCreator(const DBCreator &dbCreator) {
-    Classified::db = dbCreator;
-}
-
-Classified::Classified(int approximation, const DBCreator &db, const string &algorithm) {
+Classifier::Classifier(int approximation, const DBCreator &db, const string &algorithm) {
     this->approximation = approximation;
     this->db = db;
     this->algorithm = algorithm;
 }
 
-string Classified::findDistances(const vector<double> &v) {
+string Classifier::findDistances(const vector<double> &v) {
     string type;
     const AlgoMap algoMap;
     map<string, Algo *> algorithms = algoMap.getAlgorithms();
@@ -47,7 +43,7 @@ string Classified::findDistances(const vector<double> &v) {
     return type;
 }
 
-string Classified::identify(const vector<pair<string, double>> &distances) {
+string Classifier::identify(const vector<pair<string, double>> &distances) {
     map<string, int> map;
     for (const pair<string, double> &pair: distances) {
         if (map.find(pair.first) != map.end()) {
@@ -64,7 +60,7 @@ string Classified::identify(const vector<pair<string, double>> &distances) {
     return values[0].first;
 }
 
-Classified::Classified() {
+Classifier::Classifier() {
     this->approximation = 5;
     this->algorithm = "AUC";
 }
