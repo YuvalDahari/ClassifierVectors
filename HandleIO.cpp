@@ -343,7 +343,6 @@ bool HandleIO::receiveProtocol(int socket, string &receiveData) {
     temp = buffer;
     temp.erase(temp.find_last_not_of('\n') + 1);
     receiveData += temp;
-//    receiveData.erase(receiveData.find_last_not_of(LETTERS_AND_NUMBERS) + 1);
     return true;
 }
 
@@ -405,7 +404,6 @@ int HandleIO::extractChoice(const string &choice) {
 }
 
 int HandleIO::checkDBLine(const string &line, int length, int file) {
-    cout << line << endl;
     int counter = 0;
     if (line.empty()) {
         return -1;

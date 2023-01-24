@@ -53,9 +53,6 @@
 #define COMMAND_4 3
 #define COMMAND_5 4
 
-// define for search in strings
-#define LETTERS_AND_NUMBERS " \n\r\t"
-
 using namespace std;
 
 /**
@@ -230,8 +227,6 @@ public:
     static int extractChoice(const string &choice);
 
     static int checkDBLine(const string &line, int length, int file);
-
-    static void removeLastLine(string &data);
 };
 
 #endif

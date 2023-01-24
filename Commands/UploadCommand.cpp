@@ -8,7 +8,6 @@ UploadCommand::UploadCommand() {
 void UploadCommand::execute() {
     startAnswer();
     HandleIO::receiveProtocol(this->clientSock, this->receiveData);
-    cout << receiveData << endl;
     this->DB.setObjType(HandleIO::createTrainDB(this->receiveData));
     finishFirstAnswer();
     HandleIO::receiveProtocol(this->clientSock, this->receiveData);
