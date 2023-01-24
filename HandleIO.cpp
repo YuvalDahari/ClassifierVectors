@@ -398,7 +398,7 @@ int HandleIO::extractChoice(const string &choice) {
     }
 }
 
-int HandleIO::checkDBLine(const string &line, int length, int numOfFile) {
+int HandleIO::checkDBLine(const string &line, int length, int file) {
     int counter = 0;
     if (line.empty()) {
         return -1;
@@ -415,7 +415,7 @@ int HandleIO::checkDBLine(const string &line, int length, int numOfFile) {
         }
         temp += c;
     }
-    if (numOfFile == 1) {
+    if (file == 1) {
         if (temp.empty()) {
             return -1;
         }

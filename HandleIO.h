@@ -237,10 +237,10 @@ public:
      * the function identify the validation of the data base's file.
      * @param line (string)
      * @param length (int)
-     * @param numOfFile (int)
+     * @param file (int)
      * @return int - 1 for valid file, and -1 for invalid's one.
      */
-    static int checkDBLine(const string &line, int length, int numOfFile);
+    static int checkDBLine(const string &line, int length, int file);
 };
 
 #endif
