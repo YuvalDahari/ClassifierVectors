@@ -76,38 +76,28 @@ In any stage of the program - if the input is invalid - we will return an approp
 further more, the csv file needs to containg rows in with the same number of columns and no line breaks.
 The classified file will have an extra line - the name of the vector.
 
-**Meaning:** We build our data base from the vectors in the csv file.
+**Meaning:** We build our data base from the vectors in the classified csv file.
 
 ##### Option 2 - Enter an approximation and an algorithm.
 **Valid input:** A number and one of the five algorithms.
+if it's invalid, we will send an exact message about what wrong.
 
-**Meaning:** The port will tell us in what application we will run the program.
+**Meaning:** We will classify the unclassified data with this algorithm and approximation.
 
-###### Port
-**Valid input:** Four numbers in range of $0 \leq x \leq 255$ and separated with '.' .
+##### Option 3 - classify the data.
+**Valid input:** there is no input in this option.
+But an important note is that you can't choose this option before uploading data.
 
-**Meaning:** The ip is the logic address of the server - with it we know where to send the information.
+**Meaning:** after that the data will be classified.
 
-##### K
-**Valid input:** A positive natural number.
+##### Option 4 - print the new classified vectors on the screen.
+**Valid input:** there is no input in this option.
+But an important note is that you can't choose this option before uploading data or classifing it.
+After the print to the screen, you need to enter any input to continue.
 
-**Meaning:** According to this K, we will find the K closest vectors in our data base to the input and will classify the input according to the object with the most appearances in thus k.
-
-##### Algorithm
-**Valid input:** One of the following: {AUC, MAN, CHB, CAN, MIN}. yes, in capital letters.
-
-**Meaning:** To calculate the distance between two object, one can choose from 5 differnet distance algorithms.
-
-##### Vector
-**Valid input:** A vector of double at the length of the vectors in the csv file.
-
-**Meaning:** Pretty obvious - a vector to classify.
-
-#### Max chars of input
-We accepting maximum 4095 chars from the user - as the limit of cin. 
-
-#### Print form
-After each vector to classify we print it's classification and enter, no more and no less.
+##### Option 5 - put the classified data in a file. 
+**Valid input:** a valid path to a dir (not to a file).
+But an important note is that you can't choose this option before uploading data or classifing it.
 
 ### Imprtant notices
 
