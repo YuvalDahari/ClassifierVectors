@@ -1,3 +1,4 @@
+#include <unordered_map>
 #include "Classifier.h"
 
 void Classifier::setApproximation(int defineApproximation) {
@@ -33,7 +34,7 @@ string Classifier::findDistances(const vector<double> &v) {
     if (distances.size() > (unsigned long) this->approximation) {
         vector<pair<string, double>> kDistances;
         for (int i = 0; i < this->approximation; ++i) {
-            kDistances.push_back(distances[0]);
+            kDistances.push_back(distances[i]);
             pop_heap(distances.begin(), distances.end());
         }
         type = identify(kDistances);
@@ -56,7 +57,7 @@ string Classifier::identify(const vector<pair<string, double>> &distances) {
     values(map.begin(), map.end());
     make_heap(values.begin(), values.end(),
               [](const pair<string, double> &pair1, const pair<string, double> &pair2)
-                      -> bool { return pair1.second > pair2.second; });
+                      -> bool { return pair1.second < pair2.second; });
     return values[0].first;
 }
 
