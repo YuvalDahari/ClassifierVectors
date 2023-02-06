@@ -3,9 +3,9 @@
 ### Genral Explanation
 
 ClassifierVectors is a project with which we implements a server and a client.
-The server managing the data base it got from the command line and the client is sending vectors to classification.
-The calssification happens according to distance matric and some k we get form the command line as well.
-In this 'read_me' we will explain about each part in the program, how we implemented it and some restrictions we dicide the program will have.
+The server handling a lot of clients via threads - he send them a menu that they can choose from an option and it will be done threw client-server communication in a thread.
+we will explain each option in this readme.
+In this 'read_me' we will explain about each part in the program, how we implemented it and some restrictions we decide the program will have.
 
 ### Distance Matrics
 
@@ -52,8 +52,7 @@ K-nearest neighbor (KNN) is a classification algorithm that assigns a label to a
      
      ./server.out file port
    
-   **it must be 2 arguments, while they are the following:**
-   * file - a path to a csv file.
+   **it must be 1 arguments, while they are the following:**
    * port - a valid port.
    
 #### To run a client:
@@ -63,42 +62,24 @@ K-nearest neighbor (KNN) is a classification algorithm that assigns a label to a
    **it must be 2 arguments, while they are the following:**
    * ip - the ip that the server is listening to.
    * port - the server's port. 
-   
-#### To get a classification:
 
-   **the user needs to enter "vector distance k", while they are the following:**
-   * vector - a vector of numbers - need to have the same dimention of the vectors in the csv file.
-   * distance - needs to be one of five options:
-      1. AUC
-      2. MAN
-      3. CHB
-      4. CAN
-      5. MIN
-    
-   * k - in positive integer - will tell us according to how many neighbors we return a classification.
-     
-   Then, the program will run an endless loop and you will need to enter vectors with the same length as the vectors in the file.
-   Each vector you will enter will be classified according to the arguments.
-   Please notice in the vector to enter only numbers with a single space between each number and so not enter space after the last number.
-
-### Code Explanation
+### Menu Options and Code Explanations
 
 #### TCP protocol
 The communication between the Server and the Client works in TCP protocol.
  
 #### Valid input and it's meaning
-As we describe in "How to Compile&Run" - an input not matching the semands will be consider as invalid input.
-In some cases, if it's an input from the command line - we will shut the program.
-else - if it's an input from the user "vector, distance, k" - we will return invalid input and continue.
+In any stage of the program - if the input is invalid - we will return an appropiate message.
 
-##### File path
+##### Option 1 - Enter Classify and Unclassify files.
 **Valid input:** A path to a csv file. If we are not in the same dir, it need to be an absolute path.
 further more, the csv file needs to containg rows in with the same number of columns and no line breaks.
+The classified file will have an extra line - the name of the vector.
 
 **Meaning:** We build our data base from the vectors in the csv file.
 
-##### Port
-**Valid input:** A number in range of $0 \leq x \leq 65535$ .
+##### Option 2 - Enter an approximation and an algorithm.
+**Valid input:** A number and one of the five algorithms.
 
 **Meaning:** The port will tell us in what application we will run the program.
 
@@ -143,21 +124,6 @@ To compute the different algorithms, we create a new vector of the absolute valu
    
 As a result of the above logic, we compute Eulcidean distnace as $|x_i - y_i|^2$, and because math rules, the result is the same to $(x_i - y_i)^2$.
 
-### The Data Base construction
-All the data we read from the csv file makes a data base for the project.
-We save it in a vector of pairs, but how do we do it?
-#### step one
-Get the number of columns in the file.
-#### step two
-Check validation for each row.
-#### step three
-Extract the fields to a vector.
-#### step four
-Extract the name of the object to the first item of the pair.
-#### step five
-Push the pair to vector data base.
-
-
 ### Optimizations
 
 #### HashMap for algorithm
@@ -182,31 +148,6 @@ This way, we do the work in $O(nlogk)$ , and because k is a fixed parameter - we
 #### k greater than the size of the data base
 In this special case, we are not sorting anything, just count the most apeared object and returns it.
 
-### complexity
-##### Reading the file
-Obviously in $O(n)$ while n is the number of lines.
-##### Making the data base
-In $O(n)$ as well - every vector we read - just enters the data base which is a vector of pairs.
-##### Finding the k closest neighbors
-**Lets split to cases:**
+### Menu Oprions
 
-**Case 1: $k < n$ :** In this case we do $O(nlog(k))$ , why?
 
-We are maintaining a max heap in the size of k. The meximum heapifies we do is n and therfore we get $O(nlog(k))$ 
-
-**Case 2: $k \geq n$ :** In this case we do $O(1)$ , why?
-
-We don't need to find the closest and just returning all the data base.
-##### Finding the one with the neighbor with the most appearances
-**Lets split to cases:**
-
-**Case 1: $k < n$ :** In this case the num of the neighbors is equal to k.
-
-We will check on each one if he is inside the heap for maximun appearances and therefor will do $1+2+3+4+..+k=O(k^2)$ work.
-
-**Case 2: $k \geq n$ :** In this case the num of the neighbors is equal to k.
-
-We will check on each one if he is inside the heap for maximun appearances and therefor will do $1+2+3+4+..+k=O(n^2)$ work.
-
-#### Total complexity for classifing the file:
-$O(n) + O(nlog(k)) + O(n^2) = O(n^2)$
