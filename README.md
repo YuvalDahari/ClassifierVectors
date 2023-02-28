@@ -138,6 +138,5 @@ This way, we do the work in $O(nlogk)$ , and because k is a fixed parameter - we
 #### k greater than the size of the data base
 In this special case, we are not sorting anything, just count the most apeared object and returns it.
 
-### Menu Oprions
 
 
